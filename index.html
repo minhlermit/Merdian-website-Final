@@ -1,0 +1,1793 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+<title>MERIDIAN — Enterprise Blockchain Governance for Vietnam</title>
+<meta name="description" content="MERIDIAN — Multi-sig Enterprise Resource and Identity DAO with AI Notary. Permissioned blockchain governance built for Vietnamese financial firms under Resolution 05/2025." />
+<link rel="canonical" href="https://meridian.com/" />
+<meta property="og:title" content="MERIDIAN — Enterprise Blockchain Governance for Vietnam" />
+<meta property="og:description" content="Permissioned blockchain + multi-signature KPI verification + AI anomaly detection. Built for Vietnam's financial sector." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://meridian.com/" />
+<meta property="og:image" content="https://meridian.com/logo.png" />
+<meta property="og:site_name" content="MERIDIAN" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="MERIDIAN — Enterprise Blockchain Governance for Vietnam" />
+<meta name="twitter:description" content="Permissioned blockchain + multi-signature KPI verification + AI anomaly detection." />
+<meta name="twitter:image" content="https://meridian.com/logo.png" />
+<link rel="apple-touch-icon" href="/logo.png" />
+<meta name="theme-color" content="#533afd" />
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23665efd'/%3E%3Cstop offset='100%25' stop-color='%232e2b8c'/%3E%3C/linearGradient%3E%3C/defs%3E%3Ccircle cx='20' cy='20' r='19' fill='url(%23g)'/%3E%3Ccircle cx='20' cy='20' r='15' fill='none' stroke='white' stroke-opacity='.25' stroke-width='1'/%3E%3Cg stroke='white' stroke-width='1.6' stroke-linecap='round'%3E%3Cline x1='20' y1='12' x2='12' y2='26'/%3E%3Cline x1='20' y1='12' x2='28' y2='26'/%3E%3Cline x1='12' y1='26' x2='28' y2='26'/%3E%3C/g%3E%3Ccircle cx='20' cy='12' r='3' fill='white'/%3E%3Ccircle cx='12' cy='26' r='3' fill='white'/%3E%3Ccircle cx='28' cy='26' r='3' fill='white'/%3E%3C/svg%3E" />
+<!-- Inline SVG defs reused by all logo placements -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          stripi: {
+            primary: '#533afd',
+            'primary-deep': '#4434d4',
+            'primary-press': '#2e2b8c',
+            'primary-soft': '#665efd',
+            'primary-subdued': '#b9b9f9',
+            ink: '#0d253d',
+            'ink-secondary': '#273951',
+            'ink-mute': '#64748d',
+            canvas: '#ffffff',
+            'canvas-soft': '#f6f9fc',
+            'canvas-tint': '#eef0fc',
+            hairline: '#e3e8ee',
+            'hairline-input': '#a8c3de',
+            ruby: '#ea2261',
+            magenta: '#f96bee',
+            'brand-dark': '#1c1e54',
+          }
+        },
+        fontFamily: {
+          sans: ['Inter', 'system-ui', 'sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  :root {
+    --stripi-primary: #533afd;
+    --stripi-primary-deep: #4434d4;
+    --stripi-primary-press: #2e2b8c;
+    --stripi-ink: #0d253d;
+    --stripi-ink-secondary: #273951;
+    --stripi-ink-mute: #64748d;
+    --stripi-canvas: #ffffff;
+    --stripi-canvas-soft: #f6f9fc;
+    --stripi-canvas-tint: #eef0fc;
+    --stripi-canvas-tint-2: #e6e8fa;
+    --stripi-hairline: #e3e8ee;
+    --stripi-ruby: #ea2261;
+    --stripi-brand-dark: #1c1e54;
+  }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: "ss01";
+    font-weight: 300;
+    color: var(--stripi-ink);
+    background: var(--stripi-canvas);
+    -webkit-font-smoothing: antialiased;
+  }
+  .tabular { font-feature-settings: "tnum"; font-variant-numeric: tabular-nums; }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 22px; border-radius: 9999px;
+    background: var(--stripi-primary); color: #fff;
+    font-weight: 400; font-size: 15px; line-height: 1;
+    transition: all 160ms cubic-bezier(.23,1,.32,1);
+    border: none; cursor: pointer;
+  }
+  .btn-primary:hover { background: var(--stripi-primary-deep); }
+  .btn-primary:active { background: var(--stripi-primary-press); transform: scale(.97); }
+
+  .btn-secondary {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 12px 22px; border-radius: 9999px;
+    background: #fff; color: var(--stripi-primary);
+    border: 1px solid var(--stripi-primary);
+    font-weight: 400; font-size: 15px; line-height: 1;
+    transition: all 160ms cubic-bezier(.23,1,.32,1);
+    cursor: pointer;
+  }
+  .btn-secondary:hover { background: var(--stripi-canvas-soft); }
+  .btn-secondary:active { transform: scale(.97); }
+
+  .card { padding: 32px; border-radius: 12px; background: #fff; border: 1px solid var(--stripi-hairline); box-shadow: 0 1px 3px rgba(13,37,61,.08); }
+  .card-cream {
+    padding: 32px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--stripi-canvas-tint) 0%, var(--stripi-canvas-tint-2) 100%);
+    border: 1px solid #d9dbf3;
+    color: var(--stripi-ink);
+    box-shadow: 0 1px 3px rgba(83, 58, 253, .06), 0 8px 24px -16px rgba(83, 58, 253, .12);
+  }
+  .card-dark { padding: 32px; border-radius: 12px; background: var(--stripi-brand-dark); color: #fff; box-shadow: 0 8px 24px rgba(13,37,61,.08); }
+
+  h1, h2, h3, h4, h5 { font-weight: 300; }
+  h1 { letter-spacing: -1.8px; }
+  h2 { letter-spacing: -0.96px; }
+  h3 { letter-spacing: -0.64px; }
+  h4 { letter-spacing: -0.26px; }
+  h5 { letter-spacing: -0.22px; }
+
+  .grad-text {
+    background: linear-gradient(135deg, #533afd 0%, #0d253d 50%, #533afd 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradShift 6s ease infinite;
+    filter: drop-shadow(0 0 30px rgba(83,58,253,.35));
+  }
+  .grad-text-rev {
+    background: linear-gradient(135deg, #0d253d 0%, #533afd 50%, #0d253d 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradShift 6s ease infinite reverse;
+    filter: drop-shadow(0 0 20px rgba(83,58,253,.2));
+  }
+  @keyframes gradShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: .5; }
+    50% { transform: translateY(-30px) translateX(15px); opacity: .2; }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .slide-up { animation: slideUp .8s ease-out both; }
+  .particle { animation: float 5s ease-in-out infinite; }
+
+  details > summary { list-style: none; cursor: pointer; }
+  details > summary::-webkit-details-marker { display: none; }
+  details[open] .chevron { transform: rotate(180deg); }
+  .chevron { transition: transform .2s ease; }
+
+  /* Logo subtle hover */
+  .logo-mark { transition: transform 220ms cubic-bezier(.23,1,.32,1); }
+  a:hover > .logo-mark { transform: rotate(-8deg) scale(1.05); }
+
+  /* ============ 3D scroll-driven motion ============ */
+  /* Establish perspective on scroll containers */
+  section { perspective: 1400px; perspective-origin: 50% 30%; }
+
+  /* Reveal primitives — always visible. Animation only transforms. */
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transform-style: preserve-3d;
+  }
+  [data-reveal].is-in { animation: dataRevealIn 850ms cubic-bezier(.23,1,.32,1); }
+  @keyframes dataRevealIn {
+    from { transform: translate3d(0, 40px, -60px) rotateX(8deg); }
+    to   { transform: translate3d(0, 0, 0) rotateX(0); }
+  }
+
+  /* Stagger children inside a parent with data-stagger */
+  [data-stagger] > [data-reveal]:nth-child(1) { transition-delay: 0ms; }
+  [data-stagger] > [data-reveal]:nth-child(2) { transition-delay: 80ms; }
+  [data-stagger] > [data-reveal]:nth-child(3) { transition-delay: 160ms; }
+  [data-stagger] > [data-reveal]:nth-child(4) { transition-delay: 240ms; }
+  [data-stagger] > [data-reveal]:nth-child(5) { transition-delay: 320ms; }
+  [data-stagger] > [data-reveal]:nth-child(6) { transition-delay: 400ms; }
+
+  /* Scroll-coupled tilt: cards lean back when far above viewport center, level out as they pass */
+  .tilt-on-scroll {
+    transform-style: preserve-3d;
+    transition: transform 200ms linear, box-shadow 300ms ease;
+    will-change: transform;
+  }
+
+  /* ============ SDG tiles — clean, sharp, icon-led ============ */
+  .sdg-tile {
+    position: relative;
+    padding: 22px 20px 20px;
+    border-radius: 12px;
+    background: var(--sdg-bg);
+    color: var(--sdg-ink);
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 220ms cubic-bezier(.23,1,.32,1), box-shadow 220ms ease;
+    box-shadow: 0 1px 3px rgba(13,37,61,.08);
+  }
+  .sdg-tile:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(13,37,61,.18); }
+  .sdg-tile .sdg-icon { width: 44px; height: 44px; color: var(--sdg-ink); opacity: .92; }
+  .sdg-tile .sdg-num {
+    position: absolute; top: 18px; right: 18px;
+    font-size: 13px; font-weight: 500;
+    letter-spacing: .04em;
+    opacity: .8;
+    font-feature-settings: "tnum";
+  }
+  .sdg-tile .sdg-title {
+    font-size: 18px; font-weight: 400;
+    letter-spacing: -0.2px;
+    margin-top: 6px;
+  }
+  .sdg-tile .sdg-sub {
+    font-size: 12px; font-weight: 300;
+    line-height: 1.4;
+    opacity: .82;
+    margin-top: 6px;
+  }
+  /* For light-bg tile (SDG 7), tone down sub */
+  .sdg-tile[style*="#fcc30b"] .sdg-sub { opacity: .72; }
+
+  /* ============ Value Flow canvas (native, animated) ============ */
+  .flow-canvas {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1200 / 640;
+    min-height: 520px;
+  }
+  @media (max-width: 767px) {
+    .flow-canvas {
+      aspect-ratio: auto;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .flow-canvas .flow-paths { display: none; }
+    .flow-canvas .step-badge { display: none; }
+    .flow-canvas .flow-node {
+      position: relative !important;
+      left: auto !important;
+      top: auto !important;
+      width: 100% !important;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .flow-canvas .node-contract { order: 2; width: 220px !important; }
+    .flow-canvas .node-ghost:first-of-type { order: 1; }
+    .flow-canvas .node-primary { order: 0; }
+    .contract-hex { max-width: 220px; margin: 0 auto; }
+  }
+
+  .flow-paths {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .flow-paths .flow-line {
+    fill: none;
+    stroke-width: 2.5;
+    vector-effect: non-scaling-stroke;
+    stroke-linecap: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    opacity: 0;
+    transition: opacity 600ms ease;
+  }
+  .flow-paths .flow-line.flow-dashed {
+    stroke-width: 1.5;
+    stroke-dasharray: 5 6;
+    stroke-dashoffset: 0;
+  }
+  .flow-canvas.is-in .flow-paths .flow-line {
+    opacity: 1;
+    animation: drawPath 1400ms cubic-bezier(.65,.05,.36,1) forwards;
+  }
+  .flow-canvas.is-in .flow-paths .flow-line.flow-dashed {
+    animation: fadePath 800ms ease forwards;
+  }
+  @keyframes drawPath {
+    from { stroke-dashoffset: 1000; opacity: 0; }
+    25%  { opacity: 1; }
+    to   { stroke-dashoffset: 0; opacity: 1; }
+  }
+  @keyframes fadePath {
+    from { opacity: 0; }
+    to   { opacity: .9; }
+  }
+
+  /* Stagger path draws */
+  .flow-canvas.is-in .flow-paths #path-firm-contract     { animation-delay: 100ms; }
+  .flow-canvas.is-in .flow-paths #path-contract-employee { animation-delay: 400ms; }
+  .flow-canvas.is-in .flow-paths #path-contract-client   { animation-delay: 500ms; }
+  .flow-canvas.is-in .flow-paths #path-contract-pool     { animation-delay: 800ms; }
+  .flow-canvas.is-in .flow-paths #path-ai-contract       { animation-delay: 1100ms; }
+  .flow-canvas.is-in .flow-paths #path-regulator-contract{ animation-delay: 1200ms; }
+
+  /* Flow nodes (cards) */
+  .flow-node {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: #fff;
+    border: 1px solid var(--stripi-hairline);
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(13,37,61,.06), 0 14px 30px -18px rgba(13,37,61,.18);
+    transition: transform 220ms cubic-bezier(.23,1,.32,1), box-shadow 220ms ease, border-color 220ms ease;
+    z-index: 1;
+  }
+  .flow-node:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 1px 3px rgba(83,58,253,.10), 0 22px 44px -18px rgba(83,58,253,.30);
+    border-color: var(--stripi-primary);
+  }
+  .flow-node .node-tag {
+    font-size: 9.5px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+    color: var(--stripi-ink-mute);
+    margin-bottom: 4px;
+  }
+  .flow-node .node-title {
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--stripi-ink);
+    letter-spacing: -0.2px;
+    line-height: 1.25;
+  }
+  .flow-node .node-sub {
+    font-size: 11.5px;
+    font-weight: 300;
+    color: var(--stripi-ink-mute);
+    margin-top: 3px;
+    line-height: 1.35;
+  }
+  .flow-node .node-icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--stripi-canvas-soft);
+    color: var(--stripi-ink-mute);
+  }
+  .flow-node .node-icon svg { width: 20px; height: 20px; }
+
+  /* Node variants */
+  .flow-node.node-primary {
+    border-color: rgba(83,58,253,.35);
+    background: linear-gradient(180deg, #fff 0%, #f7f6ff 100%);
+  }
+  .node-icon-primary {
+    background: linear-gradient(135deg, #665efd 0%, #2e2b8c 100%) !important;
+    color: #fff !important;
+  }
+  .node-icon-performer {
+    background: linear-gradient(135deg, #b9b9f9 0%, #4434d4 100%) !important;
+    color: #fff !important;
+  }
+  .node-icon-capital {
+    background: linear-gradient(135deg, #f96bee 0%, #ea2261 100%) !important;
+    color: #fff !important;
+  }
+  .node-icon-pool {
+    background: linear-gradient(135deg, #fde8f0 0%, #ea2261 100%) !important;
+    color: #fff !important;
+  }
+  .flow-node.node-ghost {
+    background: rgba(255,255,255,.7);
+    backdrop-filter: blur(6px);
+    border-style: dashed;
+    border-color: #cbd2dd;
+  }
+  .flow-node.node-ghost .node-title { font-size: 13.5px; }
+
+  /* Smart Contract — central focal hexagon */
+  .flow-node.node-contract {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    z-index: 2;
+  }
+  .flow-node.node-contract:hover { transform: translateY(-3px) scale(1.02); }
+  .contract-hex {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: linear-gradient(135deg, #533afd 0%, #2e2b8c 65%, #1c1e54 100%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 0 1px rgba(83,58,253,.4), 0 30px 60px -20px rgba(83,58,253,.5);
+    animation: contractPulse 4s ease-in-out infinite;
+    position: relative;
+  }
+  .contract-inner {
+    text-align: center;
+    color: #fff;
+    padding: 20px;
+  }
+  .contract-title {
+    font-size: 16px;
+    font-weight: 500;
+    color: #fff;
+    letter-spacing: -0.2px;
+    margin-top: 6px;
+  }
+  .contract-sub {
+    font-size: 11px;
+    font-weight: 300;
+    color: rgba(255,255,255,.7);
+    margin-top: 6px;
+  }
+  @keyframes contractPulse {
+    0%, 100% { box-shadow: 0 0 0 1px rgba(83,58,253,.4), 0 30px 60px -20px rgba(83,58,253,.5); }
+    50%      { box-shadow: 0 0 0 1px rgba(83,58,253,.6), 0 40px 80px -16px rgba(83,58,253,.7); }
+  }
+
+  /* Step badges floating on path intersections */
+  .step-badge {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1.5px solid var(--stripi-primary);
+    color: var(--stripi-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+    font-feature-settings: "tnum";
+    letter-spacing: .02em;
+    z-index: 3;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 4px 12px -4px rgba(83,58,253,.4);
+    transition: transform 200ms ease, background 200ms ease, color 200ms ease;
+    pointer-events: none;
+    opacity: 0;
+    animation: badgePop 500ms cubic-bezier(.23,1,.32,1) forwards;
+  }
+  .flow-canvas.is-in .step-badge:nth-of-type(1) { animation-delay: 1400ms; }
+  .flow-canvas.is-in .step-badge:nth-of-type(2) { animation-delay: 1500ms; }
+  .flow-canvas.is-in .step-badge:nth-of-type(3) { animation-delay: 1600ms; }
+  .flow-canvas.is-in .step-badge:nth-of-type(4) { animation-delay: 1700ms; }
+  @keyframes badgePop {
+    from { opacity: 0; transform: translate(-50%, -50%) scale(.4); }
+    to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  }
+  /* When canvas not in view, hide step badges */
+  .flow-canvas:not(.is-in) .step-badge { opacity: 0; }
+
+  /* Step breakdown cards below the canvas */
+  .step-card {
+    background: #fff;
+    border: 1px solid var(--stripi-hairline);
+    border-radius: 12px;
+    padding: 22px;
+    transition: border-color 200ms ease, transform 200ms ease;
+  }
+  .step-card:hover { border-color: var(--stripi-primary); transform: translateY(-2px); }
+  .step-card-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #533afd 0%, #2e2b8c 100%);
+    color: #fff;
+    font-size: 13px; font-weight: 500;
+    font-feature-settings: "tnum";
+    margin-bottom: 14px;
+  }
+  .step-card-title {
+    font-size: 16px; font-weight: 500;
+    letter-spacing: -0.2px;
+    color: var(--stripi-ink);
+    margin-bottom: 6px;
+  }
+  .step-card-text {
+    font-size: 13px; font-weight: 300;
+    line-height: 1.5;
+    color: var(--stripi-ink-secondary);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .flow-paths .flow-line { opacity: 1 !important; stroke-dashoffset: 0 !important; animation: none !important; }
+    .step-badge { opacity: 1 !important; transform: translate(-50%, -50%) !important; animation: none !important; }
+    .contract-hex { animation: none !important; }
+  }
+  .title-letters {
+    display: inline-block;
+    perspective: 1000px;
+  }
+  /* Default: VISIBLE — letters always render even if JS doesn't run */
+  .title-letters .letter {
+    display: inline-block;
+    opacity: 1;
+    transform: none;
+    background: linear-gradient(135deg, #533afd 0%, #0d253d 50%, #533afd 100%);
+    background-size: 220% 220%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 0 25px rgba(83,58,253,.32));
+  }
+  /* Entrance animation: only animate transform, leave opacity at base value (1). */
+  /* This ensures that even if the animation is paused (e.g. background tab), letters stay visible. */
+  .title-letters.is-in .letter {
+    animation: letterReveal 950ms cubic-bezier(.23,1,.32,1);
+  }
+  @keyframes letterReveal {
+    0%   { transform: translateY(70%) rotate(-10deg) scale(.88); }
+    100% { transform: translateY(0) rotate(0) scale(1); }
+  }
+  .title-letters.is-in .letter:nth-child(1)  { animation-delay:  40ms; }
+  .title-letters.is-in .letter:nth-child(2)  { animation-delay: 110ms; }
+  .title-letters.is-in .letter:nth-child(3)  { animation-delay: 180ms; }
+  .title-letters.is-in .letter:nth-child(4)  { animation-delay: 250ms; }
+  .title-letters.is-in .letter:nth-child(5)  { animation-delay: 320ms; }
+  .title-letters.is-in .letter:nth-child(6)  { animation-delay: 390ms; }
+  .title-letters.is-in .letter:nth-child(7)  { animation-delay: 460ms; }
+  .title-letters.is-in .letter:nth-child(8)  { animation-delay: 530ms; }
+  .title-letters .letter:nth-child(odd)  { background-position: 0% 50%; }
+  .title-letters .letter:nth-child(even) { background-position: 100% 50%; }
+
+  /* ============ Hero entry (decoupled from .slide-up so it always renders) ============ */
+  /* Hero supporting text — always visible. Entrance animates transform only. */
+  .hero-subtitle, .hero-desc, .hero-cta { opacity: 1; transform: none; }
+  body.hero-loaded .hero-subtitle { animation: heroIn 800ms 200ms cubic-bezier(.23,1,.32,1); }
+  body.hero-loaded .hero-desc     { animation: heroIn 800ms 400ms cubic-bezier(.23,1,.32,1); }
+  body.hero-loaded .hero-cta      { animation: heroIn 800ms 600ms cubic-bezier(.23,1,.32,1); }
+  @keyframes heroIn {
+    from { transform: translateY(18px); }
+    to   { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-subtitle, .hero-desc, .hero-cta { opacity: 1 !important; transform: none !important; animation: none !important; }
+  }
+  /* Fixed full-viewport layer that drifts with scroll; lives behind everything */
+  .ambient-bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .ambient-bg .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: .55;
+    will-change: transform;
+    transition: transform 200ms linear;
+  }
+  .ambient-bg .orb-1 { width: 520px; height: 520px; left: -8%;  top:  4%; background: radial-gradient(circle, #8a82ff 0%, #533afd 45%, transparent 70%); }
+  .ambient-bg .orb-2 { width: 460px; height: 460px; right: -6%; top: 22%; background: radial-gradient(circle, #f96bee 0%, #ea2261 50%, transparent 75%); opacity:.32; }
+  .ambient-bg .orb-3 { width: 600px; height: 600px; left: 12%;  top: 62%; background: radial-gradient(circle, #b9b9f9 0%, #533afd 50%, transparent 75%); opacity:.38; }
+  .ambient-bg .orb-4 { width: 380px; height: 380px; right: 8%;  top: 86%; background: radial-gradient(circle, #665efd 0%, #2e2b8c 55%, transparent 78%); opacity:.42; }
+
+  /* Floating ambient coins — small, drift slowly across the bg */
+  .ambient-bg .ambient-coin {
+    position: absolute;
+    width: 96px; height: 96px;
+    transform-style: preserve-3d;
+    will-change: transform;
+    filter: drop-shadow(0 20px 32px rgba(83,58,253,.28));
+    opacity: .85;
+  }
+  .ambient-bg .ambient-coin svg { width:100%; height:100%; display:block; }
+  .ambient-bg .c1 { left: 8%;  top:  18%; }
+  .ambient-bg .c2 { right: 12%; top:  10%; width: 64px; height: 64px; }
+  .ambient-bg .c3 { left: 14%; top:  74%; width: 80px; height: 80px; }
+  .ambient-bg .c4 { right: 9%;  top:  58%; width: 112px; height: 112px; }
+  .ambient-bg .c5 { left: 48%; top:  46%; width: 56px; height: 56px; opacity:.55; }
+  .ambient-bg .c6 { right: 28%; top:  82%; width: 72px; height: 72px; opacity:.7; }
+
+  /* Each orb/coin gets a per-element depth multiplier via --d */
+  .ambient-bg .orb-1 { transform: translate3d(calc(var(--scroll,0) *  120px), calc(var(--scroll,0) *  -80px), 0); }
+  .ambient-bg .orb-2 { transform: translate3d(calc(var(--scroll,0) * -100px), calc(var(--scroll,0) *  140px), 0); }
+  .ambient-bg .orb-3 { transform: translate3d(calc(var(--scroll,0) *   80px), calc(var(--scroll,0) * -200px), 0); }
+  .ambient-bg .orb-4 { transform: translate3d(calc(var(--scroll,0) * -160px), calc(var(--scroll,0) * -300px), 0); }
+
+  .ambient-bg .c1 { transform: translate3d(calc(var(--scroll,0) *  -60px), calc(var(--scroll,0) * -240px), 0) rotate(calc(var(--scroll,0) *  280deg)); }
+  .ambient-bg .c2 { transform: translate3d(calc(var(--scroll,0) *   80px), calc(var(--scroll,0) * -180px), 0) rotate(calc(var(--scroll,0) * -360deg)); }
+  .ambient-bg .c3 { transform: translate3d(calc(var(--scroll,0) * -100px), calc(var(--scroll,0) * -420px), 0) rotate(calc(var(--scroll,0) *  420deg)); }
+  .ambient-bg .c4 { transform: translate3d(calc(var(--scroll,0) *  140px), calc(var(--scroll,0) * -360px), 0) rotate(calc(var(--scroll,0) * -260deg)); }
+  .ambient-bg .c5 { transform: translate3d(calc(var(--scroll,0) *  -40px), calc(var(--scroll,0) * -160px), 0) rotate(calc(var(--scroll,0) *  520deg)); }
+  .ambient-bg .c6 { transform: translate3d(calc(var(--scroll,0) *   60px), calc(var(--scroll,0) * -300px), 0) rotate(calc(var(--scroll,0) * -440deg)); }
+
+  /* Body content sits above ambient bg */
+  body > nav, body > .pt-16, body > section, body > footer { position: relative; z-index: 2; }
+  /* Make section backgrounds slightly translucent so the ambient drifts through */
+  section.bg-stripi-canvas-soft { background-color: rgba(246,249,252,.78) !important; backdrop-filter: blur(2px); }
+  section:not([class*="bg-"]) { background-color: rgba(255,255,255,.62); backdrop-filter: blur(2px); }
+
+  /* ============ Text reveal (word slide-up) — visible by default ============ */
+  .reveal-text { display: inline-block; overflow: hidden; }
+  .reveal-text .word { display: inline-block; opacity: 1; transform: none; }
+  .reveal-text.is-in .word { animation: wordIn 720ms cubic-bezier(.23,1,.32,1); }
+  @keyframes wordIn {
+    from { transform: translateY(80%) rotate(4deg) scale(.97); }
+    to   { transform: translateY(0) rotate(0) scale(1); }
+  }
+  .reveal-text.is-in .word:nth-child(1)  { animation-delay:  20ms; }
+  .reveal-text.is-in .word:nth-child(2)  { animation-delay:  70ms; }
+  .reveal-text.is-in .word:nth-child(3)  { animation-delay: 120ms; }
+  .reveal-text.is-in .word:nth-child(4)  { animation-delay: 170ms; }
+  .reveal-text.is-in .word:nth-child(5)  { animation-delay: 220ms; }
+  .reveal-text.is-in .word:nth-child(6)  { animation-delay: 270ms; }
+  .reveal-text.is-in .word:nth-child(7)  { animation-delay: 320ms; }
+  .reveal-text.is-in .word:nth-child(8)  { animation-delay: 370ms; }
+  .reveal-text.is-in .word:nth-child(9)  { animation-delay: 420ms; }
+  .reveal-text.is-in .word:nth-child(n+10) { animation-delay: 470ms; }
+
+  /* Paragraph pop-up — always visible, animates transform only */
+  .pop-in { opacity: 1; transform: none; }
+  .pop-in.is-in { animation: popIn 800ms cubic-bezier(.23,1,.32,1); }
+  @keyframes popIn {
+    from { transform: translateY(20px) scale(.992); }
+    to   { transform: translateY(0) scale(1); }
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: translateY(28px) scale(.985); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  /* Parallax depth band */
+  .parallax-y {
+    transform: translate3d(0, calc(var(--scroll, 0) * var(--depth, -40) * 1px), 0);
+    will-change: transform;
+  }
+
+  /* Hexagon mesh background that drifts with scroll */
+  .grid-bg {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(83,58,253,0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(83,58,253,0.06) 1px, transparent 1px);
+    background-size: 56px 56px;
+    transform: translate3d(0, calc(var(--scroll, 0) * -80px), 0) perspective(900px) rotateX(48deg) scale(1.6);
+    transform-origin: 50% 100%;
+    opacity: .55;
+    mask-image: linear-gradient(180deg, transparent 0%, #000 18%, #000 70%, transparent 100%);
+    pointer-events: none;
+  }
+
+  /* Logo in nav spins gently with overall scroll */
+  .logo-mark { transform: rotate(calc(var(--scroll, 0) * 60deg)); }
+  a:hover > .logo-mark { transform: rotate(calc(var(--scroll, 0) * 60deg - 8deg)) scale(1.05); }
+
+  @media (prefers-reduced-motion: reduce) {
+    [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+    .ambient-bg .orb, .ambient-bg .ambient-coin, .logo-mark { transform: none !important; }
+    .reveal-text .word, .pop-in { opacity: 1 !important; transform: none !important; transition: none !important; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ AMBIENT 3D BACKGROUND (drifts with scroll) ============ -->
+<div class="ambient-bg" aria-hidden="true">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
+
+  <!-- Reusable coin SVG, duplicated at 6 positions with varied size + drift -->
+  <div class="ambient-coin c1"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ag1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#8e86ff"/><stop offset="100%" stop-color="#2e2b8c"/></linearGradient></defs><circle cx="20" cy="20" r="19" fill="url(#ag1)"/><circle cx="20" cy="20" r="15" fill="none" stroke="white" stroke-opacity=".3" stroke-width="1"/><g stroke="white" stroke-width="1.6" stroke-linecap="round"><line x1="20" y1="12" x2="12" y2="26"/><line x1="20" y1="12" x2="28" y2="26"/><line x1="12" y1="26" x2="28" y2="26"/></g><circle cx="20" cy="12" r="3" fill="white"/><circle cx="12" cy="26" r="3" fill="white"/><circle cx="28" cy="26" r="3" fill="white"/></svg></div>
+  <div class="ambient-coin c2"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ag2" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f96bee"/><stop offset="100%" stop-color="#ea2261"/></linearGradient></defs><circle cx="20" cy="20" r="19" fill="url(#ag2)"/><circle cx="20" cy="20" r="15" fill="none" stroke="white" stroke-opacity=".3" stroke-width="1"/><g stroke="white" stroke-width="1.6" stroke-linecap="round"><line x1="20" y1="12" x2="12" y2="26"/><line x1="20" y1="12" x2="28" y2="26"/><line x1="12" y1="26" x2="28" y2="26"/></g><circle cx="20" cy="12" r="3" fill="white"/><circle cx="12" cy="26" r="3" fill="white"/><circle cx="28" cy="26" r="3" fill="white"/></svg></div>
+  <div class="ambient-coin c3"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ag3" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#665efd"/><stop offset="100%" stop-color="#1c1e54"/></linearGradient></defs><circle cx="20" cy="20" r="19" fill="url(#ag3)"/><circle cx="20" cy="20" r="15" fill="none" stroke="white" stroke-opacity=".3" stroke-width="1"/><g stroke="white" stroke-width="1.6" stroke-linecap="round"><line x1="20" y1="12" x2="12" y2="26"/><line x1="20" y1="12" x2="28" y2="26"/><line x1="12" y1="26" x2="28" y2="26"/></g><circle cx="20" cy="12" r="3" fill="white"/><circle cx="12" cy="26" r="3" fill="white"/><circle cx="28" cy="26" r="3" fill="white"/></svg></div>
+  <div class="ambient-coin c4"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="ag4" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#b9b9f9"/><stop offset="100%" stop-color="#533afd"/></linearGradient></defs><circle cx="20" cy="20" r="19" fill="url(#ag4)"/><circle cx="20" cy="20" r="15" fill="none" stroke="white" stroke-opacity=".3" stroke-width="1"/><g stroke="white" stroke-width="1.6" stroke-linecap="round"><line x1="20" y1="12" x2="12" y2="26"/><line x1="20" y1="12" x2="28" y2="26"/><line x1="12" y1="26" x2="28" y2="26"/></g><circle cx="20" cy="12" r="3" fill="white"/><circle cx="12" cy="26" r="3" fill="white"/><circle cx="28" cy="26" r="3" fill="white"/></svg></div>
+  <div class="ambient-coin c5"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" fill="url(#ag1)"/><circle cx="20" cy="20" r="15" fill="none" stroke="white" stroke-opacity=".3" stroke-width="1"/><g stroke="white" stroke-width="1.6" stroke-linecap="round"><line x1="20" y1="12" x2="12" y2="26"/><line x1="20" y1="12" x2="28" y2="26"/><line x1="12" y1="26" x2="28" y2="26"/></g><circle cx="20" cy="12" r="3" fill="white"/><circle cx="12" cy="26" r="3" fill="white"/><circle cx="28" cy="26" r="3" fill="white"/></svg></div>
+  <div class="ambient-coin c6"><svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><circle cx="20" cy="20" r="19" fill="url(#ag3)"/><circle cx="20" cy="20" r="15" fill="none" stroke="white" stroke-opacity=".3" stroke-width="1"/><g stroke="white" stroke-width="1.6" stroke-linecap="round"><line x1="20" y1="12" x2="12" y2="26"/><line x1="20" y1="12" x2="28" y2="26"/><line x1="12" y1="26" x2="28" y2="26"/></g><circle cx="20" cy="12" r="3" fill="white"/><circle cx="12" cy="26" r="3" fill="white"/><circle cx="28" cy="26" r="3" fill="white"/></svg></div>
+</div>
+
+<!-- ============ NAV ============ -->
+<nav class="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-stripi-hairline">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between py-4">
+    <a href="#hero" class="flex items-center gap-2.5">
+      <svg class="h-9 w-9 logo-mark" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-label="MERIDIAN logo">
+        <defs>
+          <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#665efd"/>
+            <stop offset="100%" stop-color="#2e2b8c"/>
+          </linearGradient>
+        </defs>
+        <circle cx="20" cy="20" r="19" fill="url(#logoGrad)"/>
+        <circle cx="20" cy="20" r="15" fill="none" stroke="white" stroke-opacity=".25" stroke-width="1"/>
+        <g stroke="white" stroke-width="1.6" stroke-linecap="round">
+          <line x1="20" y1="12" x2="12" y2="26"/>
+          <line x1="20" y1="12" x2="28" y2="26"/>
+          <line x1="12" y1="26" x2="28" y2="26"/>
+        </g>
+        <circle cx="20" cy="12" r="3" fill="white"/>
+        <circle cx="12" cy="26" r="3" fill="white"/>
+        <circle cx="28" cy="26" r="3" fill="white"/>
+      </svg>
+      <span class="text-lg font-light tracking-tight">MERIDIAN</span>
+    </a>
+    <div class="hidden md:flex items-center gap-8">
+      <a href="#features" class="text-sm font-light hover:text-stripi-primary transition-colors">Features</a>
+      <a href="#pricing" class="text-sm font-light hover:text-stripi-primary transition-colors">Pricing</a>
+      <a href="#comparison" class="text-sm font-light hover:text-stripi-primary transition-colors">Comparison</a>
+      <a href="#faq" class="text-sm font-light hover:text-stripi-primary transition-colors">FAQ</a>
+    </div>
+    <div class="hidden md:flex items-center gap-4">
+      <a href="#" class="text-sm font-light hover:text-stripi-primary transition-colors">Sign In</a>
+      <a href="#cta" class="btn-primary text-sm">Get Started</a>
+    </div>
+    <button id="menuBtn" class="md:hidden p-2" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+    </button>
+  </div>
+  <div id="mobileMenu" class="hidden md:hidden border-t border-stripi-hairline bg-white">
+    <div class="px-4 py-4 flex flex-col gap-4">
+      <a href="#features" class="text-sm font-light">Features</a>
+      <a href="#pricing" class="text-sm font-light">Pricing</a>
+      <a href="#comparison" class="text-sm font-light">Comparison</a>
+      <a href="#faq" class="text-sm font-light">FAQ</a>
+      <a href="#cta" class="btn-primary text-sm w-full">Get Started</a>
+    </div>
+  </div>
+</nav>
+
+<div class="pt-16"></div>
+
+<!-- ============ HERO ============ -->
+<section id="hero" class="relative w-full overflow-hidden">
+  <div class="absolute inset-0 overflow-hidden h-[600px] pointer-events-none">
+    <div class="absolute -top-1/2 -left-1/4 w-full h-full bg-gradient-to-br from-indigo-200/40 via-transparent to-transparent rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute -bottom-1/4 -right-1/4 w-full h-full bg-gradient-to-tl from-purple-200/30 via-transparent to-transparent rounded-full blur-3xl animate-pulse" style="animation-delay:1s"></div>
+    <div class="absolute top-1/4 left-1/3 w-96 h-96 bg-gradient-to-r from-indigo-300/25 to-transparent rounded-full blur-3xl animate-pulse" style="animation-delay:2s"></div>
+  </div>
+  <div class="absolute inset-0 overflow-hidden h-[600px] pointer-events-none">
+    <div class="particle absolute w-1.5 h-1.5 bg-stripi-primary rounded-full opacity-50" style="left:12%;top:30%;animation-delay:0s"></div>
+    <div class="particle absolute w-1.5 h-1.5 bg-stripi-primary rounded-full opacity-50" style="left:78%;top:20%;animation-delay:.5s"></div>
+    <div class="particle absolute w-1.5 h-1.5 bg-stripi-primary rounded-full opacity-50" style="left:25%;top:65%;animation-delay:1s"></div>
+    <div class="particle absolute w-1.5 h-1.5 bg-stripi-primary rounded-full opacity-50" style="left:88%;top:55%;animation-delay:1.5s"></div>
+    <div class="particle absolute w-1.5 h-1.5 bg-stripi-primary rounded-full opacity-50" style="left:50%;top:15%;animation-delay:2s"></div>
+    <div class="particle absolute w-1.5 h-1.5 bg-stripi-primary rounded-full opacity-50" style="left:65%;top:80%;animation-delay:2.5s"></div>
+    <div class="particle absolute w-1.5 h-1.5 bg-stripi-primary rounded-full opacity-50" style="left:38%;top:45%;animation-delay:3s"></div>
+    <div class="particle absolute w-1.5 h-1.5 bg-stripi-primary rounded-full opacity-50" style="left:8%;top:75%;animation-delay:3.5s"></div>
+  </div>
+
+  <div class="relative flex items-center justify-center py-32 px-4">
+    <div class="max-w-4xl text-center mx-auto relative z-10">
+      <div class="mb-8">
+        <h1 class="title-letters text-6xl md:text-8xl font-light leading-[1.05] mb-3" aria-label="MERIDIAN">MERIDIAN</h1>
+        <div class="hero-subtitle text-2xl md:text-4xl font-light leading-tight grad-text-rev mt-2" style="letter-spacing:-1px">Trust, on-chain.</div>
+      </div>
+      <p class="hero-desc mb-10 text-base md:text-lg font-light text-stripi-ink-secondary max-w-xl mx-auto leading-relaxed">Multi-signature consensus, AI verification, and immutable audit trails — built for Vietnam's financial sector.</p>
+      <div class="hero-cta flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#features" class="btn-primary">Explore Platform</a>
+        <a href="#tokens" class="btn-secondary">View Whitepaper</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ECONOMIC PROBLEM (moved down for better first-impression flow) ============ -->
+
+<!-- ============ FEATURES ============ -->
+<section id="features" class="w-full py-24 bg-stripi-canvas-soft">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 text-center">
+      <h2 class="mb-4 text-4xl font-light">MERIDIAN Architecture</h2>
+      <p class="text-lg font-light text-stripi-ink-secondary">Permissioned blockchain + AI governance + multi-party consensus</p>
+    </div>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Feature Card Template -->
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-stripi-canvas-soft">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#533afd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <h4 class="mb-3 text-xl font-light">Multi-Signature Verification</h4>
+        <p class="text-base font-light text-stripi-ink-secondary leading-relaxed">CEO, Chairman, and Department Heads must collectively approve KPI records. No single point of failure.</p>
+      </div>
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-stripi-canvas-soft">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#533afd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <h4 class="mb-3 text-xl font-light">Permissioned Blockchain</h4>
+        <p class="text-base font-light text-stripi-ink-secondary leading-relaxed">Hyperledger Fabric with Proof-of-Authority consensus. Private, tamper-proof, and compliant with Decree 13/2023.</p>
+      </div>
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-stripi-canvas-soft">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#533afd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h4 class="mb-3 text-xl font-light">AI-Assisted Scoring</h4>
+        <p class="text-base font-light text-stripi-ink-secondary leading-relaxed">Machine learning detects anomalies in real-time. Flags deviations without human bias.</p>
+      </div>
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-stripi-canvas-soft">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#533afd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+        </div>
+        <h4 class="mb-3 text-xl font-light">Auto-Slashing Accountability</h4>
+        <p class="text-base font-light text-stripi-ink-secondary leading-relaxed">Smart contracts automatically enforce penalties for rule violations. Immutable audit trails for regulators.</p>
+      </div>
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-stripi-canvas-soft">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#533afd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c1.4 9.3-4.4 15.1-8.2 17.04z"/><path d="M2 21c0-3 1.85-5.36 5.08-6"/></svg>
+        </div>
+        <h4 class="mb-3 text-xl font-light">80× Lower Emissions</h4>
+        <p class="text-base font-light text-stripi-ink-secondary leading-relaxed">PoA consensus uses 0.001 kWh per transaction vs Bitcoin's 707 kWh. Supports SDG 13 (Climate Action).</p>
+      </div>
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-stripi-canvas-soft">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#533afd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h4 class="mb-3 text-xl font-light">Regulatory Compliant</h4>
+        <p class="text-base font-light text-stripi-ink-secondary leading-relaxed">Operates under Resolution 05/2025 sandbox pathway. On-shore hosting satisfies Decree 13/2023 data localisation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how-it-works" class="w-full py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 text-center">
+      <h2 class="mb-4 text-4xl font-light">How MERIDIAN Works</h2>
+      <p class="text-lg font-light text-stripi-ink-secondary">Four-step process: KPI submission → Multi-signature approval → AI verification → Blockchain execution</p>
+    </div>
+    <div class="grid gap-8 md:grid-cols-4">
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-stripi-primary text-white font-light">1</div>
+        <h5 class="mb-3 text-lg font-light">KPI Submission</h5>
+        <p class="text-sm font-light text-stripi-ink-secondary">Employee submits performance KPI report with supporting data and metrics.</p>
+      </div>
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-stripi-primary text-white font-light">2</div>
+        <h5 class="mb-3 text-lg font-light">Multi-Signature Approval</h5>
+        <p class="text-sm font-light text-stripi-ink-secondary">CEO, Chairman, and Department Head independently review and approve KPI records.</p>
+      </div>
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-stripi-primary text-white font-light">3</div>
+        <h5 class="mb-3 text-lg font-light">AI Anomaly Detection</h5>
+        <p class="text-sm font-light text-stripi-ink-secondary">Machine learning analyzes data for anomalies and validates accuracy in real-time.</p>
+      </div>
+      <div class="card">
+        <div class="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-stripi-primary text-white font-light">4</div>
+        <h5 class="mb-3 text-lg font-light">Blockchain Execution</h5>
+        <p class="text-sm font-light text-stripi-ink-secondary">Smart contracts execute transaction and record immutably on Hyperledger Fabric.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PRICING ============ -->
+<section id="pricing" class="w-full py-24 bg-stripi-canvas-soft">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 text-center">
+      <h2 class="mb-4 text-4xl font-light">Revenue Model</h2>
+      <p class="text-lg font-light text-stripi-ink-secondary">Tier-based licensing reflecting Vietnamese enterprise SaaS ownership mentality</p>
+    </div>
+    <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <!-- Startup -->
+      <div class="card">
+        <div class="mb-2 text-xs font-light uppercase tracking-wider text-stripi-ink-mute">50–100 employees</div>
+        <h5 class="mb-2 text-lg font-light">Startup</h5>
+        <p class="mb-6 text-sm font-light text-stripi-ink-secondary">For growing Vietnamese firms</p>
+        <div class="mb-6">
+          <div class="flex items-baseline gap-1">
+            <span class="text-sm font-light text-stripi-ink-mute">USD</span>
+            <span class="text-3xl font-light tabular">50k</span>
+          </div>
+          <div class="mt-2 text-xs font-light text-stripi-ink-mute">One-time license + annual maintenance (15–20%)</div>
+        </div>
+        <ul class="mb-8 space-y-3">
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">Perpetual platform license</span></li>
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">Smart contract customisation</span></li>
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">Employee onboarding</span></li>
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">12-month standard support</span></li>
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">1% settlement commission</span></li>
+        </ul>
+        <a href="#cta" class="btn-secondary w-full">Get Started</a>
+      </div>
+
+      <!-- Professional (featured) -->
+      <div class="card-dark">
+        <div class="mb-2 text-xs font-light uppercase tracking-wider opacity-80">100–250 employees</div>
+        <h5 class="mb-2 text-lg font-light">Professional</h5>
+        <p class="mb-6 text-sm font-light opacity-80">For mid-tier enterprises</p>
+        <div class="mb-6">
+          <div class="flex items-baseline gap-1">
+            <span class="text-sm font-light opacity-80">USD</span>
+            <span class="text-3xl font-light tabular">75k</span>
+          </div>
+          <div class="mt-2 text-xs font-light opacity-70">One-time license + annual maintenance (15–20%)</div>
+        </div>
+        <ul class="mb-8 space-y-3">
+          <li class="flex items-start gap-3"><span class="mt-0.5">✓</span><span class="text-sm font-light">Perpetual platform license</span></li>
+          <li class="flex items-start gap-3"><span class="mt-0.5">✓</span><span class="text-sm font-light">Advanced customisation</span></li>
+          <li class="flex items-start gap-3"><span class="mt-0.5">✓</span><span class="text-sm font-light">Priority support</span></li>
+          <li class="flex items-start gap-3"><span class="mt-0.5">✓</span><span class="text-sm font-light">AI anomaly detection</span></li>
+          <li class="flex items-start gap-3"><span class="mt-0.5">✓</span><span class="text-sm font-light">1% settlement commission</span></li>
+          <li class="flex items-start gap-3"><span class="mt-0.5">✓</span><span class="text-sm font-light">Annual maintenance included</span></li>
+        </ul>
+        <a href="#cta" class="btn-primary w-full" style="background:#fff;color:var(--stripi-brand-dark)">Schedule Demo</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="card">
+        <div class="mb-2 text-xs font-light uppercase tracking-wider text-stripi-ink-mute">250–500 employees</div>
+        <h5 class="mb-2 text-lg font-light">Enterprise</h5>
+        <p class="mb-6 text-sm font-light text-stripi-ink-secondary">For large financial firms</p>
+        <div class="mb-6">
+          <div class="flex items-baseline gap-1">
+            <span class="text-sm font-light text-stripi-ink-mute">USD</span>
+            <span class="text-3xl font-light tabular">120k</span>
+          </div>
+          <div class="mt-2 text-xs font-light text-stripi-ink-mute">One-time license + annual maintenance (15–20%)</div>
+        </div>
+        <ul class="mb-8 space-y-3">
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">Perpetual platform license</span></li>
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">Full customisation</span></li>
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">Dedicated account manager</span></li>
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">Real-time AI monitoring</span></li>
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">0.5% settlement commission</span></li>
+          <li class="flex items-start gap-3"><span class="text-stripi-primary mt-0.5">✓</span><span class="text-sm font-light">24/7 premium support</span></li>
+        </ul>
+        <a href="#cta" class="btn-secondary w-full">Contact Sales</a>
+      </div>
+    </div>
+
+    <div class="mt-16 grid gap-8 md:grid-cols-3">
+      <div class="text-center">
+        <h5 class="mb-2 text-lg font-light">Annual Maintenance</h5>
+        <p class="text-sm font-light text-stripi-ink-secondary">15–20% of initial license fee. Covers smart contract patches, security audits, and regulatory updates.</p>
+      </div>
+      <div class="text-center">
+        <h5 class="mb-2 text-lg font-light">Settlement Commission</h5>
+        <p class="text-sm font-light text-stripi-ink-secondary">Standard 1.0% on smart contract settlements. 0.5% for high-volume firms (USD 1M+ monthly).</p>
+      </div>
+      <div class="text-center">
+        <h5 class="mb-2 text-lg font-light">Minimum Transaction</h5>
+        <p class="text-sm font-light text-stripi-ink-secondary">USD 100 minimum per transaction. Comparable to NAPAS (1–2%) and enterprise settlement norms.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ COMPARISON ============ -->
+<section id="comparison" class="w-full py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 text-center">
+      <h2 class="mb-4 text-4xl font-light">MERIDIAN vs Existing Solutions</h2>
+      <p class="text-lg font-light text-stripi-ink-secondary">How MERIDIAN combines the best of centralized and decentralized systems</p>
+    </div>
+
+    <div class="card overflow-x-auto">
+      <table class="w-full text-sm font-light min-w-[640px]">
+        <thead>
+          <tr class="border-b border-stripi-hairline">
+            <th class="pb-4 pr-4 text-left">Feature</th>
+            <th class="pb-4 pr-4 text-center"><div>MERIDIAN</div><div class="text-xs text-stripi-primary">Blockchain + AI</div></th>
+            <th class="pb-4 pr-4 text-center"><div>SAP HRM</div><div class="text-xs text-stripi-ink-mute">Centralized</div></th>
+            <th class="pb-4 pr-4 text-center"><div>Aragon</div><div class="text-xs text-stripi-ink-mute">DAO Governance</div></th>
+            <th class="pb-4 text-center"><div>R3 Corda</div><div class="text-xs text-stripi-ink-mute">Enterprise Blockchain</div></th>
+          </tr>
+        </thead>
+        <tbody id="cmpBody"></tbody>
+      </table>
+    </div>
+
+    <div class="mt-16 grid gap-8 md:grid-cols-3">
+      <div class="card-cream">
+        <h5 class="mb-3 text-lg font-light">vs Centralized (SAP)</h5>
+        <ul class="space-y-2 text-sm font-light">
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>No single point of failure</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Immutable audit trails</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Prevents admin manipulation</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Cryptographic verification</span></li>
+        </ul>
+      </div>
+      <div class="card-cream">
+        <h5 class="mb-3 text-lg font-light">vs DAO Governance (Aragon)</h5>
+        <ul class="space-y-2 text-sm font-light">
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>HR-specific modules</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>AI-assisted scoring</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Vietnam compliant</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Permissioned (private)</span></li>
+        </ul>
+      </div>
+      <div class="card-cream">
+        <h5 class="mb-3 text-lg font-light">vs Enterprise Blockchain (Corda)</h5>
+        <ul class="space-y-2 text-sm font-light">
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>AI anomaly detection</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Auto-slashing mechanism</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Lower energy consumption</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Dual-token economics</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ECONOMIC PROBLEM (after Comparison — sets up the “why MERIDIAN” narrative) ============ -->
+<section id="problem" class="w-full py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="card-cream max-w-3xl mx-auto">
+      <div class="text-xs font-medium uppercase tracking-[0.18em] text-stripi-primary mb-4">The problem we solve</div>
+      <h2 class="mb-6 text-3xl font-light leading-snug">Information asymmetry costs firms 5–10% of value annually.</h2>
+      <div class="space-y-5 text-base font-light leading-relaxed">
+        <p>Digital HR tools speed up admin throughput — but don't resolve the core economic problem: shareholders cannot verify what managers actually do.</p>
+        <div class="rounded-lg bg-stripi-primary/5 p-4 border-l-4 border-stripi-primary">
+          <p>The Vạn Thịnh Phát case: <strong>916 falsified loan files</strong>, <strong>VND 304,000 billion</strong> extracted through SCB, <strong>VND 677,000 billion</strong> in damages to 36,000 bondholders.</p>
+        </div>
+        <p>MERIDIAN makes that kind of fraud structurally infeasible through permissioned blockchain consensus and immutable audit trails.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TOKEN ECONOMICS ============ -->
+<section id="tokens" class="w-full py-24 bg-stripi-canvas-soft">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 text-center">
+      <h2 class="mb-4 text-4xl font-light">Dual Token Economics</h2>
+      <p class="text-lg font-light text-stripi-ink-secondary">PERFORM (utility) + MERIDIAN (governance) — addressing distinct functions</p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 mb-16">
+      <div class="card">
+        <h3 class="mb-4 text-2xl font-light">PERFORM (PRFM)</h3>
+        <p class="mb-4 text-sm font-light text-stripi-ink-secondary">Internal Utility Token — Fails Howey test for security status</p>
+        <h4 class="mb-2 text-sm font-light uppercase tracking-wider text-stripi-ink-mute">Mechanism</h4>
+        <ul class="space-y-2 text-sm font-light mb-4">
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Minted upon multi-signature KPI verification</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Burned upon VND treasury redemption at 1:1</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Eliminates inflation through mint-burn cycle</span></li>
+        </ul>
+        <h4 class="mb-2 text-sm font-light uppercase tracking-wider text-stripi-ink-mute">Use Case</h4>
+        <p class="text-sm font-light mb-4">Employees receive PERFORM via integrated wallets. Redeem instantly without exposing personal banking information.</p>
+        <div class="rounded-lg bg-stripi-primary/5 p-3 border-l-4 border-stripi-primary">
+          <p class="text-xs font-light text-stripi-primary"><strong>Regulatory:</strong> Operates outside Resolution 05 Article 3.2 scope as internal utility, not CASP.</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3 class="mb-4 text-2xl font-light">MERIDIAN (MERI)</h3>
+        <p class="mb-4 text-sm font-light text-stripi-ink-secondary">Governance + Utility Hybrid — Regulated sandbox token</p>
+        <h4 class="mb-2 text-sm font-light uppercase tracking-wider text-stripi-ink-mute">Fixed Supply</h4>
+        <p class="text-sm font-light tabular mb-4">100 million tokens (deflationary)</p>
+        <h4 class="mb-2 text-sm font-light uppercase tracking-wider text-stripi-ink-mute">Holder Benefits</h4>
+        <ul class="space-y-2 text-sm font-light mb-4">
+          <li class="flex gap-2"><span class="text-stripi-ruby">→</span><span>Vote on platform parameters</span></li>
+          <li class="flex gap-2"><span class="text-stripi-ruby">→</span><span>Earn 30% of commission quarterly</span></li>
+          <li class="flex gap-2"><span class="text-stripi-ruby">→</span><span>Benefit from 10% quarterly deflationary burns</span></li>
+        </ul>
+        <div class="rounded-lg bg-stripi-primary/5 p-3 border-l-4 border-stripi-primary">
+          <p class="text-xs font-light text-stripi-primary"><strong>Mechanism:</strong> Mirroring Aave's model with real SaaS revenue underlying token value.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-cream">
+      <h3 class="mb-6 text-2xl font-light">MERIDIAN Token Allocation (100M Fixed Cap)</h3>
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm font-light min-w-[480px]">
+          <thead>
+            <tr class="border-b border-stripi-ink/20">
+              <th class="pb-3 pr-4 text-left">Category</th>
+              <th class="pb-3 pr-4 text-right tabular">Allocation</th>
+              <th class="pb-3 text-left">Lock-up Period</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="border-b border-stripi-ink/10"><td class="py-3 pr-4">Public Sale</td><td class="py-3 pr-4 text-right tabular">40M (40%)</td><td class="py-3">None</td></tr>
+            <tr class="border-b border-stripi-ink/10"><td class="py-3 pr-4">Team</td><td class="py-3 pr-4 text-right tabular">20M (20%)</td><td class="py-3">4-year linear vest</td></tr>
+            <tr class="border-b border-stripi-ink/10"><td class="py-3 pr-4">Ecosystem Grants</td><td class="py-3 pr-4 text-right tabular">20M (20%)</td><td class="py-3">1-year cliff</td></tr>
+            <tr class="border-b border-stripi-ink/10"><td class="py-3 pr-4">Treasury</td><td class="py-3 pr-4 text-right tabular">15M (15%)</td><td class="py-3">DAO-controlled</td></tr>
+            <tr><td class="py-3 pr-4">Advisors</td><td class="py-3 pr-4 text-right tabular">5M (5%)</td><td class="py-3">2-year linear vest</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="mt-6 p-4 rounded-lg bg-stripi-primary/5 border-l-4 border-stripi-primary">
+        <p class="text-xs font-light text-stripi-primary"><strong>Anti-scam Design:</strong> CertiK/Hacken audited contracts, KYC + whale caps (max USD 10k/wallet), 4-year team vesting, real SaaS revenue backing token value.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VALUE FLOW ARCHITECTURE — native interactive visualization ============ -->
+<section id="flow" class="w-full py-24 bg-stripi-canvas-soft">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-14 text-center">
+      <div class="text-xs font-medium uppercase tracking-[0.18em] text-stripi-primary mb-3">How it works</div>
+      <h2 class="mb-4 text-4xl font-light">Value moves on consensus, not trust.</h2>
+      <p class="text-lg font-light text-stripi-ink-secondary max-w-2xl mx-auto">Three parties. One contract. Zero room for unilateral action.</p>
+    </div>
+
+    <!-- ===== Interactive flow canvas ===== -->
+    <div class="flow-canvas">
+      <!-- SVG layer with paths + flowing dots -->
+      <svg class="flow-paths" viewBox="0 0 1200 640" preserveAspectRatio="none" aria-hidden="true">
+        <defs>
+          <linearGradient id="flowGradV" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#b9b9f9" stop-opacity="0"/>
+            <stop offset="30%" stop-color="#533afd" stop-opacity=".8"/>
+            <stop offset="100%" stop-color="#533afd" stop-opacity=".9"/>
+          </linearGradient>
+          <linearGradient id="flowGradL" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#533afd" stop-opacity=".7"/>
+            <stop offset="100%" stop-color="#ea2261" stop-opacity=".8"/>
+          </linearGradient>
+          <linearGradient id="flowGradR" x1="1" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#533afd" stop-opacity=".7"/>
+            <stop offset="100%" stop-color="#4434d4" stop-opacity=".8"/>
+          </linearGradient>
+          <radialGradient id="hexGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#533afd" stop-opacity=".35"/>
+            <stop offset="70%" stop-color="#533afd" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- Smart contract glow halo -->
+        <circle cx="600" cy="320" r="220" fill="url(#hexGlow)"/>
+
+        <!-- Solid value-flow paths -->
+        <path id="path-firm-contract"     class="flow-line" d="M 600 130 L 600 240" stroke="url(#flowGradV)"/>
+        <path id="path-contract-employee" class="flow-line" d="M 510 360 C 410 460, 280 480, 220 520" stroke="url(#flowGradR)"/>
+        <path id="path-contract-client"   class="flow-line" d="M 690 360 C 790 460, 920 480, 980 520" stroke="url(#flowGradL)"/>
+        <path id="path-contract-pool"     class="flow-line" d="M 600 400 L 600 520" stroke="url(#flowGradV)"/>
+
+        <!-- Dashed signature paths -->
+        <path id="path-ai-contract"      class="flow-line flow-dashed" d="M 220 130 C 320 200, 460 250, 510 290" stroke="#94a3b8"/>
+        <path id="path-regulator-contract" class="flow-line flow-dashed" d="M 980 130 C 880 200, 740 250, 690 290" stroke="#94a3b8"/>
+
+        <!-- Flowing particles (always running, no JS needed) -->
+        <g class="flow-particles">
+          <circle r="4" fill="#533afd"><animateMotion dur="2.4s" repeatCount="indefinite" rotate="auto"><mpath href="#path-firm-contract"/></animateMotion></circle>
+          <circle r="4" fill="#4434d4"><animateMotion dur="3s" repeatCount="indefinite" rotate="auto" begin="0.3s"><mpath href="#path-contract-employee"/></animateMotion></circle>
+          <circle r="4" fill="#ea2261"><animateMotion dur="3s" repeatCount="indefinite" rotate="auto" begin="0.8s"><mpath href="#path-contract-client"/></animateMotion></circle>
+          <circle r="3.5" fill="#533afd"><animateMotion dur="2s" repeatCount="indefinite" rotate="auto" begin="1.2s"><mpath href="#path-contract-pool"/></animateMotion></circle>
+          <circle r="2.5" fill="#94a3b8"><animateMotion dur="4s" repeatCount="indefinite" rotate="auto"><mpath href="#path-ai-contract"/></animateMotion></circle>
+          <circle r="2.5" fill="#94a3b8"><animateMotion dur="4s" repeatCount="indefinite" rotate="auto" begin="2s"><mpath href="#path-regulator-contract"/></animateMotion></circle>
+        </g>
+      </svg>
+
+      <!-- Step badges floating over the paths -->
+      <div class="step-badge" style="left:51.5%;top:21%">01</div>
+      <div class="step-badge" style="left:24%;top:70%">02</div>
+      <div class="step-badge" style="left:76%;top:70%">03</div>
+      <div class="step-badge" style="left:51.5%;top:74%">04</div>
+
+      <!-- HTML node cards positioned over the SVG -->
+      <!-- AI Monitoring (top-left, smaller) -->
+      <div class="flow-node node-ghost" style="left:4%;top:6%;width:24%">
+        <div class="node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <div>
+          <div class="node-tag">Monitoring</div>
+          <div class="node-title">AI Anomaly Detection</div>
+        </div>
+      </div>
+
+      <!-- VN Financial Firm (top-center, prominent) -->
+      <div class="flow-node node-primary" style="left:34%;top:1%;width:32%">
+        <div class="node-icon node-icon-primary"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 21h18M5 21V9l7-5 7 5v12M9 21v-6h6v6"/></svg></div>
+        <div>
+          <div class="node-tag">Issuer · Multi-sig</div>
+          <div class="node-title">Financial Firm</div>
+          <div class="node-sub">CEO · Chairman · Dept Head</div>
+        </div>
+      </div>
+
+      <!-- Regulator (top-right, smaller) -->
+      <div class="flow-node node-ghost" style="left:72%;top:6%;width:24%">
+        <div class="node-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div>
+          <div class="node-tag">Read-only</div>
+          <div class="node-title">Regulator Node</div>
+        </div>
+      </div>
+
+      <!-- Smart Contract (center, hexagon, focal point) -->
+      <div class="flow-node node-contract" style="left:38%;top:36%;width:24%">
+        <div class="contract-hex">
+          <div class="contract-inner">
+            <div class="node-tag" style="color:#fff;opacity:.85">Consensus Layer</div>
+            <div class="contract-title">3-of-3 Smart Contract</div>
+            <div class="contract-sub">Hyperledger Fabric · PoA</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Employee (bottom-left) -->
+      <div class="flow-node node-performer" style="left:3%;top:74%;width:28%">
+        <div class="node-icon node-icon-performer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="8" r="4"/><path d="M4 22c0-4 4-7 8-7s8 3 8 7"/></svg></div>
+        <div>
+          <div class="node-tag">Performer</div>
+          <div class="node-title">Employee Wallet</div>
+          <div class="node-sub">Earns PERFORM · holds STAKE</div>
+        </div>
+      </div>
+
+      <!-- Compensation Pool (bottom-center, smaller, between Employee and Client) -->
+      <div class="flow-node node-pool" style="left:36%;top:84%;width:28%">
+        <div class="node-icon node-icon-pool"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 7h18M5 7v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V7M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg></div>
+        <div>
+          <div class="node-tag">Recourse</div>
+          <div class="node-title">Compensation Pool</div>
+          <div class="node-sub">Slashed STAKE recycled</div>
+        </div>
+      </div>
+
+      <!-- Client (bottom-right) -->
+      <div class="flow-node node-capital" style="left:69%;top:74%;width:28%">
+        <div class="node-icon node-icon-capital"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg></div>
+        <div>
+          <div class="node-tag">Capital Provider</div>
+          <div class="node-title">Client Wallet</div>
+          <div class="node-sub">VND escrow · on-chain</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 4-step breakdown ===== -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-14">
+      <div class="step-card">
+        <div class="step-card-num">01</div>
+        <div class="step-card-title">PERFORM minted</div>
+        <div class="step-card-text">Firm multi-sig approves KPI; tokens auto-mint to the employee.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-card-num">02</div>
+        <div class="step-card-title">VND escrowed</div>
+        <div class="step-card-text">Client deposits collateral; contract holds until three signatures align.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-card-num">03</div>
+        <div class="step-card-title">3-of-3 consensus</div>
+        <div class="step-card-text">Firm, client, and verifier each sign. Any single objection halts release.</div>
+      </div>
+      <div class="step-card">
+        <div class="step-card-num">04</div>
+        <div class="step-card-title">STAKE auto-slash</div>
+        <div class="step-card-text">Verified damage automatically transfers STAKE bond to the compensation pool.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SUSTAINABILITY ============ -->
+<section id="sustainability" class="w-full py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 text-center">
+      <h2 class="mb-4 text-4xl font-light">Sustainability & Impact</h2>
+      <p class="text-lg font-light text-stripi-ink-secondary">80× lower emissions than traditional data centers. Supporting UN SDG 13 & 16.</p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-2 mb-16">
+      <div class="card">
+        <h3 class="mb-4 text-2xl font-light">Energy Efficiency</h3>
+        <h4 class="mb-3 text-sm font-light uppercase tracking-wider text-stripi-ink-mute">Per-Transaction Consumption</h4>
+        <div class="space-y-2 mb-6">
+          <div class="flex items-center justify-between"><span class="text-sm font-light">MERIDIAN (PoA)</span><span class="text-lg font-light tabular text-stripi-primary">0.001 kWh</span></div>
+          <div class="flex items-center justify-between"><span class="text-sm font-light">Bitcoin (PoW)</span><span class="text-lg font-light tabular text-stripi-ink-mute">707 kWh</span></div>
+          <div class="flex items-center justify-between pt-2 border-t border-stripi-hairline"><span class="text-sm font-bold">Reduction</span><span class="text-lg font-light tabular text-stripi-ruby">707,000× lower</span></div>
+        </div>
+        <div class="rounded-lg bg-stripi-primary/5 p-4">
+          <p class="text-sm font-light"><strong>Why?</strong> Proof-of-Authority eliminates competitive mining hardware cycles, reducing e-waste and energy consumption relative to PoW chains.</p>
+        </div>
+      </div>
+      <div class="card">
+        <h3 class="mb-4 text-2xl font-light">Annual Carbon Footprint</h3>
+        <h4 class="mb-3 text-sm font-light uppercase tracking-wider text-stripi-ink-mute">MERIDIAN vs Traditional Data Center</h4>
+        <div class="space-y-2 mb-6">
+          <div class="flex items-center justify-between"><span class="text-sm font-light">MERIDIAN (100k tx/year)</span><span class="text-lg font-light tabular text-stripi-primary">0.05 tCO₂e</span></div>
+          <div class="flex items-center justify-between"><span class="text-sm font-light">Bank data center (redundant SQL)</span><span class="text-lg font-light tabular text-stripi-ink-mute">4 tCO₂e</span></div>
+          <div class="flex items-center justify-between pt-2 border-t border-stripi-hairline"><span class="text-sm font-bold">Reduction</span><span class="text-lg font-light tabular text-stripi-ruby">80× lower</span></div>
+        </div>
+        <div class="rounded-lg bg-stripi-primary/5 p-4">
+          <p class="text-sm font-light"><strong>At Scale:</strong> 200 financial firms by 2030 = ~790 tCO₂e avoided annually.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-cream">
+      <div class="text-xs font-medium uppercase tracking-[0.18em] text-stripi-primary mb-3">United Nations</div>
+      <h3 class="mb-2 text-2xl font-light">Sustainable Development Goals</h3>
+      <p class="mb-8 text-sm font-light text-stripi-ink-secondary max-w-xl">MERIDIAN's architecture contributes directly to four UN SDGs.</p>
+      <div class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <!-- SDG 7 — Clean Energy -->
+        <div class="sdg-tile" style="--sdg-bg:#fcc30b;--sdg-ink:#1c1408">
+          <svg class="sdg-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="32" cy="32" r="10" fill="currentColor"/>
+            <g stroke="currentColor" stroke-width="3" stroke-linecap="round">
+              <line x1="32" y1="8"  x2="32" y2="16"/>
+              <line x1="32" y1="48" x2="32" y2="56"/>
+              <line x1="8"  y1="32" x2="16" y2="32"/>
+              <line x1="48" y1="32" x2="56" y2="32"/>
+              <line x1="15" y1="15" x2="21" y2="21"/>
+              <line x1="43" y1="43" x2="49" y2="49"/>
+              <line x1="15" y1="49" x2="21" y2="43"/>
+              <line x1="43" y1="21" x2="49" y2="15"/>
+            </g>
+          </svg>
+          <div class="sdg-num">07</div>
+          <div class="sdg-title">Clean Energy</div>
+          <div class="sdg-sub">PoA eliminates mining hardware cycles</div>
+        </div>
+        <!-- SDG 13 — Climate Action -->
+        <div class="sdg-tile" style="--sdg-bg:#3f7e44;--sdg-ink:#ffffff">
+          <svg class="sdg-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="32" cy="32" r="22" fill="none" stroke="currentColor" stroke-width="3"/>
+            <path d="M14 32 Q22 22 32 32 T50 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+            <path d="M14 38 Q22 28 32 38 T50 38" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" opacity=".6"/>
+            <circle cx="32" cy="32" r="2.5" fill="currentColor"/>
+          </svg>
+          <div class="sdg-num">13</div>
+          <div class="sdg-title">Climate Action</div>
+          <div class="sdg-sub">80× lower emissions vs data centers</div>
+        </div>
+        <!-- SDG 16 — Peace, Justice & Strong Institutions -->
+        <div class="sdg-tile" style="--sdg-bg:#00689d;--sdg-ink:#ffffff">
+          <svg class="sdg-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M32 8 L52 18 V32 C52 44 42 52 32 56 C22 52 12 44 12 32 V18 Z" fill="none" stroke="currentColor" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M22 32 L29 39 L42 25" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="sdg-num">16</div>
+          <div class="sdg-title">Peace & Justice</div>
+          <div class="sdg-sub">Immutable audit trails for institutions</div>
+        </div>
+        <!-- SDG 16.5 — Reduce Corruption -->
+        <div class="sdg-tile" style="--sdg-bg:#19486a;--sdg-ink:#ffffff">
+          <svg class="sdg-icon" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="14" y="22" width="36" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="3"/>
+            <path d="M22 22 V16 a10 10 0 0 1 20 0 V22" fill="none" stroke="currentColor" stroke-width="3"/>
+            <circle cx="32" cy="34" r="3" fill="currentColor"/>
+            <line x1="32" y1="37" x2="32" y2="43" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+          <div class="sdg-num">16.5</div>
+          <div class="sdg-title">Reduce Corruption</div>
+          <div class="sdg-sub">Cryptographic trust over intermediaries</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REGULATORY ============ -->
+<section id="regulatory" class="w-full py-24 bg-stripi-canvas-soft">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 text-center">
+      <h2 class="mb-4 text-4xl font-light">Regulatory Compliance</h2>
+      <p class="text-lg font-light text-stripi-ink-secondary">Operating under Vietnam's Resolution 05/2025 sandbox pathway</p>
+    </div>
+
+    <div class="grid gap-8 md:grid-cols-3 mb-16">
+      <div class="card">
+        <h5 class="mb-4 text-lg font-light">Resolution 05/2025/NQ-CP</h5>
+        <p class="mb-4 text-sm font-light text-stripi-ink-secondary">Crypto-asset market pilot framework</p>
+        <ul class="space-y-3 text-sm font-light">
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>PERFORM classified as internal utility (outside CASP scope)</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>MERIDIAN qualifies under DTI Law sandbox</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Tamper-proof multi-party verification required</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h5 class="mb-4 text-lg font-light">Decree 13/2023</h5>
+        <p class="mb-4 text-sm font-light text-stripi-ink-secondary">Data localisation requirements</p>
+        <ul class="space-y-3 text-sm font-light">
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Hyperledger on-shore hosting</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Personal data stored in Vietnam</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Compliant with strict access restrictions</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <h5 class="mb-4 text-lg font-light">Labor Code Article 90</h5>
+        <p class="mb-4 text-sm font-light text-stripi-ink-secondary">Payroll and compensation</p>
+        <ul class="space-y-3 text-sm font-light">
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>VND redemption via MoMo & VNPay</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Licensed payment partners</span></li>
+          <li class="flex gap-2"><span class="text-stripi-primary">✓</span><span>Instant settlement without banking exposure</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card-cream">
+      <h3 class="mb-6 text-2xl font-light">Market Expansion Timeline</h3>
+      <div class="space-y-0">
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="h-10 w-10 rounded-full bg-stripi-primary flex items-center justify-center text-white font-light flex-shrink-0">1</div>
+            <div class="flex-1 w-0.5 bg-stripi-hairline min-h-[40px]"></div>
+          </div>
+          <div class="pb-8">
+            <h6 class="text-sm font-light uppercase tracking-wider text-stripi-ink-mute mb-1">March 2026</h6>
+            <p class="text-sm font-light"><strong>Initial Pilot:</strong> 5 qualified financial firms licensed under Resolution 05/2025</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="h-10 w-10 rounded-full bg-stripi-primary flex items-center justify-center text-white font-light flex-shrink-0">2</div>
+            <div class="flex-1 w-0.5 bg-stripi-hairline min-h-[40px]"></div>
+          </div>
+          <div class="pb-8">
+            <h6 class="text-sm font-light uppercase tracking-wider text-stripi-ink-mute mb-1">2026–2027</h6>
+            <p class="text-sm font-light"><strong>Scaling Phase:</strong> 20–50 mid-tier securities and fund management firms</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="h-10 w-10 rounded-full bg-stripi-primary flex items-center justify-center text-white font-light flex-shrink-0">3</div>
+            <div class="flex-1 w-0.5 bg-stripi-hairline min-h-[40px]"></div>
+          </div>
+          <div class="pb-8">
+            <h6 class="text-sm font-light uppercase tracking-wider text-stripi-ink-mute mb-1">2028–2030</h6>
+            <p class="text-sm font-light"><strong>National Scale:</strong> 200 financial firms across Vietnam, ~790 tCO₂e avoided annually</p>
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex flex-col items-center">
+            <div class="h-10 w-10 rounded-full bg-stripi-primary flex items-center justify-center text-white font-light flex-shrink-0">✓</div>
+          </div>
+          <div>
+            <h6 class="text-sm font-light uppercase tracking-wider text-stripi-ink-mute mb-1">Post-2030</h6>
+            <p class="text-sm font-light"><strong>Regulatory Transition:</strong> Sandbox pilot concludes; permanent licensing pathway established</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section id="faq" class="w-full py-24">
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="mb-16 text-center">
+      <h2 class="mb-4 text-4xl font-light">Frequently Asked Questions</h2>
+      <p class="text-lg font-light text-stripi-ink-secondary">Common questions about MERIDIAN, blockchain, tokens, and implementation</p>
+    </div>
+    <div class="space-y-4" id="faqList"></div>
+
+    <div class="mt-16 text-center">
+      <p class="mb-4 text-base font-light text-stripi-ink-secondary">Still have questions? Contact our team for more information.</p>
+      <a href="#cta" class="btn-primary">Get in Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA ============ -->
+<section id="cta" class="w-full py-24">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="card-cream max-w-2xl mx-auto text-center">
+      <h2 class="mb-4 text-3xl font-light">Stay Updated</h2>
+      <p class="mb-8 text-base font-light text-stripi-ink-secondary">Get the latest updates on new features, pricing changes, and industry insights delivered to your inbox.</p>
+      <form id="subscribeForm" class="flex flex-col gap-4 sm:flex-row sm:justify-center">
+        <input type="email" required placeholder="Enter your email" class="flex-1 sm:max-w-xs px-4 py-3 rounded-md border border-stripi-hairline-input bg-white text-stripi-ink font-light focus:outline-none focus:border-stripi-primary" />
+        <button type="submit" class="btn-primary">Subscribe</button>
+      </form>
+      <div id="subscribeOk" class="hidden mt-4 rounded-lg bg-stripi-primary/10 p-4 text-sm font-light text-stripi-primary">✓ Thanks for subscribing! Check your email for confirmation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="w-full border-t border-stripi-hairline py-16">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid gap-12 md:grid-cols-5">
+      <div class="md:col-span-1">
+        <div class="flex items-center gap-2.5 mb-4">
+          <svg class="h-9 w-9" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg" aria-label="MERIDIAN logo">
+            <defs>
+              <linearGradient id="logoGradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#665efd"/>
+                <stop offset="100%" stop-color="#2e2b8c"/>
+              </linearGradient>
+            </defs>
+            <circle cx="20" cy="20" r="19" fill="url(#logoGradFooter)"/>
+            <circle cx="20" cy="20" r="15" fill="none" stroke="white" stroke-opacity=".25" stroke-width="1"/>
+            <g stroke="white" stroke-width="1.6" stroke-linecap="round">
+              <line x1="20" y1="12" x2="12" y2="26"/>
+              <line x1="20" y1="12" x2="28" y2="26"/>
+              <line x1="12" y1="26" x2="28" y2="26"/>
+            </g>
+            <circle cx="20" cy="12" r="3" fill="white"/>
+            <circle cx="12" cy="26" r="3" fill="white"/>
+            <circle cx="28" cy="26" r="3" fill="white"/>
+          </svg>
+          <span class="text-lg font-light">MERIDIAN</span>
+        </div>
+        <p class="text-sm font-light text-stripi-ink-mute">Multi-sig Enterprise Resource and Identity DAO with AI Notary.</p>
+        <div class="mt-6 flex gap-4">
+          <a href="#" aria-label="Twitter" class="text-stripi-ink-mute hover:text-stripi-primary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg></a>
+          <a href="#" aria-label="GitHub" class="text-stripi-ink-mute hover:text-stripi-primary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg></a>
+          <a href="#" aria-label="LinkedIn" class="text-stripi-ink-mute hover:text-stripi-primary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
+          <a href="#" aria-label="Email" class="text-stripi-ink-mute hover:text-stripi-primary"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <h6 class="mb-4 text-sm font-light uppercase tracking-wider">Product</h6>
+        <ul class="space-y-3"><li><a href="#pricing" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Pricing</a></li><li><a href="#features" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Features</a></li><li><a href="#regulatory" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Security</a></li><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Status</a></li></ul>
+      </div>
+      <div>
+        <h6 class="mb-4 text-sm font-light uppercase tracking-wider">Developers</h6>
+        <ul class="space-y-3"><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Documentation</a></li><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">API Reference</a></li><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">SDKs</a></li><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Guides</a></li></ul>
+      </div>
+      <div>
+        <h6 class="mb-4 text-sm font-light uppercase tracking-wider">Company</h6>
+        <ul class="space-y-3"><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">About</a></li><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Blog</a></li><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Careers</a></li><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Press</a></li></ul>
+      </div>
+      <div>
+        <h6 class="mb-4 text-sm font-light uppercase tracking-wider">Legal</h6>
+        <ul class="space-y-3"><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Privacy</a></li><li><a href="#" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Terms</a></li><li><a href="#regulatory" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Compliance</a></li><li><a href="#cta" class="text-sm font-light text-stripi-ink-mute hover:text-stripi-primary">Contact</a></li></ul>
+      </div>
+    </div>
+    <div class="my-12 border-t border-stripi-hairline"></div>
+    <div class="flex flex-col items-center justify-between gap-4 text-sm font-light text-stripi-ink-mute md:flex-row">
+      <p>&copy; 2026 MERIDIAN. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-stripi-primary">Privacy Policy</a>
+        <a href="#" class="hover:text-stripi-primary">Terms of Service</a>
+        <a href="#" class="hover:text-stripi-primary">Cookie Settings</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu toggle
+  document.getElementById('menuBtn').addEventListener('click', () => {
+    document.getElementById('mobileMenu').classList.toggle('hidden');
+  });
+
+  // Close mobile menu on link click
+  document.querySelectorAll('#mobileMenu a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('mobileMenu').classList.add('hidden'));
+  });
+
+  // Comparison table
+  const cmpData = [
+    { f: 'Multi-Party Consensus', m: 1, s: 0, a: 1, c: 1 },
+    { f: 'HR-Specific Modules', m: 1, s: 1, a: 0, c: 0 },
+    { f: 'AI-Assisted Scoring', m: 1, s: 0, a: 0, c: 0 },
+    { f: 'Auto-Slashing Accountability', m: 1, s: 0, a: 1, c: 0 },
+    { f: 'Permissioned Architecture', m: 1, s: 0, a: 0, c: 1 },
+    { f: 'Vietnam Data Localisation', m: 1, s: 1, a: 0, c: 0 },
+    { f: 'Immutable Audit Trails', m: 1, s: 0, a: 1, c: 1 },
+    { f: 'Tamper-Proof Records', m: 1, s: 0, a: 1, c: 1 },
+    { f: 'Admin-Level Manipulation Risk', m: 0, s: 1, a: 0, c: 0 },
+    { f: 'Public Chain Compatibility', m: 0, s: 0, a: 1, c: 0 },
+  ];
+  const check = '<svg class="mx-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#533afd" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const checkMute = '<svg class="mx-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>';
+  const cross = '<svg class="mx-auto" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#64748d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+  const cmpBody = document.getElementById('cmpBody');
+  cmpData.forEach((r, i) => {
+    const tr = document.createElement('tr');
+    tr.className = i % 2 === 0 ? 'bg-white' : 'bg-stripi-canvas-soft';
+    tr.innerHTML = `
+      <td class="py-4 pr-4 font-light">${r.f}</td>
+      <td class="py-4 pr-4 text-center">${r.m ? check : cross}</td>
+      <td class="py-4 pr-4 text-center">${r.s ? checkMute : cross}</td>
+      <td class="py-4 pr-4 text-center">${r.a ? checkMute : cross}</td>
+      <td class="py-4 text-center">${r.c ? checkMute : cross}</td>
+    `;
+    cmpBody.appendChild(tr);
+  });
+
+  // FAQ
+  const faqs = [
+    { q: 'What is MERIDIAN and how does it solve information asymmetry?', a: 'MERIDIAN is a permissioned blockchain-AI governance platform that combines multi-signature consensus, AI-assisted scoring, and immutable audit trails. It solves information asymmetry by making large-scale fraud structurally infeasible: orchestrating falsified records requires collusion across three independent signatories (CEO, Chairman, Department Head) per transaction, with real-time AI anomaly detection flagging deviations.' },
+    { q: 'What is the difference between PERFORM and MERIDIAN tokens?', a: 'PERFORM (PRFM) is an internal utility token minted upon KPI verification and burned upon VND redemption at 1:1 parity. It fails the Howey test for security status and operates outside Resolution 05 Article 3.2 scope. MERIDIAN (MERI) is a governance token with fixed supply (100M), enabling voting on platform parameters and earning 30% of commission quarterly. MERIDIAN passes utility-governance hybrid classification under regulated sandbox rules.' },
+    { q: 'Is MERIDIAN compliant with Vietnamese regulations?', a: 'Yes. MERIDIAN operates under Resolution 05/2025/NQ-CP sandbox pathway: PERFORM qualifies as internal utility (outside CASP licensing), MERIDIAN qualifies under DTI Law sandbox. Hyperledger on-shore hosting satisfies Decree 13/2023 data localisation. VND redemption via licensed partners (MoMo, VNPay) complies with Labor Code Article 90. The platform is designed specifically for Vietnam\'s regulatory environment.' },
+    { q: 'How does the multi-signature verification process work?', a: 'When an employee submits a KPI report, it requires independent approval from three signatories: CEO, Chairman, and Department Head. Each must cryptographically sign the transaction. If any signer detects anomalies (flagged by AI), the process halts. Only after all three approvals does the smart contract execute and record the transaction immutably on the blockchain. This eliminates single-point-of-failure vulnerabilities.' },
+    { q: 'What is the energy consumption compared to traditional systems?', a: 'MERIDIAN uses Hyperledger Fabric with Proof-of-Authority consensus, consuming 0.001 kWh per transaction versus Bitcoin\'s 707 kWh (707,000× lower). For 100,000 annual transactions, MERIDIAN emits ~0.05 tCO₂e compared to ~4 tCO₂e from equivalent on-premises bank data centers (80× reduction). At national scale of 200 firms by 2030, cumulative avoided emissions reach ~790 tCO₂e annually.' },
+    { q: 'How is MERIDIAN different from existing HR platforms like SAP?', a: 'SAP HRM optimises administrative throughput but remains vulnerable to administrator-level manipulation. MERIDIAN adds multi-party consensus, immutable audit trails, and AI anomaly detection — making fraud structurally infeasible. Unlike public blockchains (Aragon), MERIDIAN is permissioned and HR-specific. Unlike enterprise blockchains (Corda), MERIDIAN includes AI-assisted scoring and auto-slashing mechanisms.' },
+    { q: 'What happens if an employee\'s KPI data is flagged as anomalous?', a: 'When AI detects anomalies (deviations in real-time data, pattern inconsistencies, or integrity issues), the verification process halts and the transaction is flagged for manual review. No auto-slashing occurs without human oversight. This preserves harmony while delivering accountability — a key design principle for Vietnam\'s hierarchical business culture.' },
+    { q: 'How is MERIDIAN funded and what is the ICO structure?', a: 'MERIDIAN raises capital through a 5-stage ICO: Stage 1 (Months 1–3): Whitepaper + audits (~USD 50k cost). Stage 2 (Months 4–6): Private sale 15M tokens at USD 0.50 (USD 7.5M raised). Stage 3 (Months 7–9): Public sale 25M tokens at USD 1.00 with KYC (USD 25M raised). Stage 4 (Months 10–12): Exchange listing. Stage 5 (Month 13+): Staking + governance. Team tokens vest over 4 years, preventing day-1 dumps.' },
+    { q: 'What is the pricing model for enterprises?', a: 'MERIDIAN uses tier-based perpetual licensing: Startup (50–100 employees): USD 50–75k. Professional (100–250 employees): USD 75–120k. Enterprise (250–500 employees): USD 120–200k. Annual maintenance is 15–20% of license fee. Settlement commission is 1.0% standard (0.5% for high-volume firms exceeding USD 1M monthly). Minimum transaction is USD 100.' },
+    { q: 'How does MERIDIAN support UN Sustainable Development Goals?', a: 'MERIDIAN advances SDG 13 (Climate Action) through 80× lower emissions than traditional data centers. It supports SDG 7 (Clean Energy) by eliminating mining hardware cycles. Most critically, it advances SDG 16 (Peace & Justice): multi-signature consensus + immutable audit trails make Vạn Thịnh Phát-style fraud structurally infeasible, supporting Vietnam\'s anti-corruption "burning furnace" campaign and institutional integrity.' },
+  ];
+  const faqList = document.getElementById('faqList');
+  faqs.forEach(({ q, a }) => {
+    const d = document.createElement('details');
+    d.className = 'card';
+    d.innerHTML = `
+      <summary class="flex w-full items-start justify-between gap-4 text-left">
+        <h5 class="text-lg font-light leading-snug">${q}</h5>
+        <svg class="chevron mt-1 h-5 w-5 flex-shrink-0 text-stripi-primary" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+      </summary>
+      <div class="mt-4 border-t border-stripi-hairline pt-4">
+        <p class="text-base font-light leading-relaxed text-stripi-ink-secondary">${a}</p>
+      </div>
+    `;
+    faqList.appendChild(d);
+  });
+
+  // Subscribe form
+  document.getElementById('subscribeForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    e.target.classList.add('hidden');
+    document.getElementById('subscribeOk').classList.remove('hidden');
+    setTimeout(() => {
+      e.target.classList.remove('hidden');
+      e.target.reset();
+      document.getElementById('subscribeOk').classList.add('hidden');
+    }, 4000);
+  });
+
+  // ============================================================
+  // 3D scroll-driven motion engine
+  // ============================================================
+  (function () {
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReduced) return;
+
+    // -- 1. Auto-tag elements with data-reveal so animations fire on scroll --
+    // (h2 + first sibling <p> are handled by the word-split pass below)
+
+    // Cards — alternate left/right/zoom/flip for visual variety
+    const cardVariants = ['up', 'flip', 'left', 'right', 'zoom'];
+    document.querySelectorAll('.card, .card-cream, .card-dark').forEach((card, i) => {
+      if (!card.hasAttribute('data-reveal')) {
+        card.setAttribute('data-reveal', cardVariants[i % cardVariants.length]);
+      }
+      card.classList.add('tilt-on-scroll');
+    });
+
+    // Grids that hold cards get stagger
+    document.querySelectorAll('.grid').forEach((g) => {
+      if (g.querySelector(':scope > .card, :scope > .card-cream, :scope > .card-dark')) {
+        g.setAttribute('data-stagger', '');
+      }
+    });
+
+    // -- 2. IntersectionObserver: add .is-in when 12% visible --
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+
+    // -- 3. Global scroll progress as --scroll on :root (0 → 1) --
+    let scrollRaf = null;
+    const updateScroll = () => {
+      const max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+      const p = Math.min(1, Math.max(0, window.scrollY / max));
+      document.documentElement.style.setProperty('--scroll', p.toFixed(4));
+
+      // Per-card tilt: lean cards based on their viewport position
+      const tilts = document.querySelectorAll('.tilt-on-scroll');
+      const vh = window.innerHeight;
+      tilts.forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.bottom < -200 || r.top > vh + 200) return;
+        // -1 at top of viewport, 0 at center, +1 at bottom
+        const rel = ((r.top + r.height / 2) - vh / 2) / (vh / 2);
+        const clamped = Math.max(-1, Math.min(1, rel));
+        const rotX = (-clamped * 6).toFixed(2);   // tilt forward/back
+        const rotY = (clamped * 1.5).toFixed(2);  // tiny yaw
+        const tz   = (-Math.abs(clamped) * 30).toFixed(1); // push back at edges
+        el.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${tz}px)`;
+      });
+      scrollRaf = null;
+    };
+    const onScroll = () => {
+      if (scrollRaf) return;
+      scrollRaf = requestAnimationFrame(updateScroll);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    updateScroll();
+
+    // -- 4. Word-split for text reveals (h2, big paragraphs) --
+    const splitWords = (el) => {
+      if (el.dataset.wordSplit) return;
+      el.dataset.wordSplit = '1';
+      const text = el.textContent;
+      el.textContent = '';
+      text.split(/(\s+)/).forEach((chunk) => {
+        if (/^\s+$/.test(chunk)) {
+          el.appendChild(document.createTextNode(' '));
+        } else if (chunk.length) {
+          const span = document.createElement('span');
+          span.className = 'word';
+          span.textContent = chunk;
+          el.appendChild(span);
+        }
+      });
+      el.classList.add('reveal-text');
+    };
+
+    // -- Letter-split for the MERIDIAN wordmark --
+    document.querySelectorAll('.title-letters').forEach((el) => {
+      if (el.dataset.letterSplit) return;
+      el.dataset.letterSplit = '1';
+      const text = el.textContent;
+      el.textContent = '';
+      [...text].forEach((ch) => {
+        const span = document.createElement('span');
+        span.className = 'letter';
+        span.textContent = ch === ' ' ? '\u00A0' : ch;
+        el.appendChild(span);
+      });
+      // Hero is always in viewport on load — fire immediately so users see the wordmark
+      requestAnimationFrame(() => el.classList.add('is-in'));
+    });
+
+    // Reveal hero supporting text unconditionally (runs even if no title-letters present)
+    requestAnimationFrame(() => document.body.classList.add('hero-loaded'));
+
+    // Fallback: anything already on screen at page load should be revealed without waiting for IO
+    requestAnimationFrame(() => {
+      const vh = window.innerHeight;
+      document.querySelectorAll('[data-reveal], .reveal-text, .pop-in').forEach((el) => {
+        const r = el.getBoundingClientRect();
+        if (r.top < vh && r.bottom > 0) {
+          el.classList.add('is-in');
+          io.unobserve(el);
+        }
+      });
+    });
+
+    // Apply word-split to all section h2 headings and their immediate sibling subtitles
+    document.querySelectorAll('section h2').forEach(splitWords);
+    document.querySelectorAll('section h2 + p').forEach((p) => {
+      // Only split short subtitles, not body paragraphs (keep them as pop-in)
+      if (p.textContent.length < 160) splitWords(p);
+      else p.classList.add('pop-in');
+    });
+
+    // Make remaining long paragraphs pop in
+    document.querySelectorAll('section p').forEach((p) => {
+      if (!p.classList.contains('reveal-text') && !p.classList.contains('pop-in') && !p.closest('.card, .card-cream, .card-dark, details')) {
+        p.classList.add('pop-in');
+      }
+    });
+
+    // Re-observe newly tagged elements
+    document.querySelectorAll('.reveal-text, .pop-in').forEach((el) => io.observe(el));
+
+    // Observe the value-flow canvas with a dedicated observer (its height exceeds the
+    // main IO's threshold geometry, so it needs simpler rules to fire reliably)
+    const flowIo = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.classList.add('is-in');
+          flowIo.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+    document.querySelectorAll('.flow-canvas').forEach((el) => {
+      // If already in viewport (e.g. anchor-loaded), fire immediately
+      const r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) {
+        el.classList.add('is-in');
+      } else {
+        flowIo.observe(el);
+      }
+    });
+  })();
+</script>
+
+</body>
+</html>
