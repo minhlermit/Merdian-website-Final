@@ -1,6 +1,6 @@
 import type { SVGProps } from 'react';
 
-type Name = 'arrow' | 'arrowUp' | 'search' | 'spark' | 'layers' | 'grid' | 'close' | 'download' | 'upload' | 'play' | 'check' | 'copy' | 'external' | 'shield' | 'menu' | 'chevron' | 'file' | 'refresh' | 'info' | 'filter' | 'wallet' | 'lock';
+type Name = 'arrow' | 'arrowUp' | 'search' | 'spark' | 'layers' | 'grid' | 'close' | 'download' | 'upload' | 'play' | 'check' | 'copy' | 'external' | 'shield' | 'menu' | 'chevron' | 'file' | 'refresh' | 'info' | 'filter' | 'wallet' | 'lock' | 'pause' | 'plus';
 const paths: Record<Name, React.ReactNode> = {
   arrow: <><path d="M4 12h16"/><path d="m14 6 6 6-6 6"/></>,
   arrowUp: <><path d="M5 19 19 5"/><path d="M8 5h11v11"/></>,
@@ -23,6 +23,8 @@ const paths: Record<Name, React.ReactNode> = {
   info: <><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7h.01"/></>,
   filter: <><path d="M3 5h18M6 12h12M10 19h4"/></>,
   wallet: <><rect x="3" y="5" width="18" height="15" rx="2"/><path d="M3 9V5a2 2 0 0 1 2-2h13M15 12h6v5h-6a2.5 2.5 0 0 1 0-5Z"/><path d="M16 14.5h.01"/></>,
+  pause: <><path d="M8 5v14M16 5v14"/></>,
+  plus: <><path d="M12 5v14M5 12h14"/></>,
   lock: <><rect x="4" y="10" width="16" height="12" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 15v3"/></>,
 };
 

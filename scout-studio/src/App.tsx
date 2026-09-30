@@ -1,13 +1,21 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { CandidateCard } from './components/CandidateCard';
 import { DetailPanel } from './components/DetailPanel';
+import { Dialog } from './components/Dialog';
+import { FAQ } from './components/FAQ';
 import { Hero } from './components/Hero';
 import { Icon } from './components/Icons';
+import { Plans } from './components/Plans';
+import { SceneLayer } from './components/SceneLayer';
+import { SiteFooter } from './components/SiteFooter';
+import { SiteHeader, type NavTarget } from './components/SiteHeader';
 import { Story } from './components/Story';
-import { BrandCursor, OpeningSequence, useReveal } from './components/Motion';
+import { ValueSection } from './components/ValueSection';
+import { BrandCursor, useReveal } from './components/Motion';
 import { RunExperience } from './components/RunExperience';
 import { WalletPanel } from './components/WalletPanel';
 import { GetMC } from './components/GetMC';
+import { sceneBridge } from './scene/bridge';
 import { clearPayload, fetchLocal, savePayload, savedPayload, validPayload } from './lib/data';
 import { countdown, emptyDemo, freshDemo, isCurrent, windowStart } from './lib/cycle';
 import { useWallet } from './lib/wallet';
@@ -15,6 +23,9 @@ import { money, relativeTime } from './lib/format';
 import type { Candidate, ScoutPayload } from './types';
 import './style.css';
 import './enhancements.css';
+import './styles/fonts.css';
+import './styles/tokens.css';
+import './styles/site.css';
 
 type Filter = 'all' | 'research' | 'watch' | 'risk';
 type Sort = 'signal' | 'liquidity' | 'recent';
@@ -30,7 +41,8 @@ function rating(value: string): string {
 }
 
 export default function App() {
-  const consoleRef = useRef<HTMLElement>(null), storyRef = useRef<HTMLDivElement>(null), plansRef = useRef<HTMLElement>(null), assetsRef = useRef<HTMLElement>(null), fileRef = useRef<HTMLInputElement>(null);
+  const consoleRef = useRef<HTMLElement | null>(null), storyRef = useRef<HTMLElement>(null), plansRef = useRef<HTMLElement>(null), productRef = useRef<HTMLElement>(null), faqRef = useRef<HTMLElement>(null), fileRef = useRef<HTMLInputElement>(null);
+  const consoleSlot = useCallback((el: HTMLElement | null) => { consoleRef.current = el; sceneBridge.slot('console')(el); }, []);
   const [data,setData] = useState<ScoutPayload>(() => savedPayload() || (localStorage.getItem('scout-demo-cleared-window-v1')===String(windowStart()) ? emptyDemo() : freshDemo()));
   const [bridge,setBridge] = useState(false), [running,setRunning] = useState(false);
   const [query,setQuery] = useState(''), [filter,setFilter] = useState<Filter>('all'), [sort,setSort] = useState<Sort>('signal');
@@ -42,7 +54,15 @@ export default function App() {
   const wallet = useWallet();
   useReveal();
   const scroll = (ref: React.RefObject<HTMLElement|null>) => ref.current?.scrollIntoView({behavior:'smooth',block:'start'});
+  const navigate = (target: NavTarget) => scroll({product:productRef,story:storyRef,console:consoleRef,plans:plansRef,faq:faqRef}[target]);
 
+  useEffect(() => {
+    // Direct links such as /#console land on the section once the page has rendered.
+    const id = decodeURIComponent(window.location.hash.slice(1));
+    if (!id) return;
+    const frame = requestAnimationFrame(() => document.getElementById(id)?.scrollIntoView({block:'start'}));
+    return () => cancelAnimationFrame(frame);
+  }, []);
   useEffect(() => {
     let disposed = false;
     fetchLocal().then(payload => {
@@ -77,12 +97,6 @@ export default function App() {
     },1000);
     return ()=>clearInterval(id);
   },[data.generated]);
-  useEffect(() => {
-    if (!active && !compareOpen && !reportOpen && !setupOpen && !runOpen && !walletOpen && !mcOpen) return;
-    const onKey = (event:KeyboardEvent) => { if (event.key === 'Escape') {setActive(null);setCompareOpen(false);setReportOpen(false);setSetupOpen(false);setRunOpen(false);setWalletOpen(false);setMcOpen(false);} };
-    window.addEventListener('keydown',onKey); document.body.classList.add('modal-open');
-    return () => { window.removeEventListener('keydown',onKey); document.body.classList.remove('modal-open'); };
-  }, [active,compareOpen,reportOpen,setupOpen,runOpen,walletOpen,mcOpen]);
 
   const candidates = useMemo(() => data.candidates.filter(c => {
     const match = `${c.symbol} ${c.name} ${c.pair} ${c.address}`.toLowerCase().includes(query.trim().toLowerCase());
@@ -133,13 +147,19 @@ export default function App() {
   };
 
   return <>
-    <OpeningSequence/><BrandCursor/>
-    <Hero onExplore={()=>scroll(consoleRef)} onStory={()=>scroll(storyRef)} onPlans={()=>scroll(plansRef)} onAssets={()=>scroll(assetsRef)} onWallet={()=>setWalletOpen(true)} onGetMC={()=>setMcOpen(true)} walletLabel={wallet.address?`${wallet.address.slice(0,5)}…${wallet.address.slice(-4)}`:'Connect wallet'}/>
-    <main>
-      <div ref={storyRef}><Story onRun={runScout} onConsole={()=>scroll(consoleRef)} live={bridge}/></div>
-      <section className="console-section" id="console" ref={consoleRef}>
+    <a className="skip-link" href="#console" onClick={e=>{e.preventDefault();scroll(consoleRef);}}>Skip to the console</a>
+    <BrandCursor/>
+    <SceneLayer/>
+    <SiteHeader onNavigate={navigate} onWallet={()=>setWalletOpen(true)} onGetMC={()=>setMcOpen(true)} connected={Boolean(wallet.address)} walletLabel={wallet.address?`${wallet.address.slice(0,5)}…${wallet.address.slice(-4)}`:'Connect wallet'}/>
+    <main id="main">
+      <div className="scene-zone" ref={sceneBridge.slot('zone')}>
+        <Hero onStory={()=>scroll(storyRef)} onConsole={()=>scroll(consoleRef)}/>
+        <ValueSection sectionRef={productRef}/>
+        <Story sectionRef={storyRef} onRun={runScout} onConsole={()=>scroll(consoleRef)} live={bridge}/>
+      </div>
+      <section className="console-section" id="console" ref={consoleSlot} aria-labelledby="console-title">
         <div className="wrap-wide">
-          <div className="section-intro" data-reveal><div><div className="kicker"><span>02 / THE CONSOLE</span><span className="kicker-rule"/></div><h2>Less noise.<br/><em>More signal.</em></h2></div><p>Scan the market, follow meaningful changes, then inspect the evidence before forming a view.</p></div>
+          <div className="console-intro" data-reveal><div><p className="label">The console</p><h2 id="console-title">Less noise.<br/>More signal.</h2></div><p className="section-lede">The cinematic part is over. This is the workspace: scan the board, follow meaningful changes, then inspect the evidence before forming a view.</p></div>
           <div className="console-shell">
             <div className="console-topbar"><div className="console-title"><span className="terminal-icon"><Icon name="grid" size={19}/></span><div><strong>SCOUT / CONTROL ROOM</strong><small>ROBINHOOD CHAIN <span>·</span> NETWORK 4663</small></div></div><div className="console-status"><span className={`status-dot ${data.source==='demo'?'demo-dot':''}`}/><span>{data.source==='demo'?'DEMO SCENARIO':data.source==='local'?'LOCAL DATA':'IMPORTED SNAPSHOT'}</span><span className="status-date">{relativeTime(data.generated)}</span></div></div>
             {data.source==='demo'&&<div className="demo-banner"><Icon name="info" size={17}/><span><b>Fictional interface demo.</b> {data.candidates.length?'The current candidates stay until the next six-hour reset. Names and numbers are invented.':'The previous candidates were cleared at the six-hour reset. Run the demo to explore the example set again.'} A local Scout run or fresh export supplies research data.</span></div>}
@@ -155,22 +175,17 @@ export default function App() {
           </div>
         </div>
       </section>
-      <section className="economy-section" id="mc" ref={plansRef}>
-        <div className="wrap-wide"><div className="economy-head" data-reveal><div className="kicker"><span>03 / THE MC IDEA</span><span className="kicker-rule"/></div><h2>More depth.<br/><em>On your terms.</em></h2><p>Read the public board for free. A premium subscription could grant MC for focused research, with the cost shown before each command.</p></div>
-          <div className="economy-grid" data-reveal><div className="economy-card"><span>01 / PUBLIC BOARD</span><h3>Explorer</h3><strong>Free</strong><p>Six-hour candidate rotation, open evidence and the guided Scout demo.</p><button onClick={()=>scroll(consoleRef)}>Explore candidates <Icon name="arrowUp" size={17}/></button></div><div className="economy-card is-highlighted"><span>02 / INDIVIDUAL RESEARCH</span><h3>Researcher</h3><strong>300 <small>MC / month</small></strong><p>Concept allocation for targeted jobs, deeper investigations and memo history.</p><button onClick={()=>setMcOpen(true)}>Get MC <Icon name="arrowUp" size={17}/></button></div><div className="economy-card"><span>03 / TEAM WORKSPACE</span><h3>Studio</h3><strong>1,200 <small>MC / month</small></strong><p>Concept allocation for shared research, batch work and collaborative review.</p><button onClick={()=>setMcOpen(true)}>Explore plans <Icon name="arrowUp" size={17}/></button></div></div>
-          <div className="economy-note" data-reveal><span>MC / COMMAND ECONOMY</span><p>Quote → confirm → run → verify → burn MC. When MC runs out, a user can choose a wallet top-up and confirm its cost. Prices, payments, balances and burns are not active in this preview.</p><button onClick={()=>setMcOpen(true)}>View usage concept <Icon name="arrow" size={17}/></button></div>
-        </div>
-      </section>
-      <section className="assets-section" id="assets" ref={assetsRef}><div className="wrap-wide"><div className="kicker"><span>04 / ASSET LAB</span><span className="kicker-rule"/></div><div className="assets-heading"><h2>Built in pieces.<br/><em>Made to evolve.</em></h2><p>Each visual lives as its own asset. The interface, content and research engine remain separate so each piece can be revised on its own.</p></div><div className="asset-grid"><div className="asset-card avatar-preview"><img src="/assets/scout-avatar-3d.png" alt="3D character preview"/><div><span>01 / HERO CHARACTER</span><b>Scout in 3D</b></div></div><div className="asset-card orbit-preview"><img src="/assets/signal-orbit-3d.png" alt="3D signal orbit preview"/><div><span>02 / OBJECT STUDY</span><b>The signal orbit</b></div></div><div className="asset-card pixel-preview"><img src="/assets/scout-mascot-pixel.png" alt="Pixel mascot preview"/><div><span>03 / LOADING MASCOT</span><b>Scout, pixel edition</b></div></div></div></div></section>
+      <Plans sectionRef={plansRef} onConsole={()=>scroll(consoleRef)} onGetMC={()=>setMcOpen(true)}/>
+      <FAQ sectionRef={faqRef}/>
     </main>
-    <footer className="site-footer"><div className="wrap-wide"><span className="footer-logo">stockscout<span>✳</span></span><p>Follow the signal. Keep the proof.</p><button onClick={()=>window.scrollTo({top:0,behavior:'smooth'})}>BACK TO TOP ↑</button><small>RESEARCH STUDIO © 2026 · NOT INVESTMENT ADVICE</small></div></footer>
+    <SiteFooter onNavigate={navigate}/>
     {runOpen&&<RunExperience onClose={()=>setRunOpen(false)} onExplore={()=>{setRunOpen(false);localStorage.removeItem('scout-demo-cleared-window-v1');if(data.source==='demo'&&data.candidates.length===0)setData(freshDemo());scroll(consoleRef);}}/>}
     {walletOpen&&<WalletPanel wallet={wallet} onClose={()=>setWalletOpen(false)} onGetMC={()=>setMcOpen(true)}/>}
     {mcOpen&&<GetMC onClose={()=>setMcOpen(false)} onWallet={()=>setWalletOpen(true)} onExplore={()=>{setMcOpen(false);scroll(consoleRef);}} connected={Boolean(wallet.address)}/>}
     {selected.length>0&&<div className="compare-dock"><span><Icon name="layers" size={19}/> {selected.length}/3 selected</span><div className="selected-pills">{selectedCandidates.map(c=><span key={c.address}>{c.symbol}<button onClick={()=>setSelected(old=>old.filter(x=>x!==c.address))} aria-label={`Remove ${c.symbol}`}><Icon name="close" size={12}/></button></span>)}</div><button className="button-primary" onClick={()=>setCompareOpen(true)} disabled={selected.length<2}>Compare <Icon name="arrow" size={16}/></button></div>}
     {active&&<DetailPanel candidate={active} onClose={()=>setActive(null)} onReport={openReport} hasReport={Boolean(reportHtml||data.reportAvailable)}/>}
-    {compareOpen&&<div className="overlay modal-center" onMouseDown={e=>{if(e.target===e.currentTarget)setCompareOpen(false);}}><div className="modal compare-modal" role="dialog" aria-modal="true" aria-label="Compare candidates"><div className="modal-head"><div><span>RESEARCH SIDE BY SIDE</span><h2>Compare signals.</h2></div><button onClick={()=>setCompareOpen(false)} aria-label="Close comparison"><Icon name="close"/></button></div><div className="compare-table"><div className="compare-labels"><span>TOKEN</span><span>PAIR</span><span>VERDICT</span><span>LIQUIDITY</span><span>24H VOLUME</span><span>HOLDERS</span><span>TOP 10 EOA</span><span>EXIT RISK</span><span>EVIDENCE ITEMS</span></div>{selectedCandidates.map(c=><div className="compare-column" key={c.address}><strong>{c.symbol}<small>{c.name}</small></strong><span>{c.pair}</span><span>{rating(c.verdict)}</span><span>{money(c.liquidity)}</span><span>{money(c.volume24)}</span><span>{c.holders?.toLocaleString()??'—'}</span><span>{c.top10==null?'—':`${c.top10}%`}</span><span className={`risk-text risk-${c.exitRisk.toLowerCase()}`}>{c.exitRisk}</span><span>{c.evidence.length}</span></div>)}</div><p>Scores and risk floors come from the original Scout when local data is connected. Comparisons are research aids, not rankings to buy.</p></div></div>}
-    {reportOpen&&<div className="overlay modal-center" onMouseDown={e=>{if(e.target===e.currentTarget)setReportOpen(false);}}><div className="modal report-modal" role="dialog" aria-modal="true" aria-label="Investor report"><div className="modal-head"><div><span>INVESTOR REPORT / {data.runId||'IMPORTED'}</span><h2>Research memo.</h2></div><div className="modal-tools">{reportHtml&&<button onClick={()=>download('stock-scout-investor-report.html',reportHtml,'text/html')}><Icon name="download" size={17}/> Download</button>}<button onClick={()=>setReportOpen(false)} aria-label="Close report"><Icon name="close"/></button></div></div>{reportHtml?<iframe title="Investor report" srcDoc={reportHtml} sandbox="allow-popups" referrerPolicy="no-referrer"/>:<div className="report-empty"><Icon name="file" size={32}/><h3>No report loaded yet.</h3><p>Import a `latest.html` file from the original Scout to read it here.</p><button className="button-primary" onClick={()=>{setReportOpen(false);fileRef.current?.click();}}>Import HTML report <Icon name="upload" size={16}/></button></div>}</div></div>}
-    {setupOpen&&<div className="overlay modal-center" onMouseDown={e=>{if(e.target===e.currentTarget)setSetupOpen(false);}}><div className="modal setup-modal" role="dialog" aria-modal="true" aria-label="Connect local Scout"><div className="modal-head"><div><span>CONNECT THE RESEARCH CORE</span><h2>Run the real Scout.</h2></div><button onClick={()=>setSetupOpen(false)} aria-label="Close setup"><Icon name="close"/></button></div><p>The hosted site cannot run a local Python/Claude Code cycle. Start the bundled bridge on your own computer, or import a JSON export and HTML report. No wallet connection is needed.</p><div className="code-block"><span>TERMINAL 01</span><code>python3 bridge/server.py</code><span>TERMINAL 02</span><code>npm run dev</code><span>CREATE A SHAREABLE SNAPSHOT</span><code>python3 bridge/export.py --out scout-export.json</code></div><button className="button-primary" onClick={()=>{setSetupOpen(false);fileRef.current?.click();}}>Import existing export <Icon name="upload" size={16}/></button></div></div>}
+    {compareOpen&&<Dialog label="Compare candidates" className="modal compare-modal" onClose={()=>setCompareOpen(false)}>{close=><><div className="modal-head"><div><span>RESEARCH SIDE BY SIDE</span><h2>Compare signals.</h2></div><button onClick={close} aria-label="Close comparison"><Icon name="close"/></button></div><div className="compare-table"><div className="compare-labels"><span>TOKEN</span><span>PAIR</span><span>VERDICT</span><span>LIQUIDITY</span><span>24H VOLUME</span><span>HOLDERS</span><span>TOP 10 EOA</span><span>EXIT RISK</span><span>EVIDENCE ITEMS</span></div>{selectedCandidates.map(c=><div className="compare-column" key={c.address}><strong>{c.symbol}<small>{c.name}</small></strong><span>{c.pair}</span><span>{rating(c.verdict)}</span><span>{money(c.liquidity)}</span><span>{money(c.volume24)}</span><span>{c.holders?.toLocaleString()??'—'}</span><span>{c.top10==null?'—':`${c.top10}%`}</span><span className={`risk-text risk-${c.exitRisk.toLowerCase()}`}>{c.exitRisk}</span><span>{c.evidence.length}</span></div>)}</div><p>Scores and risk floors come from the original Scout when local data is connected. Comparisons are research aids, not rankings to buy.</p></>}</Dialog>}
+    {reportOpen&&<Dialog label="Investor report" className="modal report-modal" onClose={()=>setReportOpen(false)}>{close=><><div className="modal-head"><div><span>INVESTOR REPORT / {data.runId||'IMPORTED'}</span><h2>Research memo.</h2></div><div className="modal-tools">{reportHtml&&<button onClick={()=>download('stock-scout-investor-report.html',reportHtml,'text/html')}><Icon name="download" size={17}/> Download</button>}<button onClick={close} aria-label="Close report"><Icon name="close"/></button></div></div>{reportHtml?<iframe title="Investor report" srcDoc={reportHtml} sandbox="allow-popups" referrerPolicy="no-referrer"/>:<div className="report-empty"><Icon name="file" size={32}/><h3>No report loaded yet.</h3><p>Import a `latest.html` file from the original Scout to read it here.</p><button className="button-primary" onClick={()=>{close();fileRef.current?.click();}}>Import HTML report <Icon name="upload" size={16}/></button></div>}</>}</Dialog>}
+    {setupOpen&&<Dialog label="Connect local Scout" className="modal setup-modal" onClose={()=>setSetupOpen(false)}>{close=><><div className="modal-head"><div><span>CONNECT THE RESEARCH CORE</span><h2>Run the real Scout.</h2></div><button onClick={close} aria-label="Close setup"><Icon name="close"/></button></div><p>The hosted site cannot run a local Python/Claude Code cycle. Start the bundled bridge on your own computer, or import a JSON export and HTML report. No wallet connection is needed.</p><div className="code-block"><span>TERMINAL 01</span><code>python3 bridge/server.py</code><span>TERMINAL 02</span><code>npm run dev</code><span>CREATE A SHAREABLE SNAPSHOT</span><code>python3 bridge/export.py --out scout-export.json</code></div><button className="button-primary" onClick={()=>{close();fileRef.current?.click();}}>Import existing export <Icon name="upload" size={16}/></button></>}</Dialog>}
   </>;
 }

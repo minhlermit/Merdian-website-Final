@@ -3,6 +3,7 @@ import type { Candidate, EvidenceLevel } from '../types';
 import { compact, money, relativeTime, safeLink, shortAddress } from '../lib/format';
 import { Icon } from './Icons';
 import { Sparkline } from './Sparkline';
+import { Dialog } from './Dialog';
 
 const evidenceNames: Record<EvidenceLevel,string> = {VERIFIED_ONCHAIN:'ON-CHAIN VERIFIED',VERIFIED_OFFCHAIN:'OFF-CHAIN VERIFIED',LIKELY:'LIKELY',UNCONFIRMED:'UNCONFIRMED',CONFLICT:'CONFLICT'};
 
@@ -10,8 +11,8 @@ export function DetailPanel({candidate:c, onClose, onReport, hasReport}: {candid
   const [copied,setCopied] = useState(false);
   const explorer = safeLink(c.links.explorer);
   const copy = async () => { try { await navigator.clipboard.writeText(c.address); setCopied(true); setTimeout(()=>setCopied(false),1800); } catch { /* clipboard unavailable */ } };
-  return <div className="overlay" onMouseDown={event => { if(event.target === event.currentTarget) onClose(); }}><aside className="detail-panel" role="dialog" aria-modal="true" aria-label={`${c.symbol} research`}>
-    <div className="panel-head"><span>RESEARCH FILE <b>/{c.symbol}</b></span><button onClick={onClose} aria-label="Close research"><Icon name="close" size={22}/></button></div>
+  return <Dialog label={`${c.symbol} research`} className="detail-panel" variant="drawer" onClose={onClose}>{close => <>
+    <div className="panel-head"><span>RESEARCH FILE <b>/{c.symbol}</b></span><button onClick={close} aria-label="Close research"><Icon name="close" size={22}/></button></div>
     <div className="panel-scroll"><div className="panel-identity"><div className="panel-icon">{c.symbol.slice(0,1)}</div><div><span>ROBINHOOD CHAIN / {c.pair} PAIR</span><h2>{c.symbol}<small>{c.name}</small></h2></div></div>
     <div className="panel-status"><span className={`risk-tag risk-${c.exitRisk.toLowerCase()}`}><i/>{c.exitRisk} EXIT RISK</span><span>{c.verdict.replace(/_/g,' ')} {c.scoreMax ? `· ${c.score}/${c.scoreMax}` : ''}</span><span>{c.researchStatus} {c.mode ? `· ${c.mode}`:''}</span></div>
     <div className="panel-chart"><Sparkline values={c.liquidityHistory} risk={c.exitRisk==='HIGH'||c.exitRisk==='CRITICAL'} id={`panel-${c.address.replace(/[^a-z0-9]/gi,'')}`}/><span>RECENT LIQUIDITY SNAPSHOTS</span></div>
@@ -22,5 +23,5 @@ export function DetailPanel({candidate:c, onClose, onReport, hasReport}: {candid
     <div className="panel-foot"><div><small>CONTRACT</small><button onClick={copy}>{shortAddress(c.address)} <Icon name={copied?'check':'copy'} size={14}/></button></div><div><small>UPDATED</small><span>{relativeTime(c.updated)}</span></div></div>
     <div className="panel-actions">{hasReport&&<button className="button-primary" onClick={onReport}>Read full investor report <Icon name="arrowUp" size={18}/></button>}{explorer&&<a href={explorer} target="_blank" rel="noopener noreferrer" className="button-outline">Explorer <Icon name="external" size={16}/></a>}</div>
     <p className="panel-disclaimer">Research only. Stock-paired tokens do not automatically convey stock ownership. Verify every claim before relying on it.</p></div>
-  </aside></div>;
+  </>}</Dialog>;
 }
