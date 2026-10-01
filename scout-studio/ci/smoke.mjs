@@ -6,6 +6,12 @@ const BASE = process.env.BASE || 'http://127.0.0.1:4173/';
 const OUT = process.argv[2] || 'ci-shots';
 fs.mkdirSync(OUT, { recursive: true });
 const results = [];
+// Screenshots are evidence, not assertions: a slow software-rendered frame must not fail the run.
+async function shot(page, path) {
+  try { await page.screenshot({ path, timeout: 120000, animations: 'disabled', caret: 'hide' }); }
+  catch (e) { console.log(`WARN  screenshot skipped (${path}): ${e.message.split('\n')[0]}`); }
+}
+
 const check = (name, ok, detail = "") => { const line = `${ok ? "PASS" : "FAIL"}  ${name}${detail ? " — " + detail : ""}`; results.push(line); console.log(line); };
 const GL = ['--use-gl=angle', '--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'];
 const browser = await chromium.launch({ args: GL });
@@ -58,7 +64,7 @@ const transforms = page => page.$$eval('.subject-stage .hotspot', els => els.map
   check('Capability selection gives visible feedback', (await page.locator('#scout-capabilities button[aria-pressed="true"]').count()) === 1 && (await page.locator('.hotspot.is-active').count()) === 1);
   const detail = await page.locator('.capability-detail').textContent();
   check('Capability detail text updates', /UTC 00:00/.test(detail || ''), (detail || '').slice(0, 60));
-  await page.screenshot({ path: `${OUT}/e2e-hotspot.png` });
+  await shot(page, `${OUT}/e2e-hotspot.png`);
   const visibleSpot = page.locator('.subject-stage .hotspot[data-visible="true"]').first();
   if (await visibleSpot.count()) { await visibleSpot.click({ force: true }); await page.waitForTimeout(400); check('Clicking a 3D hotspot selects it', (await page.locator('.hotspot.is-active').count()) <= 1); }
 
@@ -168,7 +174,7 @@ const transforms = page => page.$$eval('.subject-stage .hotspot', els => els.map
   await page.waitForTimeout(1500);
   check('WebGL failure shows the static fallback', (await page.locator('.scene-layer.is-fallback').count()) === 1 && await page.locator('.subject-poster').isVisible());
   check('Product works without 3D', (await page.locator('.candidate-card').count()) > 0 && errors.length === 0, errors.join(' | '));
-  await page.screenshot({ path: `${OUT}/e2e-fallback.png` });
+  await shot(page, `${OUT}/e2e-fallback.png`);
   await b2.close();
 }
 
@@ -182,7 +188,7 @@ const transforms = page => page.$$eval('.subject-stage .hotspot', els => els.map
   await page.goto(BASE + '?debug=scene', { waitUntil: 'networkidle' });
   await page.waitForSelector('.scene-layer.is-ready', { timeout: 180000 });
   await page.waitForTimeout(2500);
-  await page.screenshot({ path: `${OUT}/mobile-390.png` });
+  await shot(page, `${OUT}/mobile-390.png`);
   const cdp = await ctx.newCDPSession(page);
   const box = await page.locator('.subject-stage').boundingBox();
   const swipe = async (x0, y0, x1, y1) => {
@@ -222,7 +228,7 @@ for (const [w, h, dpr] of [[3840, 2160, 1], [1920, 1080, 2], [1440, 900, 2]]) {
   const text = (await page.locator('.scene-debug').textContent()).replace(/\n/g, ' | ');
   console.log(`INFO  ${w}×${h} @DPR${dpr}: ${text}`);
   if (w * dpr >= 3840) check(`${w}×${h} @DPR${dpr} renders a UHD buffer`, /buffer 3840×2160/.test(text));
-  if (w === 3840) await page.screenshot({ path: `${OUT}/hero-3840x2160.png` });
+  if (w === 3840) await shot(page, `${OUT}/hero-3840x2160.png`);
   await ctx.close();
 }
 
@@ -234,7 +240,7 @@ for (const [w, h, dpr] of [[3840, 2160, 1], [1920, 1080, 2], [1440, 900, 2]]) {
   await page.getByRole('button', { name: /Capture front/ }).click();
   await page.waitForTimeout(6000);
   check('Asset lab captures three angles', (await page.locator('.lab-angles img').count()) === 3);
-  await page.screenshot({ path: `${OUT}/lab.png` });
+  await shot(page, `${OUT}/lab.png`);
   check('Asset lab without uncaught errors', errors.length === 0, errors.join(' | '));
   await ctx.close();
 }

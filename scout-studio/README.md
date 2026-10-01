@@ -25,13 +25,13 @@ Yêu cầu Node 20.19+ hoặc 22.12+ / Node 24, Python 3.9+.
 
 ```bash
 cd scout-studio
-npm install        # lần đầu: thêm three và @types/three vào package-lock.json
+npm ci             # hoặc npm install
 npm run dev
 ```
 
 Mở `http://127.0.0.1:5173/` (trang chính) và `http://127.0.0.1:5173/lab` (Asset lab). Thêm `?debug=scene` vào URL để xem độ phân giải render thực tế (viewport, DPR, drawing buffer, bậc chất lượng).
 
-> **Lưu ý lockfile:** môi trường dựng bản này bị chặn truy cập npm registry nên `package-lock.json` chưa có mục cho `three`/`@types/three`. Chạy `npm install` một lần để cập nhật lockfile rồi commit lại; sau đó `npm ci` hoạt động bình thường. Vercel mặc định dùng `npm install` nên deploy không bị ảnh hưởng.
+> `package-lock.json` đã được GitHub Actions tạo lại bằng npm thật (commit `Update package-lock.json for three and @types/three`), nên `npm ci` cũng dùng được.
 
 Muốn xem dữ liệu Scout thật, mở **terminal thứ hai** trong `scout-studio`:
 
