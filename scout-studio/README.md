@@ -86,15 +86,31 @@ bridge/, research-core/     giữ nguyên
 
 ## Kiểm tra đã chạy (v3)
 
-Môi trường dựng **không truy cập được npm registry**, vì vậy chưa chạy được `npm install` / `npm run build` thật. Thay vào đó:
+**GitHub Actions** (`.github/workflows/scout-studio-check.yml`, chạy mỗi lần push lên nhánh `claude/**`) dùng npm thật:
 
-- **Type-check** toàn bộ `src/` bằng `tsc` với type definitions thật lấy từ GitHub (`@types/react`, `@types/react-dom` từ DefinitelyTyped, `@types/three` r185, three.js r185): không lỗi.
-- **Chạy thật trong Chromium headless** (WebGL phần mềm SwiftShader): bundle bằng Bun với three.js r185 thật; React được thay bằng Preact-compat (mã nguồn chính chủ từ GitHub) *chỉ trong harness test*. 30/30 kiểm tra end-to-end đạt: scene sẵn sàng và hotspot chiếu đúng; kéo chuột xoay, reset, phím mũi tên; Explore Scout, chọn năng lực có phản hồi; Get MC mở dialog, bẫy focus, Escape, trả focus; ví báo thiếu MetaMask; Run demo hoàn tất và chuyển tới console; drawer chi tiết; so sánh 2 ứng viên; lọc/tìm; export rồi import lại; từ chối export của cửa sổ trước; `/#console` vào thẳng console; đổi kích thước cửa sổ; **mốc reset 6 giờ UTC với đồng hồ giả** (board xóa, thông báo không nói là đã nghiên cứu mới); **tắt WebGL** → poster tĩnh, sản phẩm vẫn chạy; không có lỗi JavaScript chưa bắt.
-- **Cảm ứng 390×844 @DPR3**: vuốt ngang trên Scout xoay mà không cuộn trang; vuốt dọc trên Scout vẫn cuộn trang; không tràn ngang.
-- **Độ phân giải render đo được** (`?debug=scene`): viewport 3840×2160 @DPR1 → buffer **3840×2160**; 1920×1080 @DPR2 → **3840×2160**; 1440×900 @DPR2 → 2880×1800; 390×844 @DPR3 → 780×1688 (giới hạn thiết bị cầm tay). Đây là mô phỏng viewport trong trình duyệt headless, **không chứng minh hiệu năng trên màn hình 4K vật lý**; FPS trong môi trường này không có ý nghĩa vì GPU là phần mềm (~1,5 khung hình/giây khi render liên tục).
-- Kiểm tra quán tính kéo, giới hạn đàn hồi và reset trong harness riêng của engine.
-- Font: 77 ký tự tiếng Việt có dấu đều có glyph trong Geist và Geist Mono.
+- `npm install` → `npm run build` (`tsc -b && vite build`, React 19 + Vite 7.3): **thành công**. Bundle: trang chính 318 KB (100 KB gzip); chunk 3D `ScoutEngine` 589 KB (154 KB gzip), chỉ tải lazy sau first paint nên Vite có cảnh báo chunk > 500 KB. Đây là kích thước của three.js, nằm trong ngân sách 200 KB gzip.
+- `ci/smoke.mjs` chạy Chromium headless trên bản build production (`vite preview`): **40/40 kiểm tra đạt**.
+  - Scene 3D và hotspot; kéo chuột xoay, reset, phím mũi tên, Explore Scout, bấm hotspot.
+  - Dialog Get MC: bẫy focus, Escape, trả focus. Ví báo thiếu MetaMask.
+  - Run demo hoàn tất rồi chuyển sang console; drawer chi tiết; so sánh; lọc/tìm; export và import lại; từ chối export của cửa sổ trước; `/#console`.
+  - Mốc reset 6 giờ UTC với đồng hồ giả.
+  - Tắt WebGL → poster tĩnh, sản phẩm vẫn chạy.
+  - Cảm ứng 390×844: vuốt ngang xoay, vuốt dọc vẫn cuộn, không tràn ngang.
+  - Asset lab và chụp 3 góc.
+  - Không có lỗi JavaScript chưa bắt.
+- Độ phân giải render đo được (`?debug=scene`):
 
-Việc còn cần làm trên máy có npm: `npm install`, `npm run build`, mở bản dev để xem với React thật và GPU thật, rồi deploy preview lên Vercel (môi trường này không có quyền Vercel nên **chưa deploy**).
+| Viewport | Drawing buffer |
+|---|---|
+| 3840×2160 @DPR1 | **3840×2160** |
+| 1920×1080 @DPR2 | **3840×2160** |
+| 1440×900 @DPR2 | 2880×1800 |
+| 390×844 @DPR3 | 780×1688 (giới hạn thiết bị cầm tay) |
+
+Ảnh chụp của mỗi lần chạy nằm trong artifact `scout-studio-screenshots` ở trang Actions.
+
+Giới hạn còn lại: máy CI và trình duyệt headless dùng WebGL phần mềm nên **chưa đo được FPS hay hiệu năng trên GPU và màn hình 4K vật lý**. Hãy mở bản dev hoặc bản preview trên máy thật để đánh giá độ mượt. Font đã kiểm tra: 77 ký tự tiếng Việt có dấu đều có glyph trong Geist và Geist Mono.
+
+Chưa deploy Vercel (session dựng không có quyền Vercel).
 
 Đây là giao diện nghiên cứu, không phải công cụ giao dịch hay lời khuyên đầu tư. Điểm, giới hạn kết luận và mức rủi ro thoát hàng do luật trong core gốc tính; frontend chỉ hiển thị.
