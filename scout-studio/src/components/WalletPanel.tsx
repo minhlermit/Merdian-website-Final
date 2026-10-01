@@ -1,0 +1,16 @@
+import { Icon } from './Icons';
+import { Dialog } from './Dialog';
+import type { WalletState } from '../lib/wallet';
+
+export function WalletPanel({wallet,onClose,onGetMC}: {wallet:WalletState;onClose:()=>void;onGetMC:()=>void}) {
+  return <Dialog label="Wallet and sign in" className="modal wallet-modal" onClose={onClose}>{close => <><div className="modal-head"><div><span>IDENTITY / WALLET</span><h2>Your wallet, your call.</h2></div><button onClick={close} aria-label="Close wallet"><Icon name="close"/></button></div>
+    <div className="wallet-state-card"><div className="wallet-state-icon"><Icon name="wallet" size={27}/></div><div><small>CONNECTED ADDRESS</small><strong>{wallet.address?`${wallet.address.slice(0,6)}…${wallet.address.slice(-4)}`:'No wallet connected'}</strong><span>{wallet.address?(wallet.chainId===4663?'Robinhood Chain · 4663':`Network · ${wallet.chainId??'unknown'}`):'Connect with MetaMask to identify your wallet.'}</span></div><span className={`wallet-led ${wallet.address?'active':''}`}/></div>
+    {!wallet.address?<><p className="wallet-copy">Connecting lets the site see your public address. It cannot move funds, approve tokens or start a payment.</p><button className="button-primary wallet-main-action" onClick={wallet.connect} disabled={wallet.busy}>{wallet.busy?'Opening wallet…':'Connect MetaMask'} <Icon name="arrowUp" size={18}/></button>{!wallet.available&&<a className="wallet-install" href="https://metamask.io/download/" target="_blank" rel="noopener noreferrer">Get MetaMask <Icon name="external" size={15}/></a>}</>:
+      <><div className="wallet-steps"><div><span className="wallet-step-num">01</span><div><strong>Wallet connected</strong><p>Your address is visible to this page.</p></div><Icon name="check" size={17}/></div><div><span className="wallet-step-num">02</span><div><strong>{wallet.signedIn?'Signature checked':'Sign in with a signature'}</strong><p>{wallet.signedIn?'This device verified the signature for the current page session.':'A readable message proves control of the wallet. No gas or token transfer.'}</p></div>{wallet.signedIn?<Icon name="check" size={17}/>:<span className="wallet-step-pending"/>}</div></div>
+        {!wallet.signedIn&&<button className="button-primary wallet-main-action" onClick={wallet.signIn} disabled={wallet.busy}>{wallet.busy?'Waiting for signature…':'Sign in with wallet'} <Icon name="arrowUp" size={18}/></button>}
+        {wallet.chainId!==4663&&<button className="wallet-secondary" onClick={wallet.switchToRobinhood} disabled={wallet.busy}>Switch to Robinhood Chain <Icon name="arrow" size={16}/></button>}
+        <div className="wallet-utility"><div><small>MC BALANCE</small><strong>—</strong><span>Token contract not connected</span></div><button onClick={()=>{close();onGetMC();}}>Get MC <span className="concept-tag">Concept</span> <Icon name="arrowUp" size={17}/></button></div><button className="wallet-disconnect" onClick={wallet.disconnect}>Disconnect from this page</button></>}
+    {wallet.error&&<p className="wallet-error" role="alert">{wallet.error}</p>}
+    <p className="wallet-footnote">Preview sign in verifies the signature in this browser only. Paid access needs a server-issued nonce, verified session and deployed MC contract before launch.</p>
+  </>}</Dialog>;
+}

@@ -1,0 +1,96 @@
+name: Scout Studio check
+
+# Builds the Vite app, runs the Chromium smoke test against the production build and,
+# when a VERCEL_TOKEN secret is configured, publishes a Vercel preview of the same commit.
+on:
+  push:
+    branches: ['claude/**', main]
+    paths: ['scout-studio/**', '.github/workflows/scout-studio-check.yml']
+  pull_request:
+    paths: ['scout-studio/**', '.github/workflows/scout-studio-check.yml']
+  workflow_dispatch:
+    inputs:
+      commit_screenshots:
+        description: Commit the review screenshots to scout-studio/previews/v3.1/
+        type: boolean
+        default: false
+
+defaults:
+  run:
+    working-directory: scout-studio
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: scout-studio/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: Install Playwright for the smoke test
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Smoke test the production build
+        run: |
+          npx vite preview --host 127.0.0.1 --port 4173 --strictPort > preview.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:4173/ > /dev/null && break; sleep 1; done
+          BASE=http://127.0.0.1:4173/ node ci/smoke.mjs ci-shots
+      - name: Upload screenshots
+        if: always()
+        # Screenshots are evidence, not a gate: an artifact-service outage must not fail a green build.
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: scout-studio-screenshots
+          path: scout-studio/ci-shots
+          if-no-files-found: ignore
+      - name: Commit review screenshots
+        # Opt in with the workflow_dispatch input, or with "[screenshots]" in the pushed commit message.
+        if: (github.event_name == 'workflow_dispatch' && inputs.commit_screenshots) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[screenshots]'))
+        run: |
+          rm -rf previews/v3.1 && mkdir -p previews/v3.1
+          for f in ci-shots/desktop-*.png ci-shots/mobile-*.png ci-shots/e2e-hotspot.png ci-shots/lab.png; do
+            [ -f "$f" ] || continue
+            if command -v convert > /dev/null; then convert "$f" -resize '1600x1600>' -quality 82 "previews/v3.1/$(basename "${f%.png}").jpg"; else cp "$f" previews/v3.1/; fi
+          done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add previews/v3.1
+          git diff --cached --quiet && exit 0
+          git commit -m "Update v3.1 review screenshots [skip ci]"
+          git push
+
+  vercel-preview:
+    needs: build-and-smoke
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID || vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID || vars.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Skip when Vercel is not configured
+        if: env.VERCEL_TOKEN == '' || env.VERCEL_ORG_ID == '' || env.VERCEL_PROJECT_ID == ''
+        run: echo "::notice::Vercel preview skipped. Add the VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID repository secrets to enable it."
+      - name: Deploy preview
+        if: env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
+        run: |
+          npx --yes vercel@latest pull --yes --environment=preview --token="$VERCEL_TOKEN"
+          npx --yes vercel@latest build --token="$VERCEL_TOKEN"
+          url=$(npx --yes vercel@latest deploy --prebuilt --token="$VERCEL_TOKEN")
+          echo "Preview: $url"
+          echo "### Vercel preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "$url" >> "$GITHUB_STEP_SUMMARY"

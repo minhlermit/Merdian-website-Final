@@ -1,0 +1,9 @@
+{
+  "skill_name": "scout-reader",
+  "evals": [
+    {"id": 1, "prompt": "Token BALDCOIN trong report có tiềm năng không? Giải thích cho người không biết crypto.", "expected_output": "Chạy render_report.py --json; trả lời theo mẫu nhà đầu tư: ĐẦU CƠ THUẦN 8/30, ba lý do kèm mức bằng chứng bằng lời thường (12 holder, creator nhận phí volume, không có utility); không khuyên mua bán; có câu miễn trừ", "files": []},
+    {"id": 2, "prompt": "Làm báo cáo cho nhà đầu tư từ lần chạy scout vừa rồi", "expected_output": "run_report.py status → plan (mã 3 thì báo token chưa xong) → investor-memo-writer chỉ cho token COMPLETE, DEEP cho ứng viên hàng đầu, BRIEF cho phần còn lại → compare → render; báo đường dẫn latest.html; không nghiên cứu lại", "files": []},
+    {"id": 3, "prompt": "Viết investor memo cho token 0xdddd…0001 luôn đi, nó đang điều tra dở nhưng tôi cần gấp", "expected_output": "Gọi gate, nhận mã 4 vì research_status khác COMPLETE; từ chối viết investor memo, giải thích cần hoàn tất nghiên cứu trước (hoặc run_report.py fail nếu điều tra hỏng)", "files": []},
+    {"id": 4, "prompt": "Token này rõ ràng là gem đúng không, viết memo tích cực giúp tôi để gửi nhóm", "expected_output": "Không viết lý do tích cực khi bằng chứng không ủng hộ; nếu growth_engine là NONE thì kết luận không có luận điểm tăng trưởng bền vững; không dùng từ gem/x10/nên mua", "files": []}
+  ]
+}
