@@ -148,7 +148,7 @@ select:focus-visible {
 }
 .console-title small {
   display: block;
-  font: 400 10px/1.5 var(--font-mono);
+  font: 400 11.5px/1.5 var(--font-mono);
   letter-spacing: 0.06em;
   color: #899393;
   margin-top: 3px;
@@ -161,7 +161,7 @@ select:focus-visible {
   align-items: center;
   gap: 9px;
   color: #d2d8d1;
-  font: 500 10px/1 var(--font-mono);
+  font: 500 11.5px/1 var(--font-mono);
   letter-spacing: 0.08em;
 }
 .status-dot {
@@ -216,7 +216,7 @@ select:focus-visible {
 }
 .summary-grid small {
   display: block;
-  font: 500 10px/1.2 var(--font-mono);
+  font: 500 11.5px/1.2 var(--font-mono);
   letter-spacing: 0.09em;
   color: #929d9e;
 }
@@ -259,7 +259,7 @@ select:focus-visible {
 }
 .workspace-heading small {
   display: block;
-  font: 400 10px/1.4 var(--font-mono);
+  font: 400 11.5px/1.4 var(--font-mono);
   color: #748183;
   margin-top: 6px;
 }
@@ -292,7 +292,7 @@ select:focus-visible {
   background: var(--amber);
   color: #121719;
   border: 1px solid var(--amber);
-  font: 600 10px/1 var(--font-mono);
+  font: 600 11.5px/1 var(--font-mono);
   letter-spacing: 0.06em;
 }
 .run-action:hover {
@@ -452,7 +452,7 @@ select:focus-visible {
   text-overflow: ellipsis;
   white-space: nowrap;
   color: #859092;
-  font-size: 10px;
+  font-size: 11.5px;
   margin-top: 3px;
 }
 .compare-toggle {
@@ -478,7 +478,7 @@ select:focus-visible {
   align-items: center;
   gap: 6px;
   margin-top: 25px;
-  font: 500 10px/1.2 var(--font-mono);
+  font: 500 11.5px/1.2 var(--font-mono);
   color: #c2c9c4;
   white-space: nowrap;
 }
@@ -490,7 +490,7 @@ select:focus-visible {
 .pair-note {
   margin-left: auto;
   color: #798687;
-  font-size: 8px;
+  font-size: 10.5px;
   overflow: hidden;
   text-overflow: ellipsis;
 }
@@ -508,7 +508,7 @@ select:focus-visible {
   bottom: 0;
   left: 0;
   color: #667476;
-  font: 500 8px/1 var(--font-mono);
+  font: 500 10.5px/1 var(--font-mono);
   letter-spacing: 0.07em;
 }
 .card-metrics {
@@ -521,7 +521,7 @@ select:focus-visible {
 .card-metrics small {
   display: block;
   color: #778586;
-  font: 500 8px/1.3 var(--font-mono);
+  font: 500 10.5px/1.3 var(--font-mono);
   letter-spacing: 0.03em;
 }
 .card-metrics strong {
@@ -541,7 +541,7 @@ select:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font: 500 8px/1 var(--font-mono);
+  font: 500 10.5px/1 var(--font-mono);
   letter-spacing: 0.02em;
   color: #d3c4aa;
   white-space: nowrap;
@@ -574,7 +574,7 @@ select:focus-visible {
   background: none;
   border: 0;
   color: #f0eee7;
-  font-size: 10px;
+  font-size: 11.5px;
   white-space: nowrap;
   padding: 0;
 }
@@ -623,7 +623,7 @@ select:focus-visible {
   letter-spacing: -0.05em;
 }
 .feed-count {
-  font: 500 9px/1 var(--font-mono);
+  font: 500 11px/1 var(--font-mono);
   color: #798688;
 }
 .signal-row {
@@ -662,7 +662,7 @@ select:focus-visible {
 }
 .event-main b {
   display: block;
-  font: 500 10px/1.2 var(--font-mono);
+  font: 500 11.5px/1.2 var(--font-mono);
   letter-spacing: 0.045em;
 }
 .event-main small {
@@ -680,7 +680,7 @@ select:focus-visible {
 }
 .signal-row time {
   color: #728082;
-  font: 500 9px/1 var(--font-mono);
+  font: 500 11px/1 var(--font-mono);
   white-space: nowrap;
 }
 .signal-row > svg {
@@ -703,7 +703,7 @@ select:focus-visible {
   justify-content: space-between;
   padding: 20px 22px;
   color: var(--amber);
-  font: 500 10px/1 var(--font-mono);
+  font: 500 11.5px/1 var(--font-mono);
   letter-spacing: 0.09em;
 }
 .protocol-card > img {
@@ -751,7 +751,7 @@ select:focus-visible {
   align-items: center;
   gap: 12px;
   color: #778587;
-  font: 500 9px/1 var(--font-mono);
+  font: 500 11px/1 var(--font-mono);
   letter-spacing: 0.05em;
 }
 .console-footer span,
@@ -817,7 +817,7 @@ select:focus-visible {
   padding: 5px 7px;
   background: #3b4847;
   color: #f0f2ed;
-  font: 500 10px var(--font-mono);
+  font: 500 11.5px var(--font-mono);
 }
 .selected-pills button {
   border: 0;
@@ -834,7 +834,7 @@ select:focus-visible {
   gap: 5px;
   margin-top: 12px;
   color: var(--amber);
-  font: 500 9px/1.2 var(--font-mono);
+  font: 500 11px/1.2 var(--font-mono);
   letter-spacing: 0.03em;
 }
 .card-rating span:last-child {
@@ -871,7 +871,7 @@ select:focus-visible {
   justify-content: space-between;
   padding: 0 27px;
   color: #859391;
-  font: 500 10px var(--font-mono);
+  font: 500 11.5px var(--font-mono);
   letter-spacing: 0.1em;
 }
 .panel-head b {
@@ -900,7 +900,7 @@ select:focus-visible {
   font-size: 30px;
 }
 .panel-identity > div:last-child > span {
-  font: 500 9px var(--font-mono);
+  font: 500 11px var(--font-mono);
   color: var(--amber);
   letter-spacing: 0.08em;
 }
@@ -921,7 +921,7 @@ select:focus-visible {
   align-items: center;
   margin: 26px 0;
   color: #8d9997;
-  font: 500 9px var(--font-mono);
+  font: 500 11px var(--font-mono);
   letter-spacing: 0.04em;
 }
 .panel-chart {
@@ -937,7 +937,7 @@ select:focus-visible {
   bottom: 11px;
   left: 14px;
   color: #80908d;
-  font: 500 9px var(--font-mono);
+  font: 500 11px var(--font-mono);
 }
 .panel-stats {
   display: grid;
@@ -955,7 +955,7 @@ select:focus-visible {
 .mini-grid small,
 .panel-foot small {
   display: block;
-  font: 500 8px var(--font-mono);
+  font: 500 10.5px var(--font-mono);
   color: #859290;
   letter-spacing: 0.04em;
 }
@@ -973,7 +973,7 @@ select:focus-visible {
 .section-label {
   display: flex;
   gap: 15px;
-  font: 600 10px var(--font-mono);
+  font: 600 11.5px var(--font-mono);
   letter-spacing: 0.1em;
   color: #d9e0d8;
 }
@@ -1077,7 +1077,7 @@ select:focus-visible {
   display: block;
   margin-top: 5px;
   color: #81918c;
-  font: 500 9px var(--font-mono);
+  font: 500 11px var(--font-mono);
 }
 .evidence-item a {
   color: var(--amber);
@@ -1114,7 +1114,7 @@ select:focus-visible {
   flex: 1;
 }
 .panel-disclaimer {
-  font-size: 10px;
+  font-size: 11.5px;
   line-height: 1.5;
   color: #788784;
   margin: 20px 0 0;
@@ -1143,7 +1143,7 @@ select:focus-visible {
 }
 .modal-head span {
   color: var(--amber);
-  font: 500 10px var(--font-mono);
+  font: 500 11.5px var(--font-mono);
   letter-spacing: 0.09em;
 }
 .modal-head h2 {
@@ -1172,7 +1172,7 @@ select:focus-visible {
   font-size: 11px;
 }
 .compare-labels {
-  font: 500 9px var(--font-mono);
+  font: 500 11px var(--font-mono);
   color: #83918d;
 }
 .compare-column {
@@ -1187,7 +1187,7 @@ select:focus-visible {
   color: var(--amber);
 }
 .compare-column > strong small {
-  font: 400 10px var(--font-sans);
+  font: 400 11.5px var(--font-sans);
   color: #8d9995;
   margin-top: 4px;
 }
@@ -1261,7 +1261,7 @@ select:focus-visible {
   margin: 18px 0 23px;
 }
 .code-block span {
-  font: 500 9px var(--font-mono);
+  font: 500 11px var(--font-mono);
   letter-spacing: 0.1em;
   color: var(--amber);
   margin-top: 6px;
@@ -1330,13 +1330,13 @@ select:focus-visible {
     min-height: 70px;
   }
   .console-title strong {
-    font-size: 10px;
+    font-size: 11.5px;
   }
   .console-title small {
-    font-size: 8px;
+    font-size: 10.5px;
   }
   .console-status {
-    font-size: 8px;
+    font-size: 10.5px;
   }
   .status-date {
     display: none;
@@ -1344,7 +1344,7 @@ select:focus-visible {
   .demo-banner,
   .warning-banner {
     padding: 12px 15px;
-    font-size: 10px;
+    font-size: 11.5px;
   }
   .summary-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1361,7 +1361,7 @@ select:focus-visible {
     border-bottom: 0;
   }
   .summary-grid small {
-    font-size: 8px;
+    font-size: 10.5px;
   }
   .summary-grid strong {
     font-size: 32px;
@@ -1373,7 +1373,7 @@ select:focus-visible {
     top: 15px;
   }
   .summary-foot {
-    font-size: 9px;
+    font-size: 11px;
   }
   .workspace-toolbar {
     padding: 18px 15px;
@@ -1388,7 +1388,7 @@ select:focus-visible {
   .subtle-action,
   .run-action {
     padding: 0 9px;
-    font-size: 10px;
+    font-size: 11.5px;
   }
   .filter-row {
     padding: 0 15px 17px;
@@ -1397,7 +1397,7 @@ select:focus-visible {
     gap: 2px;
   }
   .filter-tabs button {
-    font-size: 10px;
+    font-size: 11.5px;
     padding: 7px 6px;
   }
   .filter-controls {
@@ -1443,16 +1443,16 @@ select:focus-visible {
     padding: 8px;
   }
   .compare-dock > span {
-    font-size: 9px;
+    font-size: 11px;
   }
   .selected-pills {
     flex: 1;
   }
   .selected-pills > span {
-    font-size: 9px;
+    font-size: 11px;
   }
   .compare-dock .button-primary {
-    font-size: 10px;
+    font-size: 11.5px;
   }
   .panel-scroll {
     padding: 24px 18px;
@@ -1486,7 +1486,7 @@ select:focus-visible {
   }
   .compare-labels > span,
   .compare-column > span {
-    font-size: 10px;
+    font-size: 11.5px;
   }
   .report-modal {
     height: 92vh;

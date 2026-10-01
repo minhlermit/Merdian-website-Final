@@ -35,6 +35,7 @@ const transforms = page => page.$$eval('.subject-stage .hotspot', els => els.map
   const stageBox = await page.locator('.subject-stage').boundingBox();
   const neutral = async () => { await page.mouse.move(stageBox.x + stageBox.width / 2, stageBox.y + stageBox.height * 0.35); await page.waitForTimeout(2500); };
   await neutral();
+  await shot(page, `${OUT}/desktop-hero.png`);
   const t0 = await transforms(page);
   check('3D scene ready and hotspots projected', t0.some(t => t.includes('translate3d')), t0.join(' ; '));
   const box = await page.locator('.subject-stage').boundingBox();
@@ -87,6 +88,24 @@ const transforms = page => page.$$eval('.subject-stage .hotspot', els => els.map
   await page.getByRole('button', { name: 'Close wallet' }).click();
   await page.waitForTimeout(300);
 
+  // Sample memo: visible early and opens the matching research file
+  await page.locator('#memo').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(800);
+  await shot(page, `${OUT}/desktop-memo.png`);
+  check('Sample memo shows finding, evidence and open risks', (await page.locator('.memo-body section').count()) === 3);
+  await page.getByRole('button', { name: 'Open the full research file' }).click();
+  await page.waitForTimeout(400);
+  check('Sample memo opens the AURA research file', await page.locator('.detail-panel[role="dialog"]').isVisible() && /AURA/.test(await page.locator('.detail-panel').textContent() || ''));
+  await page.keyboard.press('Escape');
+  await page.waitForTimeout(300);
+  await page.locator('#why').scrollIntoViewIfNeeded();
+  await page.waitForTimeout(800);
+  await shot(page, `${OUT}/desktop-why.png`);
+  check('Robinhood Chain badge and rationale are present', (await page.locator('.chain-badge').count()) >= 2 && await page.getByRole('heading', { name: 'Why Robinhood Chain?' }).isVisible());
+  await page.locator('.story-chapter').nth(1).scrollIntoViewIfNeeded();
+  await page.waitForTimeout(2500);
+  await shot(page, `${OUT}/desktop-story-verify.png`);
+
   // Run demo
   await page.locator('.story-finale').scrollIntoViewIfNeeded();
   await page.getByRole('button', { name: /Run the demo/ }).click();
@@ -95,6 +114,10 @@ const transforms = page => page.$$eval('.subject-stage .hotspot', els => els.map
   await page.getByRole('button', { name: 'Explore candidates' }).last().click();
   await page.waitForTimeout(1200);
   check('Demo hands off to the console', (await page.getByRole('dialog').count()) === 0 && await page.locator('#console').evaluate(el => el.getBoundingClientRect().top < 400));
+  const status = await page.locator('.data-status').textContent();
+  check('Data status beside Run names the source and what reset does', /Demo · fictional data/.test(status || '') && /never runs new research/.test(status || ''), (status || '').slice(0, 80));
+  await page.locator('.workspace-toolbar').scrollIntoViewIfNeeded();
+  await shot(page, `${OUT}/desktop-console-status.png`);
 
   // Candidate details
   await page.getByRole('button', { name: /Open research/ }).first().click();
@@ -213,6 +236,21 @@ const transforms = page => page.$$eval('.subject-stage .hotspot', els => els.map
   const s2 = await page.evaluate(() => scrollY);
   check('Touch: vertical swipe still scrolls the page', s2 > s1 + 60, `${s1} → ${s2}`);
   check('Mobile: no horizontal overflow', await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
+  const consoleTop = Math.round(await page.evaluate(() => document.getElementById('console').getBoundingClientRect().top + scrollY));
+  const memoTop = Math.round(await page.evaluate(() => document.getElementById('memo').getBoundingClientRect().top + scrollY));
+  console.log(`INFO  mobile 390×844: sample memo starts at ${memoTop}px, console at ${consoleTop}px`);
+  check('Mobile: console starts within 5,000 px', consoleTop < 5000, `${consoleTop}px`);
+  for (const id of ['memo', 'why', 'story']) {
+    await page.evaluate(sel => document.querySelector(sel).scrollIntoView({ block: 'start' }), id === 'story' ? '.story-stage' : `#${id}`);
+    await page.waitForTimeout(1500);
+    await shot(page, `${OUT}/mobile-${id}.png`);
+  }
+  const row = page.locator('.story-chapters');
+  check('Mobile: chapters form a swipeable row', await row.evaluate(el => el.scrollWidth > el.clientWidth + 1));
+  await row.evaluate(el => el.scrollTo({ left: el.scrollWidth, behavior: 'instant' }));
+  await page.waitForTimeout(800);
+  check('Mobile: last chapter can be reached', await page.locator('.story-chapter').last().evaluate(el => { const r = el.getBoundingClientRect(); return r.left >= -1 && r.right <= innerWidth + 1; }));
+  check('Mobile: swipe row keeps the page from overflowing', await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
   console.log('INFO  mobile 390×844 @DPR3: ' + (await page.locator('.scene-debug').textContent()).replace(/\n/g, ' | '));
   check('Mobile flow without uncaught errors', errors.length === 0, errors.join(' | '));
   await ctx.close();

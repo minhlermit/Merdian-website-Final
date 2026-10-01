@@ -145,8 +145,8 @@ export function createProps(): PropsRig {
 
   // Signal orbit / scanner around the Scout's head.
   const orbit = new THREE.Group();
-  const ringMat = keep(new THREE.MeshStandardMaterial({ color: 0x3a434c, metalness: 1, roughness: 0.3, transparent: true, opacity: 0.9 }));
-  const ringMatThin = keep(new THREE.MeshStandardMaterial({ color: PALETTE.titanium, metalness: 0.8, roughness: 0.35, transparent: true, opacity: 0.35 }));
+  const ringMat = keep(new THREE.MeshStandardMaterial({ color: 0x3a434c, metalness: 1, roughness: 0.35, transparent: true, opacity: 0.5 }));
+  const ringMatThin = keep(new THREE.MeshStandardMaterial({ color: PALETTE.titanium, metalness: 0.8, roughness: 0.4, transparent: true, opacity: 0.18 }));
   const ringA = new THREE.Mesh(keep(new THREE.TorusGeometry(2.05, 0.011, 8, 220)), ringMat);
   const ringB = new THREE.Mesh(keep(new THREE.TorusGeometry(2.45, 0.006, 6, 220)), ringMatThin);
   const tiltA = new THREE.Group();
@@ -157,13 +157,13 @@ export function createProps(): PropsRig {
   tiltB.position.set(0.1, 0.3, -1.8);
   tiltA.add(ringA);
   tiltB.add(ringB);
-  const arcMat = keep(new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.amberHot).multiplyScalar(1.25), transparent: true, opacity: 0.95, toneMapped: false }));
+  const arcMat = keep(new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.amberHot).multiplyScalar(0.9), transparent: true, opacity: 0.6, toneMapped: false }));
   const arcCurve = new THREE.EllipseCurve(0, 0, 2.05, 2.05, 0, 0.95, false, 0);
   const arcPath = new THREE.CatmullRomCurve3(arcCurve.getPoints(40).map(p => v3(p.x, p.y, 0)));
   const arcSpin = new THREE.Group();
   arcSpin.add(new THREE.Mesh(keep(new THREE.TubeGeometry(arcPath, 64, 0.02, 6)), arcMat));
   tiltA.add(arcSpin);
-  const dotGeo = keep(new THREE.SphereGeometry(0.035, 12, 8));
+  const dotGeo = keep(new THREE.SphereGeometry(0.026, 12, 8));
   for (let i = 0; i < 5; i++) {
     const a = (i / 5) * Math.PI * 2 + 0.4;
     const dot = new THREE.Mesh(dotGeo, arcMat);
@@ -245,7 +245,7 @@ export function createProps(): PropsRig {
   for (const x of [FW / 2, -FW / 2]) { const m = new THREE.Mesh(vBar, frameMat); m.position.x = x; frame.add(m); }
   for (let i = 0; i < 9; i++) { const m = new THREE.Mesh(tick, frameMat); m.position.set(-FW / 2 - 0.06, -FH / 2 + (i / 8) * FH, 0); frame.add(m); }
   group.add(frame);
-  const floorMat = keep(new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.amber).multiplyScalar(1.3), transparent: true, opacity: 0, toneMapped: false }));
+  const floorMat = keep(new THREE.MeshBasicMaterial({ color: new THREE.Color(PALETTE.amber).multiplyScalar(1.05), transparent: true, opacity: 0, toneMapped: false }));
   const floor = new THREE.Mesh(keep(new THREE.BoxGeometry(FW + 0.3, 0.024, 0.024)), floorMat);
   group.add(floor);
   const gateMat = keep(new THREE.MeshBasicMaterial({ color: PALETTE.amber, transparent: true, opacity: 0, toneMapped: false }));
@@ -270,14 +270,14 @@ export function createProps(): PropsRig {
       const discover = smooth(-0.6, 0.3, p) * (1 - smooth(1.0, 1.8, p));
       arcSpin.rotation.z = time * (0.35 + discover * 0.9) * motion;
       tiltB.rotation.z = -0.2 + time * 0.05 * motion;
-      ringMat.opacity = 0.9 * live;
-      ringMatThin.opacity = 0.35 * live;
-      arcMat.opacity = (0.7 + 0.3 * discover) * live;
+      ringMat.opacity = 0.5 * live;
+      ringMatThin.opacity = 0.18 * live;
+      arcMat.opacity = (0.42 + 0.33 * discover) * live;
 
       // Nodes
-      const ambient = 0.28 * (1 - smooth(-1, -0.4, p));
+      const ambient = 0.16 * (1 - smooth(-1, -0.4, p));
       const storyNodes = smooth(-0.8, -0.1, p) * (1 - smooth(1.2, 1.9, p));
-      nodeMat.opacity = Math.max(ambient, storyNodes * 0.85) * live;
+      nodeMat.opacity = Math.max(ambient, storyNodes * 0.7) * live;
       // Ring positions live in the parent (content) space; convert into this group's space.
       const onRing = (i: number) => tmp.copy(collected[i]).multiplyScalar(orbit.scale.x).add(orbit.position).sub(group.position).divideScalar(group.scale.x);
       for (let i = 1; i < NODE_COUNT; i++) {
@@ -311,7 +311,7 @@ export function createProps(): PropsRig {
       halo.position.copy(pos);
       halo.scale.setScalar(1 + chosen * 0.8 + Math.sin(time * 2.4) * 0.12 * motion);
       halo.quaternion.identity();
-      haloMat.opacity = chosen * (1 - smooth(3.6, 4.0, p)) * 0.9 * live;
+      haloMat.opacity = chosen * (1 - smooth(3.6, 4.0, p)) * 0.65 * live;
 
       // Evidence layers
       const wV = (i: number) => smooth(0.45 + i * 0.1, 1.05 + i * 0.1, p);

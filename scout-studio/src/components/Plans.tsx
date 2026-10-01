@@ -2,8 +2,8 @@ import { Icon } from './Icons';
 
 const PLANS = [
   { name: 'Explorer', kind: 'Public board', mc: 'Free', unit: '', body: 'Six-hour candidate rotation, open evidence and the guided Scout demo.', cta: 'Explore candidates', featured: false },
-  { name: 'Researcher', kind: 'Premium concept', mc: '300', unit: 'MC / month', body: 'Concept allocation for targeted jobs, deeper investigations and memo history.', cta: 'Get MC', featured: true },
-  { name: 'Studio', kind: 'Team concept', mc: '1,200', unit: 'MC / month', body: 'Concept allocation for shared research, batch work and collaborative review.', cta: 'Explore plans', featured: false },
+  { name: 'Researcher', kind: 'Premium concept', mc: '300', unit: 'MC / month', body: 'Concept allocation for targeted jobs, deeper investigations and memo history.', cta: 'Preview Get MC', featured: true },
+  { name: 'Studio', kind: 'Team concept', mc: '1,200', unit: 'MC / month', body: 'Concept allocation for shared research, batch work and collaborative review.', cta: 'Preview plans', featured: false },
 ];
 
 const ROWS: [string, boolean, boolean, boolean][] = [

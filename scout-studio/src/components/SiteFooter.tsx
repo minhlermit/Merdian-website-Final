@@ -1,6 +1,7 @@
 import { QUALITY, type QualitySetting } from '../scene/config';
 import { setMotionPrefs, useMotion, type MotionSetting } from '../lib/motion';
 import { BrandMark, type NavTarget } from './SiteHeader';
+import { ChainBadge } from './ChainBadge';
 
 export function MotionPreferences() {
   const prefs = useMotion();
@@ -29,9 +30,11 @@ export function SiteFooter({ onNavigate }: { onNavigate: (target: NavTarget) => 
       <div className="footer-brand">
         <span className="brand"><BrandMark size={30} /><span className="brand-name">stockscout<small>Research studio</small></span></span>
         <p>Follow the signal. Keep the proof.</p>
+        <ChainBadge className="footer-chain" />
       </div>
       <nav className="footer-nav" aria-label="Footer">
-        <button type="button" onClick={() => onNavigate('product')}>Product</button>
+        <button type="button" onClick={() => onNavigate('memo')}>Sample memo</button>
+        <button type="button" onClick={() => onNavigate('why')}>Why Scout</button>
         <button type="button" onClick={() => onNavigate('story')}>How it works</button>
         <button type="button" onClick={() => onNavigate('console')}>Console</button>
         <button type="button" onClick={() => onNavigate('plans')}>MC plans</button>
@@ -41,7 +44,7 @@ export function SiteFooter({ onNavigate }: { onNavigate: (target: NavTarget) => 
       <MotionPreferences />
     </div>
     <div className="shell footer-base">
-      <small>Research studio © 2026 · Research only, not investment advice. Stock-paired tokens do not automatically convey stock ownership.</small>
+      <small>Research studio © 2026 · Research only, not investment advice. Stock-paired tokens do not automatically convey stock ownership. Stock Scout is independent and is not affiliated with or endorsed by Robinhood.</small>
       <button type="button" className="text-link" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>Back to top ↑</button>
     </div>
   </footer>;

@@ -85,7 +85,7 @@ export const HOTSPOTS = [
     id: 'rules',
     label: 'Rules that hold',
     short: 'Fixed scorecard',
-    body: 'Scores and the exit-risk floor come from the Python core. The memo writer cannot improve a rating with persuasive prose, and a memo only runs after research is marked complete.',
+    body: 'Scores and the exit-risk floor come from fixed rules in the research engine. The memo writer cannot improve a rating with persuasive prose, and a memo only runs after research is marked complete.',
   },
 ] as const;
 export type HotspotId = (typeof HOTSPOTS)[number]['id'];

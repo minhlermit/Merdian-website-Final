@@ -4,6 +4,19 @@ Giao diện nghiên cứu token trên Robinhood Chain, xây từ **robinhood-tok
 
 Bản v2 đã duyệt vẫn khôi phục được: commit `Add Stock Scout Studio v2 baseline from uploaded ZIP` trong lịch sử git chứa nguyên ZIP gốc, còn ảnh chụp v2 nằm ở `previews/*.png`.
 
+## v3.1 — sửa theo vòng review
+
+Bản v3 gốc nằm nguyên ở commit `Add Stock Scout Studio v3 baseline and CI check`. Vòng này sửa sáu điểm review:
+
+1. **Định vị và lý do tồn tại.** Hero nói thẳng *Evidence-first research for Robinhood Chain* và sản phẩm giúp gì. Mục **Why we built Stock Scout** (thay mục Product cũ, vốn lặp How it works) nêu ba vấn đề: thông tin rải rác, lời giới thiệu dễ bị nhầm là bằng chứng, điều chưa xác minh bị bỏ quên.
+2. **Nhận diện Robinhood Chain.** Huy hiệu *Independent research on Robinhood Chain* ở hero, mục Why và footer, kèm đoạn **Why Robinhood Chain?** và dòng không liên kết với Robinhood. Logo chính thức: đặt file `public/assets/brand/robinhood-chain.svg`, huy hiệu tự hiển thị (xem README trong thư mục đó). Chưa có file thì hiện biểu tượng trung tính, không vẽ logo giả.
+3. **Kết quả xuất hiện sớm.** Ngay sau hero là **memo mẫu** (AURA, hư cấu, khớp dữ liệu demo): điều đã thay đổi, bằng chứng hỗ trợ kèm mức xác minh, rủi ro còn mở; nút mở thẳng hồ sơ AURA trong console. Bỏ ba con số 06H / 5 / 0. **Get MC** trên header chuyển sang kiểu nút phụ có nhãn *Concept*; nút chính là **Try demo**.
+4. **Typography.** Nhãn section dùng Geist Sans chữ thường thay vì mono viết hoa; chữ phụ sáng hơn; console không còn chữ dưới 10,5 px. Tên file kỹ thuật (`scout_cycle.py`…) chuyển vào mục mở rộng *Technical detail*. Câu “The cinematic part is over” đổi thành hướng dẫn thao tác.
+5. **3D.** Tóc: ít lọn hơn, lọn rộng và bo đầu thay vì nhọn, giảm xoắn ngẫu nhiên, chân tóc răng cưa nhẹ hơn. Vật liệu tóc/áo bớt clearcoat, áo nhám hơn; rim light dịu, thêm fill light; lót cổ áo che khe giữa cổ và áo. Vòng quỹ đạo, điểm phát sáng, đường nền và lưới giảm độ đậm.
+6. **Mobile và trạng thái dữ liệu.** Năm chương How it works thành hàng vuốt ngang dưới scene 3D trên màn hình hẹp (scene đọc tiến độ theo vị trí vuốt). Khối **trạng thái dữ liệu** ngay dưới nút Run cho biết đang xem demo hay dữ liệu thật, lần cập nhật gần nhất, giờ reset tiếp theo, Run và reset làm gì.
+
+Smoke test bổ sung kiểm tra các phần trên và in vị trí console trên mobile 390 × 844.
+
 ## Có gì mới trong v3
 
 - **Scout 3D thật** (`src/scene/ScoutModel.ts`): lưới dựng procedural bằng three.js, có khối, vật liệu vật lý và ánh sáng studio. Giữ các dấu hiệu nhận dạng của avatar: tóc bạc vuốt ngược trên lớp đen có viền răng cưa, kính không viền có bản lề, mắt capsule, má hồng, khuyên bạc tai trái, áo khoác đen cổ đứng có khóa kéo. PNG gốc chỉ còn làm ảnh tham chiếu, poster lúc tải và fallback.
@@ -63,6 +76,10 @@ npx vercel deploy --prod   # chỉ sau khi duyệt preview
 ```
 
 `vercel.json` chuyển mọi đường dẫn SPA (kể cả `/lab`) về `index.html`; file tĩnh trong `public/` (asset, font, ảnh baseline) được phục vụ trực tiếp. `.vercelignore` loại core Python/bridge khỏi bản upload.
+
+**Deploy từ GitHub (không cần CLI).** App nằm trong thư mục con `scout-studio/` của repo `Merdian-website-Final`; thư mục gốc là trang MERIDIAN. Trên Vercel: *Add New → Project → Import* repo này, đặt **Root Directory = `scout-studio`** (Vite được nhận tự động, build `npm run build`, output `dist`). Mỗi lần push lên nhánh sẽ có một preview riêng.
+
+**Deploy bằng GitHub Actions.** Workflow `.github/workflows/scout-studio-check.yml` build + smoke test mỗi lần push; job `vercel-preview` tự deploy preview khi repo có secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` (hai ID lấy trong `.vercel/project.json` sau khi `npx vercel link`). Job này chạy CLI từ trong `scout-studio/`, nên để Root Directory của project Vercel ở mặc định; chỉ đặt `scout-studio` khi dùng cách import Git ở trên.
 
 **Giới hạn deployment:** Vercel chỉ host giao diện tĩnh. Python CLI, SQLite cục bộ, Claude Code headless và cron sáu giờ không tự chạy trong trình duyệt. Dữ liệu tự cập nhật cần backend chạy Scout; đăng nhập ví production cần nonce/session phía server; MC cần hợp đồng, thanh toán và đối soát job. Bản này không thu tiền.
 

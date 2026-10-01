@@ -1,28 +1,27 @@
 import { sceneBridge } from '../scene/bridge';
+import { ChainBadge } from './ChainBadge';
 import { Icon } from './Icons';
 import { SubjectStage } from './SubjectControls';
 
-export function Hero({ onStory, onConsole }: { onStory: () => void; onConsole: () => void }) {
+export function Hero({ onMemo, onRun, live }: { onMemo: () => void; onRun: () => void; live: boolean }) {
   return <section className="hero" id="top" aria-labelledby="hero-title">
     <div className="shell hero-grid">
       <div className="hero-copy" ref={sceneBridge.slot('heroCopy')}>
-        <p className="eyebrow"><span className="live-dot" aria-hidden="true" /> Research studio · Robinhood Chain</p>
+        <ChainBadge className="enter" />
         <h1 id="hero-title" className="hero-title enter" style={{ '--i': 1 } as React.CSSProperties}>
-          <span>Follow the signal.</span>
-          <span>Keep the <em>proof.</em></span>
+          <span>Evidence-first research</span>{' '}
+          <span>for Robinhood <em>Chain.</em></span>
         </h1>
         <p className="hero-lede enter" style={{ '--i': 2 } as React.CSSProperties}>
-          Stock Scout watches stock-paired tokens, turns meaningful changes into signals and checks each claim against evidence before a memo is written.
+          Stock-paired tokens move fast and borrow familiar names. Stock Scout checks each one against on-chain data and public sources, then shows what is proven, what is risky and what is still unverified.
         </p>
         <div className="hero-actions enter" style={{ '--i': 3 } as React.CSSProperties}>
-          <button type="button" className="btn btn-primary btn-lg" onClick={onStory}>See how it works <Icon name="arrow" size={18} /></button>
-          <button type="button" className="btn btn-ghost btn-lg" onClick={onConsole}>Open the console <Icon name="arrowUp" size={16} /></button>
+          <button type="button" className="btn btn-primary btn-lg" onClick={onMemo}>See a sample memo <Icon name="arrow" size={18} /></button>
+          <button type="button" className="btn btn-ghost btn-lg" onClick={onRun}>{live ? 'Run Scout' : 'Try the demo'} <Icon name="play" size={13} /></button>
         </div>
-        <ul className="hero-facts enter" style={{ '--i': 4 } as React.CSSProperties} aria-label="Key facts">
-          <li><span className="mono">06H</span> Board resets at UTC 00, 06, 12, 18</li>
-          <li><span className="mono">5</span> Evidence levels on every claim</li>
-          <li><span className="mono">0</span> Trading or wallet spending</li>
-        </ul>
+        <p className="hero-trust enter" style={{ '--i': 4 } as React.CSSProperties}>
+          <Icon name="shield" size={15} /> Research only. No trading, no wallet spending.
+        </p>
       </div>
       <SubjectStage />
     </div>

@@ -99,7 +99,7 @@ function hairlineY(azimuth: number) {
   }
   return HAIRLINE[HAIRLINE.length - 1][1];
 }
-function zigzag(azimuth: number, teeth = 11, amplitude = 0.045) {
+function zigzag(azimuth: number, teeth = 11, amplitude = 0.03) {
   const s = (((azimuth * teeth) / Math.PI) % 2 + 2) % 2;
   return (Math.abs(s - 1) - 0.5) * 2 * amplitude;
 }
@@ -116,8 +116,8 @@ class LockBuilder {
   private positions: number[] = [];
   private colors: number[] = [];
   private indices: number[] = [];
-  private static SEG = 9;
-  private static RAD = 6;
+  private static SEG = 12;
+  private static RAD = 8;
 
   add(root: THREE.Vector3, normal: THREE.Vector3, dir: THREE.Vector3, o: LockOptions) {
     const { SEG, RAD } = LockBuilder;
@@ -133,8 +133,9 @@ class LockBuilder {
       d.set(0, 0, 0).addScaledVector(a, 2 * (1 - t)).addScaledVector(b, 2 * t).normalize();
       S.crossVectors(d, normal).normalize();
       N.crossVectors(S, d).normalize();
-      const w = o.width * Math.pow(1 - t, 0.85) * (0.82 + 0.3 * Math.sin(Math.PI * Math.min(1, t * 1.7)));
-      const th = o.thick * Math.pow(1 - t, 0.8);
+      // Clumped locks keep their body and close with a rounded end instead of a needle tip.
+      const w = o.width * Math.pow(Math.max(0, 1 - Math.pow(t, 2.4)), 0.55) * (0.86 + 0.22 * Math.sin(Math.PI * Math.min(1, t * 1.6)));
+      const th = o.thick * Math.pow(Math.max(0, 1 - t * t), 0.6);
       col.copy(o.root).lerp(o.tip, smooth(0, 0.7, t));
       for (let k = 0; k < RAD; k++) {
         const ang = (k / RAD) * Math.PI * 2;
@@ -193,32 +194,33 @@ function buildHair(materials: { silver: THREE.Material; dark: THREE.Material }) 
   // Dark lower layer: rooted along the hairline, swept with the flow; its roots form the jagged edge.
   for (let i = 0; i < 620; i++) {
     fibonacci(620, i, u);
-    if (!isScalp(u, 0.03) || isScalp(u, 0.34) || rand() < 0.25) continue;
+    if (!isScalp(u, 0.03) || isScalp(u, 0.34) || rand() < 0.12) continue;
     const { p, n } = headSurface(u);
     const { low, dir } = swept(n, u.y);
-    dir.applyAxisAngle(n, (rand() - 0.5) * 0.5);
-    dark.add(p.clone().addScaledVector(n, 0.02), n, dir, { length: 0.42 + rand() * 0.2 - low * 0.1, width: 0.22 + rand() * 0.07, thick: 0.09, lift: 0.14 + rand() * 0.1, root: darkRoot, tip: darkTip });
+    dir.applyAxisAngle(n, (rand() - 0.5) * 0.3);
+    dark.add(p.clone().addScaledVector(n, 0.016), n, dir, { length: 0.44 + rand() * 0.12 - low * 0.1, width: 0.26 + rand() * 0.05, thick: 0.09, lift: 0.12 + rand() * 0.05, root: darkRoot, tip: darkTip });
   }
   // Sideburn spikes pointing down in front of the ears.
   for (let i = 0; i < 900; i++) {
     fibonacci(900, i, u);
     const a = Math.abs(Math.atan2(u.x, u.z));
-    if (a < 1.05 || a > 1.46 || !isScalp(u, 0.0) || isScalp(u, 0.14) || rand() < 0.35) continue;
+    if (a < 1.05 || a > 1.46 || !isScalp(u, 0.0) || isScalp(u, 0.14) || rand() < 0.55) continue;
     const { p, n } = headSurface(u);
-    const dir = tangentTowards(n, v3(0, -1, 0.1), v3(0, -1, 0)).applyAxisAngle(n, (rand() - 0.5) * 0.3);
-    dark.add(p.clone().addScaledVector(n, 0.022), n, dir, { length: 0.16 + rand() * 0.1, width: 0.1, thick: 0.04, lift: 0.05, root: darkRoot, tip: darkTip });
+    const dir = tangentTowards(n, v3(0, -1, 0.1), v3(0, -1, 0)).applyAxisAngle(n, (rand() - 0.5) * 0.15);
+    dark.add(p.clone().addScaledVector(n, 0.018), n, dir, { length: 0.15 + rand() * 0.05, width: 0.12, thick: 0.045, lift: 0.04, root: darkRoot, tip: darkTip });
   }
-  // Silver upper mass: wide soft locks swept up, back and toward the character's left.
-  for (let i = 0; i < 900; i++) {
-    fibonacci(900, i, u);
-    if (!isScalp(u, 0.2) || rand() < 0.1) continue;
+  // Silver upper mass: fewer, wider clumps swept up, back and toward the character's left, with
+  // little random twist so neighbouring locks merge into one calm shape instead of crossing spikes.
+  for (let i = 0; i < 560; i++) {
+    fibonacci(560, i, u);
+    if (!isScalp(u, 0.2) || rand() < 0.08) continue;
     const { p, n } = headSurface(u);
     const { low, dir } = swept(n, u.y);
-    dir.applyAxisAngle(n, (rand() - 0.5) * 0.45);
+    dir.applyAxisAngle(n, (rand() - 0.5) * 0.22);
     const front = u.z > 0.25 && u.y > 0.3;
-    const length = front ? 0.74 + rand() * 0.24 : 0.58 + rand() * 0.3 - low * 0.18;
-    const lift = front ? 0.36 + rand() * 0.16 : 0.1 + rand() * 0.18 - low * 0.06;
-    silver.add(p.clone().addScaledVector(n, 0.06), n, dir, { length, width: 0.26 + rand() * 0.1, thick: 0.12 + rand() * 0.03, lift, root: silverRoot, tip: silverTip });
+    const length = front ? 0.72 + rand() * 0.14 : 0.6 + rand() * 0.18 - low * 0.16;
+    const lift = front ? 0.34 + rand() * 0.08 : 0.12 + rand() * 0.1 - low * 0.06;
+    silver.add(p.clone().addScaledVector(n, 0.055), n, dir, { length, width: 0.34 + rand() * 0.08, thick: 0.13 + rand() * 0.02, lift, root: silverRoot, tip: silverTip });
   }
   const group = new THREE.Group();
   group.add(new THREE.Mesh(silver.build(), materials.silver), new THREE.Mesh(dark.build(), materials.dark));
@@ -313,8 +315,8 @@ export function createScout(): ScoutRig {
 
   const skin = keep(new THREE.MeshPhysicalMaterial({ color: PALETTE.skin, roughness: 0.5, clearcoat: 0.28, clearcoatRoughness: 0.45, sheen: 0.35, sheenColor: new THREE.Color(0xffe8da), sheenRoughness: 0.6 }));
   const skinShade = keep(new THREE.MeshPhysicalMaterial({ color: PALETTE.skinShade, roughness: 0.6, clearcoat: 0.15 }));
-  const hairSilver = keep(new THREE.MeshPhysicalMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.34, metalness: 0.06, clearcoat: 0.55, clearcoatRoughness: 0.26, sheen: 0.6, sheenColor: new THREE.Color(0xffffff), sheenRoughness: 0.35 }));
-  const hairDark = keep(new THREE.MeshPhysicalMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.42, clearcoat: 0.45, clearcoatRoughness: 0.34 }));
+  const hairSilver = keep(new THREE.MeshPhysicalMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.46, metalness: 0.04, clearcoat: 0.28, clearcoatRoughness: 0.42, sheen: 0.45, sheenColor: new THREE.Color(0xf4f1ea), sheenRoughness: 0.5 }));
+  const hairDark = keep(new THREE.MeshPhysicalMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.55, clearcoat: 0.2, clearcoatRoughness: 0.46 }));
   const eyeMat = keep(new THREE.MeshPhysicalMaterial({ color: 0x0b0b0d, roughness: 0.16, clearcoat: 1, clearcoatRoughness: 0.06 }));
   const blushMap = keep(radialTexture('rgba(242,154,156,0.78)', 'rgba(242,154,156,0)'));
   const blushMat = keep(new THREE.MeshStandardMaterial({ map: blushMap, transparent: true, depthWrite: false, roughness: 0.85, polygonOffset: true, polygonOffsetFactor: -2 }));
@@ -323,11 +325,12 @@ export function createScout(): ScoutRig {
   const pullMetal = keep(new THREE.MeshStandardMaterial({ color: 0xb9bdc4, metalness: 1, roughness: 0.28 }));
   const lensMat = keep(new THREE.MeshPhysicalMaterial({ color: 0xe9f1f5, transparent: true, opacity: 0.14, roughness: 0.02, clearcoat: 1, envMapIntensity: 2.2, depthWrite: false, side: THREE.DoubleSide }));
   const lensEdge = keep(new THREE.MeshPhysicalMaterial({ color: 0xeef4f7, transparent: true, opacity: 0.75, roughness: 0.06, metalness: 0.3, emissive: new THREE.Color(PALETTE.amber), emissiveIntensity: 0 }));
-  const jacket = keep(new THREE.MeshPhysicalMaterial({ color: PALETTE.jacket, roughness: 0.58, clearcoat: 0.18, clearcoatRoughness: 0.5, sheen: 0.4, sheenColor: new THREE.Color(0x66707c), sheenRoughness: 0.45 }));
+  // Matte technical fabric: soft sheen, almost no clearcoat, so the rim light no longer flares.
+  const jacket = keep(new THREE.MeshPhysicalMaterial({ color: PALETTE.jacket, roughness: 0.74, clearcoat: 0.04, clearcoatRoughness: 0.6, sheen: 0.22, sheenColor: new THREE.Color(0x4a525c), sheenRoughness: 0.6, envMapIntensity: 0.7 }));
   const collarMat = keep(jacket.clone());
   collarMat.side = THREE.DoubleSide;
   const seamMat = keep(new THREE.MeshStandardMaterial({ color: 0x2b2d32, roughness: 0.55, metalness: 0.1 }));
-  const zipMat = keep(new THREE.MeshStandardMaterial({ color: 0x6f747c, metalness: 0.9, roughness: 0.35 }));
+  const zipMat = keep(new THREE.MeshStandardMaterial({ color: 0x6f747c, metalness: 0.8, roughness: 0.42 }));
   for (const m of [earringMetal, pullMetal]) m.emissive = new THREE.Color(PALETTE.amber);
 
   const fade: FadeUniforms = { uFadeTop: { value: -1.9 }, uFadeBottom: { value: -2.9 } };
@@ -499,6 +502,13 @@ export function createScout(): ScoutRig {
   rim.scale.set(1, 0.82, 1);
   rim.position.y = -0.66;
   body.add(rim);
+  // Dark lining between neck and collar so the neck never reads as floating inside the jacket.
+  const liningMat = keep(new THREE.MeshStandardMaterial({ color: 0x0a0b0d, roughness: 1, side: THREE.DoubleSide }));
+  const lining = new THREE.Mesh(keep(new THREE.RingGeometry(0.37, 0.735, 72, 1)), liningMat);
+  lining.rotation.x = -Math.PI / 2;
+  lining.scale.set(1, 0.82, 1);
+  lining.position.y = -1.0;
+  body.add(lining);
 
   // Panel seams
   const seams: THREE.Vector3[][] = [];

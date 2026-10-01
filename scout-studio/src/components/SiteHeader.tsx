@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Icon } from './Icons';
 
-export type NavTarget = 'product' | 'story' | 'console' | 'plans' | 'faq';
+export type NavTarget = 'memo' | 'why' | 'story' | 'console' | 'plans' | 'faq';
 
 export function BrandMark({ size = 36 }: { size?: number }) {
   return <svg className="brand-glyph" width={size} height={size} viewBox="0 0 40 40" aria-hidden="true">
@@ -11,10 +11,11 @@ export function BrandMark({ size = 36 }: { size?: number }) {
   </svg>;
 }
 
-const LINKS: [NavTarget, string][] = [['product', 'Product'], ['story', 'How it works'], ['console', 'Console'], ['plans', 'MC plans'], ['faq', 'FAQ']];
+const LINKS: [NavTarget, string][] = [['memo', 'Sample memo'], ['why', 'Why Scout'], ['story', 'How it works'], ['console', 'Console'], ['faq', 'FAQ']];
+const MOBILE_LINKS: [NavTarget, string][] = [...LINKS.slice(0, 4), ['plans', 'MC plans'], ['faq', 'FAQ']];
 
-export function SiteHeader({ onNavigate, onWallet, onGetMC, walletLabel, connected }: {
-  onNavigate: (target: NavTarget) => void; onWallet: () => void; onGetMC: () => void; walletLabel: string; connected: boolean;
+export function SiteHeader({ onNavigate, onWallet, onGetMC, onRun, runLabel, walletLabel, connected }: {
+  onNavigate: (target: NavTarget) => void; onWallet: () => void; onGetMC: () => void; onRun: () => void; runLabel: string; walletLabel: string; connected: boolean;
 }) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -44,10 +45,11 @@ export function SiteHeader({ onNavigate, onWallet, onGetMC, walletLabel, connect
         {LINKS.map(([target, label]) => <button key={target} type="button" onClick={() => go(target)}>{label}</button>)}
       </nav>
       <div className="header-actions">
-        <button type="button" className="btn btn-primary btn-sm" onClick={onGetMC}>Get MC <Icon name="arrowUp" size={14} /></button>
+        <button type="button" className="btn btn-quiet btn-sm mc-button" onClick={onGetMC}>Get MC <span className="concept-tag">Concept</span></button>
         <button type="button" className={`btn btn-ghost btn-sm wallet-button ${connected ? 'is-connected' : ''}`} onClick={onWallet} aria-label={connected ? `Wallet ${walletLabel}` : 'Connect wallet'}>
           <Icon name="wallet" size={16} /><span>{walletLabel}</span>
         </button>
+        <button type="button" className="btn btn-primary btn-sm run-button" onClick={() => { setOpen(false); onRun(); }}>{runLabel} <Icon name="play" size={11} /></button>
         <button type="button" className="menu-toggle" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} aria-controls="mobile-menu" onClick={() => setOpen(o => !o)}>
           <Icon name={open ? 'close' : 'menu'} size={22} />
         </button>
@@ -55,7 +57,8 @@ export function SiteHeader({ onNavigate, onWallet, onGetMC, walletLabel, connect
     </div>
     <div id="mobile-menu" className="mobile-menu" hidden={!open}>
       <nav className="shell" aria-label="Mobile">
-        {LINKS.map(([target, label]) => <button key={target} type="button" onClick={() => go(target)}>{label}<Icon name="arrow" size={18} /></button>)}
+        {MOBILE_LINKS.map(([target, label]) => <button key={target} type="button" onClick={() => go(target)}>{label}<Icon name="arrow" size={18} /></button>)}
+        <button type="button" onClick={() => { setOpen(false); onGetMC(); }}>Get MC <span className="concept-tag">Concept</span><Icon name="arrowUp" size={18} /></button>
         <a href="/lab">Asset lab<Icon name="arrowUp" size={18} /></a>
       </nav>
     </div>

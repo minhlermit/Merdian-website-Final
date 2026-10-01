@@ -85,13 +85,14 @@ void main() {
   float quiet = boxMask(vUv, uQuiet, 0.07);
   float calm = 1.0 - 0.82 * quiet;
 
-  col += vec3(0.9, 0.93, 1.0) * line * (0.028 + 0.035 * nearSubject) * calm;
-  col += amber * line * crest * nearSubject * (0.2 + 0.1 * evaluate) * calm;
-  col += vec3(1.0) * grid * 0.022 * smoothstep(0.05, 0.6, vUv.x) * calm;
+  // Contours and grid stay a texture, not a pattern competing with the subject.
+  col += vec3(0.9, 0.93, 1.0) * line * (0.016 + 0.022 * nearSubject) * calm;
+  col += amber * line * crest * nearSubject * (0.12 + 0.06 * evaluate) * calm;
+  col += vec3(1.0) * grid * 0.011 * smoothstep(0.05, 0.6, vUv.x) * calm;
 
   // Restrained amber light field drifting behind the subject.
   vec2 c1 = s + vec2(0.22 * sin(t * 0.031), 0.1 * cos(t * 0.043)) + vec2(0.18, -0.08);
-  col += amber * 0.075 * exp(-length(p - c1) * 2.7) * (1.0 - 0.5 * verify) * calm;
+  col += amber * 0.06 * exp(-length(p - c1) * 2.7) * (1.0 - 0.5 * verify) * calm;
   vec2 c2 = s + vec2(-0.35 + 0.1 * cos(t * 0.027), 0.28);
   col += titanium * 0.03 * exp(-length(p - c2) * 3.0) * calm;
 

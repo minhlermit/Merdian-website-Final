@@ -18,19 +18,35 @@ const mix = (a: Rect | null, b: Rect | null, t: number): Rect | null => {
   return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t, w: a.w + (b.w - a.w) * t, h: a.h + (b.h - a.h) * t };
 };
 
-/** Story progress from chapter centres crossing the middle of the viewport. */
-function storyProgress(vh: number) {
-  const centres = sceneBridge.chapters.filter((el): el is HTMLElement => Boolean(el)).map(el => {
-    const r = el.getBoundingClientRect();
-    return r.top + r.height / 2;
-  });
-  if (!centres.length) return -1;
-  const line = vh * 0.5;
-  if (line <= centres[0]) return -Math.min(1, (centres[0] - line) / (vh * 0.9));
+/** Fractional chapter index for a reference line crossing a sorted list of chapter centres. */
+function along(centres: number[], line: number) {
   const last = centres.length - 1;
+  if (line <= centres[0]) return 0;
   if (line >= centres[last]) return last;
   for (let i = 0; i < last; i++) if (line < centres[i + 1]) return i + (line - centres[i]) / (centres[i + 1] - centres[i]);
   return last;
+}
+
+/**
+ * Story progress from chapter centres crossing the middle of the viewport. On narrow screens the
+ * chapters form a horizontal swipe row: vertical scroll brings the row in, the swipe picks the chapter.
+ */
+function storyProgress(vh: number) {
+  const rects = sceneBridge.chapters.filter((el): el is HTMLElement => Boolean(el)).map(el => el.getBoundingClientRect());
+  if (!rects.length) return -1;
+  const line = vh * 0.5;
+  const row = sceneBridge.slots.get('storyText');
+  if (row && row.scrollWidth > row.clientWidth + 1) {
+    // The stage sits above the row, so the transition completes while the row is still low on screen.
+    const box = row.getBoundingClientRect();
+    const middle = box.top + box.height / 2;
+    const enter = vh * 0.72;
+    if (middle >= enter) return -Math.min(1, (middle - enter) / (vh * 0.9));
+    return along(rects.map(r => r.left + r.width / 2), box.left + box.width / 2);
+  }
+  const centres = rects.map(r => r.top + r.height / 2);
+  if (line <= centres[0]) return -Math.min(1, (centres[0] - line) / (vh * 0.9));
+  return along(centres, line);
 }
 
 export function siteLayout(): Layout {

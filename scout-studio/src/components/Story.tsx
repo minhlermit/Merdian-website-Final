@@ -4,11 +4,20 @@ import { Icon } from './Icons';
 import { useSubjectDrag } from './SubjectControls';
 
 const chapters = [
-  { n: '01', tag: 'Discover', title: 'A new pool appears.', body: 'Every six hours the Scout checks public market data for stock-paired tokens. It compares snapshots, so a meaningful change becomes a signal instead of another noisy listing.', code: 'scout_cycle.py', output: 'Pool → snapshot → event', signal: 'New stock-paired pool' },
-  { n: '02', tag: 'Verify', title: 'The pair gets checked.', body: 'On-chain data and a claim ledger test the stock pair, pool depth, holders and contract permissions. A project’s story remains a claim until evidence supports it.', code: 'onchain.py + ledger.py', output: 'Claim → source → confidence', signal: 'Verified on-chain' },
-  { n: '03', tag: 'Investigate', title: 'Only signals use AI.', body: 'If nothing important changed, the cycle stops. When there is a signal, specialised research looks at the creator, product, incentives and risks without rereading unchanged evidence.', code: 'context.py → research agents', output: 'Signal → research queue', signal: 'Evidence packet ready' },
-  { n: '04', tag: 'Evaluate', title: 'The rules hold the line.', body: 'A fixed scorecard and exit-risk floor come from the Python core. The writer cannot improve a rating with persuasive prose. The final memo runs only after research is marked complete.', code: 'run_report.py / completion gate', output: 'Score → risk floor → gate', signal: 'Research complete' },
-  { n: '05', tag: 'Deliver', title: 'One report. Clear reasons.', body: 'A comparison board and investor memos land in one HTML report. You can inspect what supports each conclusion, what remains unverified and what could change the thesis.', code: 'latest.html', output: 'Candidates → investor memo', signal: 'Ready to explore' },
+  { n: '01', tag: 'Discover', title: 'A new pool appears.', body: 'On a machine you control, the research engine checks stock-paired pools every six hours. It compares snapshots, so only a meaningful change becomes a signal.', output: 'Pool → snapshot → event', signal: 'New stock-paired pool' },
+  { n: '02', tag: 'Verify', title: 'The pair gets checked.', body: 'On-chain data tests the stock pair, pool depth, holders and contract permissions. A project’s story stays a claim until evidence supports it.', output: 'Claim → source → confidence', signal: 'Verified on-chain' },
+  { n: '03', tag: 'Investigate', title: 'Only signals use AI.', body: 'If nothing important changed, the cycle stops. When something did, focused research looks at the creator, product, incentives and risks.', output: 'Signal → research queue', signal: 'Evidence packet ready' },
+  { n: '04', tag: 'Evaluate', title: 'The rules hold the line.', body: 'A fixed scorecard and an exit-risk floor set the rating. Persuasive writing cannot raise it, and no memo is written until research is complete.', output: 'Score → risk floor → gate', signal: 'Research complete' },
+  { n: '05', tag: 'Deliver', title: 'One report. Clear reasons.', body: 'Memos and a comparison board land in one report, showing what supports each conclusion and what remains unverified.', output: 'Candidates → investor memo', signal: 'Ready to explore' },
+];
+
+// Where each stage runs in the research core, for readers who want the technical detail.
+const UNDER_THE_HOOD: [string, string, string][] = [
+  ['Discover', 'scout_cycle.py · discover.py', 'Six-hour market snapshots and event detection.'],
+  ['Verify', 'onchain.py · ledger.py', 'Pair, pool, holder and permission checks; the claim ledger.'],
+  ['Investigate', 'context.py → research agents', 'Runs only for new signals and skips unchanged evidence.'],
+  ['Evaluate', 'run_report.py · completion gate', 'Scorecard, exit-risk floor and the memo gate.'],
+  ['Deliver', 'latest.html', 'The comparison board and investor memos in one file.'],
 ];
 
 export function Story({ onRun, onConsole, live, sectionRef }: { onRun: () => void; onConsole: () => void; live: boolean; sectionRef: React.Ref<HTMLElement> }) {
@@ -35,7 +44,7 @@ export function Story({ onRun, onConsole, live, sectionRef }: { onRun: () => voi
         <p className="label">How it works</p>
         <h2 id="story-title">Before the verdict,<br />follow the trail.</h2>
         <div className="section-lede">
-          <p>The engine is a research pipeline, not a trading bot. Five stages sit between a new token appearing and a memo you can inspect.</p>
+          <p>A research pipeline, not a trading bot. Five stages sit between a new token appearing and a memo you can inspect.</p>
           <button type="button" className="text-link" onClick={onConsole}>Skip to the console <Icon name="arrow" size={15} /></button>
         </div>
       </div>
@@ -49,7 +58,6 @@ export function Story({ onRun, onConsole, live, sectionRef }: { onRun: () => voi
           <div className="story-readout" key={active}>
             <span className="mono tag-line">{step.signal}</span>
             <strong>{step.output}</strong>
-            <code>$ {step.code}</code>
           </div>
           <div className="story-dots" role="group" aria-label="Story chapters">
             {chapters.map((c, i) => <button key={c.n} type="button" className={i === active ? 'is-active' : ''} aria-label={`Go to chapter ${c.n}, ${c.tag}`} aria-current={i === active ? 'step' : undefined} onClick={() => goTo(i)}><i /></button>)}
@@ -63,17 +71,22 @@ export function Story({ onRun, onConsole, live, sectionRef }: { onRun: () => voi
           <p className="chapter-meta"><span className="mono">{c.n}</span><span className="label">{c.tag}</span></p>
           <h3>{c.title}</h3>
           <p>{c.body}</p>
-          <p className="chapter-code mono">{c.code}</p>
         </li>)}
       </ol>
     </div>
 
     <div className="shell">
+      <details className="tech-detail" data-reveal>
+        <summary>Technical detail: where each stage runs <span className="faq-icon" aria-hidden="true" /></summary>
+        <dl>
+          {UNDER_THE_HOOD.map(([stage, files, note]) => <div key={stage}><dt>{stage}</dt><dd><code>{files}</code><span>{note}</span></dd></div>)}
+        </dl>
+      </details>
       <div className="story-finale" data-reveal>
         <div>
           <p className="label">Now you know what Run means</p>
           <h3>Curiosity is good.<br />Evidence is better.</h3>
-          <p>{live ? 'Start a real Scout cycle on this machine through the local bridge.' : 'Try the guided demo first, then inspect the candidate board. The hosted preview does not call live chain APIs.'}</p>
+          <p>{live ? 'Start a real Scout cycle on this machine through the local bridge.' : 'The hosted site cannot run the research engine, so Run plays a fictional walkthrough. Then inspect the candidate board.'}</p>
         </div>
         <div className="finale-actions">
           <button type="button" className="btn btn-primary btn-lg" onClick={onRun}>{live ? 'Run Scout now' : 'Run the demo'} <Icon name="play" size={14} /></button>

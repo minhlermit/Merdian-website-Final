@@ -154,19 +154,22 @@ export class ScoutEngine {
     room.dispose();
     pmrem.dispose();
     this.scene.environment = this.envTarget.texture;
-    this.scene.environmentIntensity = 0.55;
+    this.scene.environmentIntensity = 0.5;
 
     // Graphite / titanium studio lighting with a restrained amber accent.
-    this.keyLight = new THREE.DirectionalLight(0xffe4c4, 2.4);
+    // Softer rim and kicker than v3: edges stay readable without hot specular lines on the jacket.
+    this.keyLight = new THREE.DirectionalLight(0xffe4c4, 2.25);
     this.keyLight.position.set(-3.2, 4.2, 5.5);
-    const rim = new THREE.DirectionalLight(0xbccbff, 2.6);
+    const rim = new THREE.DirectionalLight(0xbccbff, 1.85);
     rim.position.set(4.5, 2.4, -4.5);
-    const kicker = new THREE.DirectionalLight(0xdfe6ee, 0.9);
+    const kicker = new THREE.DirectionalLight(0xdfe6ee, 0.7);
     kicker.position.set(-5, 0.5, -2);
-    const amber = new THREE.PointLight(0xffb45a, 9, 12, 2);
+    const fill = new THREE.DirectionalLight(0xe6ecf2, 0.45);
+    fill.position.set(2.5, -1.2, 6);
+    const amber = new THREE.PointLight(0xffb45a, 6, 12, 2);
     amber.position.set(3.6, -0.6, -2.2);
     const hemi = new THREE.HemisphereLight(0x2c333a, 0x07090a, 0.7);
-    this.scene.add(this.keyLight, rim, kicker, amber, hemi);
+    this.scene.add(this.keyLight, rim, kicker, fill, amber, hemi);
 
     this.rig = createScout();
     this.props = createProps();

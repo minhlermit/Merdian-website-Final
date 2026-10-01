@@ -10,7 +10,9 @@ import { SceneLayer } from './components/SceneLayer';
 import { SiteFooter } from './components/SiteFooter';
 import { SiteHeader, type NavTarget } from './components/SiteHeader';
 import { Story } from './components/Story';
-import { ValueSection } from './components/ValueSection';
+import { SampleMemo } from './components/SampleMemo';
+import { WhySection } from './components/WhySection';
+import { DataStatus } from './components/DataStatus';
 import { BrandCursor, useReveal } from './components/Motion';
 import { RunExperience } from './components/RunExperience';
 import { WalletPanel } from './components/WalletPanel';
@@ -41,7 +43,7 @@ function rating(value: string): string {
 }
 
 export default function App() {
-  const consoleRef = useRef<HTMLElement | null>(null), storyRef = useRef<HTMLElement>(null), plansRef = useRef<HTMLElement>(null), productRef = useRef<HTMLElement>(null), faqRef = useRef<HTMLElement>(null), fileRef = useRef<HTMLInputElement>(null);
+  const consoleRef = useRef<HTMLElement | null>(null), storyRef = useRef<HTMLElement>(null), plansRef = useRef<HTMLElement>(null), memoRef = useRef<HTMLElement>(null), whyRef = useRef<HTMLElement>(null), faqRef = useRef<HTMLElement>(null), fileRef = useRef<HTMLInputElement>(null);
   const consoleSlot = useCallback((el: HTMLElement | null) => { consoleRef.current = el; sceneBridge.slot('console')(el); }, []);
   const [data,setData] = useState<ScoutPayload>(() => savedPayload() || (localStorage.getItem('scout-demo-cleared-window-v1')===String(windowStart()) ? emptyDemo() : freshDemo()));
   const [bridge,setBridge] = useState(false), [running,setRunning] = useState(false);
@@ -54,7 +56,7 @@ export default function App() {
   const wallet = useWallet();
   useReveal();
   const scroll = (ref: React.RefObject<HTMLElement|null>) => ref.current?.scrollIntoView({behavior:'smooth',block:'start'});
-  const navigate = (target: NavTarget) => scroll({product:productRef,story:storyRef,console:consoleRef,plans:plansRef,faq:faqRef}[target]);
+  const navigate = (target: NavTarget) => scroll({memo:memoRef,why:whyRef,story:storyRef,console:consoleRef,plans:plansRef,faq:faqRef}[target]);
 
   useEffect(() => {
     // Direct links such as /#console land on the section once the page has rendered.
@@ -138,6 +140,9 @@ export default function App() {
       setRunning(true); setNotice(body.message);
     } catch(e) { setNotice(e instanceof Error ? e.message : 'Could not start Scout.'); }
   };
+  // The sample memo is built from the AURA demo candidate; open its full file while the demo board shows it.
+  const sample = data.source==='demo' ? data.candidates.find(c=>c.address==='demo-01') : undefined;
+  const openSample = () => { if (sample) setActive(sample); else setRunOpen(true); };
   const openReport = async () => {
     if (!reportHtml && bridge && data.source === 'local' && data.reportAvailable) {
       try { const r = await fetch('/api/report',{cache:'no-store'}); if(r.ok) setReportHtml(await r.text()); }
@@ -150,23 +155,23 @@ export default function App() {
     <a className="skip-link" href="#console" onClick={e=>{e.preventDefault();scroll(consoleRef);}}>Skip to the console</a>
     <BrandCursor/>
     <SceneLayer/>
-    <SiteHeader onNavigate={navigate} onWallet={()=>setWalletOpen(true)} onGetMC={()=>setMcOpen(true)} connected={Boolean(wallet.address)} walletLabel={wallet.address?`${wallet.address.slice(0,5)}…${wallet.address.slice(-4)}`:'Connect wallet'}/>
+    <SiteHeader onNavigate={navigate} onWallet={()=>setWalletOpen(true)} onGetMC={()=>setMcOpen(true)} onRun={runScout} runLabel={bridge?'Run Scout':'Try demo'} connected={Boolean(wallet.address)} walletLabel={wallet.address?`${wallet.address.slice(0,5)}…${wallet.address.slice(-4)}`:'Connect wallet'}/>
     <main id="main">
       <div className="scene-zone" ref={sceneBridge.slot('zone')}>
-        <Hero onStory={()=>scroll(storyRef)} onConsole={()=>scroll(consoleRef)}/>
-        <ValueSection sectionRef={productRef}/>
+        <Hero onMemo={()=>scroll(memoRef)} onRun={runScout} live={bridge}/>
+        <SampleMemo sectionRef={memoRef} canOpen={Boolean(sample)} onOpen={openSample} onConsole={()=>scroll(consoleRef)}/>
+        <WhySection sectionRef={whyRef}/>
         <Story sectionRef={storyRef} onRun={runScout} onConsole={()=>scroll(consoleRef)} live={bridge}/>
       </div>
       <section className="console-section" id="console" ref={consoleSlot} aria-labelledby="console-title">
         <div className="wrap-wide">
-          <div className="console-intro" data-reveal><div><p className="label">The console</p><h2 id="console-title">Less noise.<br/>More signal.</h2></div><p className="section-lede">The cinematic part is over. This is the workspace: scan the board, follow meaningful changes, then inspect the evidence before forming a view.</p></div>
+          <div className="console-intro" data-reveal><div><p className="label">The console</p><h2 id="console-title">Less noise.<br/>More signal.</h2></div><p className="section-lede">Start here: scan the board for what changed, open a candidate to read its evidence, then compare up to three side by side before forming a view.</p></div>
           <div className="console-shell">
             <div className="console-topbar"><div className="console-title"><span className="terminal-icon"><Icon name="grid" size={19}/></span><div><strong>SCOUT / CONTROL ROOM</strong><small>ROBINHOOD CHAIN <span>·</span> NETWORK 4663</small></div></div><div className="console-status"><span className={`status-dot ${data.source==='demo'?'demo-dot':''}`}/><span>{data.source==='demo'?'DEMO SCENARIO':data.source==='local'?'LOCAL DATA':'IMPORTED SNAPSHOT'}</span><span className="status-date">{relativeTime(data.generated)}</span></div></div>
-            {data.source==='demo'&&<div className="demo-banner"><Icon name="info" size={17}/><span><b>Fictional interface demo.</b> {data.candidates.length?'The current candidates stay until the next six-hour reset. Names and numbers are invented.':'The previous candidates were cleared at the six-hour reset. Run the demo to explore the example set again.'} A local Scout run or fresh export supplies research data.</span></div>}
-            <div className="cycle-strip"><span><Icon name="refresh" size={15}/> BOARD RESETS EVERY SIX HOURS <b>·</b> UTC 00:00 / 06:00 / 12:00 / 18:00</span><strong>NEXT RESET IN {clock}</strong></div>
             {data.source!=='demo'&&data.warnings.length>0&&<div className="warning-banner"><Icon name="info" size={17}/><span>{data.warnings[0]}{data.warnings.length>1&&` · ${data.warnings.length-1} more data warnings`}</span></div>}
             <div className="summary-grid"><div><span className="summary-symbol">↗</span><small>CANDIDATES TRACKED</small><strong>{String(data.candidates.length).padStart(2,'0')}</strong><span className="summary-foot">Across stock-paired pools</span></div><div><span className="summary-symbol">✳</span><small>SIGNALS RECORDED</small><strong>{String(data.events.length).padStart(2,'0')}</strong><span className="summary-foot">Latest stored events</span></div><div><span className="summary-symbol warn">◉</span><small>HIGH EXIT RISK</small><strong>{String(highRisk).padStart(2,'0')}</strong><span className="summary-foot">Needs extra scrutiny</span></div><div className="summary-accent"><span className="summary-symbol">◇</span><small>AVG. POOL LIQUIDITY</small><strong>{money(avgLiq)}</strong><span className="summary-foot">Observed candidate pools</span></div></div>
             <div className="workspace-toolbar"><div className="workspace-heading"><span>THE WATCHLIST</span><small>{candidates.length.toString().padStart(2,'0')} VISIBLE / {data.candidates.length.toString().padStart(2,'0')} TOTAL</small></div><div className="workspace-actions"><button className="subtle-action" onClick={()=>fileRef.current?.click()}><Icon name="upload" size={16}/> Import</button><button className="subtle-action" onClick={()=>download(`scout-studio-${data.runId||'snapshot'}.json`,JSON.stringify(data,null,2),'application/json')}><Icon name="download" size={16}/> Export</button><button className="run-action" onClick={runScout} disabled={running}><Icon name={running?'refresh':'play'} size={14}/>{running?'SCOUT RUNNING':bridge?'RUN SCOUT':'RUN DEMO'}</button><input hidden ref={fileRef} type="file" accept=".json,.html,application/json,text/html" onChange={e=>importFile(e.target.files?.[0])}/></div></div>
+            <DataStatus data={data} bridge={bridge} running={running} clock={clock}/>
             {notice&&<div className="inline-notice" role="status"><span>{notice}</span><button aria-label="Dismiss notice" onClick={()=>setNotice('')}><Icon name="close" size={14}/></button></div>}
             <div className="filter-row"><div className="filter-tabs" role="group" aria-label="Candidate filters">{([['all','All candidates'],['research','Researched'],['watch','Watchlist'],['risk','High risk']] as [Filter,string][]).map(([key,label])=><button key={key} className={filter===key?'active':''} onClick={()=>setFilter(key)}>{label}{key==='risk'&&<span>{highRisk}</span>}</button>)}</div><div className="filter-controls"><label className="search-box"><Icon name="search" size={18}/><input value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search token or pair" aria-label="Search token or pair"/></label><label className="sort-box"><Icon name="filter" size={16}/><select value={sort} onChange={e=>setSort(e.target.value as Sort)} aria-label="Sort candidates"><option value="signal">Signal score</option><option value="liquidity">Liquidity</option><option value="recent">Recently updated</option></select><Icon name="chevron" size={15}/></label></div></div>
             {candidates.length ? <div className="candidate-grid">{candidates.map(c=><CandidateCard key={c.address} candidate={c} onOpen={()=>setActive(c)} selected={selected.includes(c.address)} onSelect={()=>setSelected(old=>old.includes(c.address)?old.filter(x=>x!==c.address):old.length<3?[...old,c.address]:old)}/>)}</div> : <div className="empty-state"><img src="/assets/scout-mascot-pixel.png" alt="Scout mascot searching"/><h3>No candidates in this view.</h3><p>{data.candidates.length ? 'Try another filter or search.' : 'Run the local Scout or import a JSON export to populate this console.'}</p></div>}
