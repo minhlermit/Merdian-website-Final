@@ -1,0 +1,33 @@
+name: Live site check
+
+# Fetches the production Vercel domains and reports the page title and whether every
+# referenced script, stylesheet, font and image answers 200. Run it after a deploy.
+on:
+  workflow_dispatch:
+  push:
+    branches: ['claude/**']
+    paths: ['.github/workflows/live-check.yml']
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      SITES: https://scout-studio-iota.vercel.app https://claudedreamydijkstra61o3be.vercel.app
+    steps:
+      - name: Check production domains
+        run: |
+          status=0
+          for u in $SITES; do
+            echo "== $u"
+            code=$(curl -s -o page.html -w '%{http_code}' -L "$u/")
+            echo "home: HTTP $code"
+            grep -o '<title>[^<]*' page.html || echo "no <title>"
+            for a in $(grep -oE '(src|href)="/[^"]+"' page.html | sed -E 's/^[a-z]+="//; s/"$//'); do
+              c=$(curl -s -o /dev/null -w '%{http_code}' "$u$a"); echo "$c $a"; [ "$c" = 200 ] || status=1
+            done
+            for p in /lab /fonts/geist/Geist-Variable.woff2 /assets/scout-avatar-3d.png; do
+              echo "$(curl -s -o /dev/null -w '%{http_code}' "$u$p") $p"
+            done
+          done
+          exit $status
