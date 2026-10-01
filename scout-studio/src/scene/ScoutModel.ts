@@ -99,13 +99,125 @@ function hairlineY(azimuth: number) {
   }
   return HAIRLINE[HAIRLINE.length - 1][1];
 }
-function zigzag(azimuth: number, teeth = 11, amplitude = 0.03) {
+// Sharper teeth at the temples and sides, a calmer line across the forehead (as in the avatar).
+function zigzag(azimuth: number, teeth = 15) {
+  const amplitude = 0.022 + 0.034 * smooth(0.55, 1.2, Math.abs(azimuth));
   const s = (((azimuth * teeth) / Math.PI) % 2 + 2) % 2;
   return (Math.abs(s - 1) - 0.5) * 2 * amplitude;
 }
-function isScalp(u: THREE.Vector3, margin = 0) {
+/** Unit-sphere height above the jagged hairline; negative is skin. */
+function scalpMargin(u: THREE.Vector3) {
   const a = Math.atan2(u.x, u.z);
-  return u.y > hairlineY(a) + zigzag(a) + margin;
+  return u.y - (hairlineY(a) + zigzag(a));
+}
+/** Height above the edge of the silver mass: close to the hairline at the front, higher at the sides. */
+function silverMargin(u: THREE.Vector3) {
+  const a = Math.abs(Math.atan2(u.x, u.z));
+  return scalpMargin(u) - (0.1 + 0.14 * smooth(0.3, 1.0, a));
+}
+
+/** A unit sphere (seam at the back) plus a copy of its unit directions, for surfaces built on the head. */
+function unitSphere(widthSegments: number, heightSegments: number) {
+  const g = new THREE.SphereGeometry(1, widthSegments, heightSegments);
+  g.rotateY(-Math.PI / 2);
+  return { g, unit: new Float32Array(g.getAttribute('position').array as ArrayLike<number>) };
+}
+
+/** Drops triangles whose centre direction fails the test (used to cut the hair regions). */
+function keepTriangles(g: THREE.BufferGeometry, unit: Float32Array, test: (u: THREE.Vector3) => boolean) {
+  const index = g.getIndex()!;
+  const kept: number[] = [];
+  const u = v3();
+  for (let i = 0; i < index.count; i += 3) {
+    const a = index.getX(i) * 3, b = index.getX(i + 1) * 3, c = index.getX(i + 2) * 3;
+    u.set(unit[a] + unit[b] + unit[c], unit[a + 1] + unit[b + 1] + unit[c + 1], unit[a + 2] + unit[b + 2] + unit[c + 2]).normalize();
+    if (test(u)) kept.push(index.getX(i), index.getX(i + 1), index.getX(i + 2));
+  }
+  g.setIndex(kept);
+}
+
+// ---- Hair ---------------------------------------------------------------------------------------
+// The silver hair is one continuous volume combed toward the back-left crown, with a few dozen
+// clumps lying on it for tips and silhouette. The dark underlayer is a thin shell with a jagged
+// edge. Earlier versions built the hair from hundreds of separate locks, which read as stacked
+// spikes and rough roots.
+
+const FLOW = v3(0.55, 0.5, -0.68).normalize();
+const FLOW_E1 = v3(0, 1, 0).cross(FLOW).normalize();
+const FLOW_E2 = FLOW.clone().cross(FLOW_E1).normalize();
+
+/** Silver volume surface for a head direction: fuller at the crown and quiff, swept toward FLOW,
+ *  with broad ridges that converge on the crown whorl. */
+function silverSurface(u: THREE.Vector3) {
+  const { p, n } = headSurface(u);
+  const inside = smooth(-0.04, 0.3, silverMargin(u));
+  const crown = smooth(0.1, 0.85, u.y);
+  const quiff = smooth(0.2, 0.7, u.z) * smooth(0.3, 0.75, u.y);
+  const phi = Math.atan2(u.dot(FLOW_E1), u.dot(FLOW_E2));
+  const fromWhorl = Math.acos(Math.min(1, Math.max(-1, u.dot(FLOW))));
+  const comb = Math.pow(0.5 + 0.5 * Math.cos((phi + 0.2 * Math.sin(phi * 3 + 1.3)) * 9), 0.7);
+  const ridge = 1 - smooth(0.25, 0.7, fromWhorl) * (1 - comb);
+  const h = 0.05 + inside * (0.1 + 0.14 * crown + 0.24 * quiff) * (0.78 + 0.22 * ridge);
+  // Tangential push toward the whorl; its length is sin(angle), so it fades out at the whorl itself.
+  const toward = FLOW.clone().addScaledVector(n, -FLOW.dot(n));
+  p.addScaledVector(n, h).addScaledVector(toward, inside * (0.1 + 0.08 * quiff));
+  return { p, n, inside, ridge, phi };
+}
+
+function buildSilverShell() {
+  const { g, unit } = unitSphere(208, 156);
+  const pos = g.getAttribute('position');
+  const colors = new Float32Array(pos.count * 3);
+  const root = new THREE.Color(0x8a857e), tip = new THREE.Color(PALETTE.hairSilver).offsetHSL(0, 0, 0.04), c = new THREE.Color();
+  const u = v3();
+  for (let i = 0; i < pos.count; i++) {
+    u.set(unit[i * 3], unit[i * 3 + 1], unit[i * 3 + 2]);
+    const s = silverSurface(u);
+    pos.setXYZ(i, s.p.x, s.p.y, s.p.z);
+    // Grooves and roots darker, ridges lighter, plus a faint strand rhythm.
+    c.copy(root).lerp(tip, 0.3 + 0.7 * s.inside * (0.45 + 0.55 * s.ridge)).multiplyScalar(0.95 + 0.05 * Math.cos(s.phi * 31));
+    colors[i * 3] = c.r; colors[i * 3 + 1] = c.g; colors[i * 3 + 2] = c.b;
+  }
+  g.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  keepTriangles(g, unit, d => silverMargin(d) > -0.03);
+  weldNormals(g);
+  return g;
+}
+
+function buildSilverLocks() {
+  const rand = random(7);
+  const locks = new LockBuilder();
+  const u = v3();
+  const root = new THREE.Color(0xb3aea6), tip = new THREE.Color(PALETTE.hairSilver).offsetHSL(0, 0, 0.06);
+  for (let i = 0; i < 150; i++) {
+    fibonacci(150, i, u);
+    if (silverMargin(u) < 0.04 || rand() < 0.1) continue;
+    const s = silverSurface(u);
+    const front = u.z > 0.25 && u.y > 0.3;
+    const dir = tangentTowards(s.n, FLOW, v3(0.3, 0, -1)).applyAxisAngle(s.n, (rand() - 0.5) * 0.18);
+    // Front clumps lift into the quiff; the rest curve back onto the volume and only their tips
+    // leave it, which keeps the silhouette clumped instead of bristling.
+    const length = front ? 0.7 + rand() * 0.15 : 0.55 + rand() * 0.2;
+    const lift = front ? 0.18 + rand() * 0.08 : -0.16 + rand() * 0.08;
+    locks.add(s.p.clone().addScaledVector(s.n, -0.03), s.n, dir, { length, width: 0.24 + rand() * 0.06, thick: 0.07, lift, root, tip });
+  }
+  return locks.build();
+}
+
+/** Dark underlayer: thin at the jagged edge so it reads as painted-on, rising to a little volume. */
+function buildDarkCap() {
+  const { g, unit } = unitSphere(208, 156);
+  const pos = g.getAttribute('position');
+  const u = v3();
+  for (let i = 0; i < pos.count; i++) {
+    u.set(unit[i * 3], unit[i * 3 + 1], unit[i * 3 + 2]);
+    const { p, n } = headSurface(u);
+    p.addScaledVector(n, 0.006 + 0.03 * smooth(0, 0.14, scalpMargin(u)));
+    pos.setXYZ(i, p.x, p.y, p.z);
+  }
+  keepTriangles(g, unit, d => scalpMargin(d) > 0);
+  weldNormals(g);
+  return g;
 }
 
 // ---- Hair locks -------------------------------------------------------------------------------
@@ -133,9 +245,9 @@ class LockBuilder {
       d.set(0, 0, 0).addScaledVector(a, 2 * (1 - t)).addScaledVector(b, 2 * t).normalize();
       S.crossVectors(d, normal).normalize();
       N.crossVectors(S, d).normalize();
-      // Clumped locks keep their body and close with a rounded end instead of a needle tip.
-      const w = o.width * Math.pow(Math.max(0, 1 - Math.pow(t, 2.4)), 0.55) * (0.86 + 0.22 * Math.sin(Math.PI * Math.min(1, t * 1.6)));
-      const th = o.thick * Math.pow(Math.max(0, 1 - t * t), 0.6);
+      // Flat clumps that taper to a soft point, like the avatar's combed locks.
+      const w = o.width * Math.pow(1 - t, 0.8) * (0.85 + 0.3 * Math.sin(Math.PI * Math.min(1, t * 1.6)));
+      const th = o.thick * Math.pow(1 - t, 0.6);
       col.copy(o.root).lerp(o.tip, smooth(0, 0.7, t));
       for (let k = 0; k < RAD; k++) {
         const ang = (k / RAD) * Math.PI * 2;
@@ -174,57 +286,6 @@ function tangentTowards(normal: THREE.Vector3, target: THREE.Vector3, fallback: 
   const t = target.clone().addScaledVector(normal, -target.dot(normal));
   if (t.lengthSq() < 0.04) t.copy(fallback).addScaledVector(normal, -fallback.dot(normal));
   return t.normalize();
-}
-
-function buildHair(materials: { silver: THREE.Material; dark: THREE.Material }) {
-  const rand = random(7);
-  const silver = new LockBuilder(), dark = new LockBuilder();
-  const u = v3();
-  const flow = v3(0.55, 0.5, -0.68).normalize();
-  const nape = v3(0.25, -0.7, -0.66).normalize();
-  const silverRoot = new THREE.Color(0x6f6b67), silverTip = new THREE.Color(PALETTE.hairSilver).offsetHSL(0, 0, 0.07);
-  const darkRoot = new THREE.Color(0x0f0e11), darkTip = new THREE.Color(PALETTE.hairDark).offsetHSL(0, 0, 0.05);
-  const swept = (n: THREE.Vector3, uy: number) => {
-    const a = Math.abs(Math.atan2(n.x, n.z));
-    const earZone = smooth(1.2, 1.42, a) * (1 - smooth(1.8, 2.0, a));
-    const low = smooth(0.35, -0.25, uy) * (1 - earZone);
-    return { low, dir: tangentTowards(n, flow.clone().lerp(nape, low).normalize(), v3(0.3, 0, -1)) };
-  };
-
-  // Dark lower layer: rooted along the hairline, swept with the flow; its roots form the jagged edge.
-  for (let i = 0; i < 620; i++) {
-    fibonacci(620, i, u);
-    if (!isScalp(u, 0.03) || isScalp(u, 0.34) || rand() < 0.12) continue;
-    const { p, n } = headSurface(u);
-    const { low, dir } = swept(n, u.y);
-    dir.applyAxisAngle(n, (rand() - 0.5) * 0.3);
-    dark.add(p.clone().addScaledVector(n, 0.016), n, dir, { length: 0.44 + rand() * 0.12 - low * 0.1, width: 0.26 + rand() * 0.05, thick: 0.09, lift: 0.12 + rand() * 0.05, root: darkRoot, tip: darkTip });
-  }
-  // Sideburn spikes pointing down in front of the ears.
-  for (let i = 0; i < 900; i++) {
-    fibonacci(900, i, u);
-    const a = Math.abs(Math.atan2(u.x, u.z));
-    if (a < 1.05 || a > 1.46 || !isScalp(u, 0.0) || isScalp(u, 0.14) || rand() < 0.55) continue;
-    const { p, n } = headSurface(u);
-    const dir = tangentTowards(n, v3(0, -1, 0.1), v3(0, -1, 0)).applyAxisAngle(n, (rand() - 0.5) * 0.15);
-    dark.add(p.clone().addScaledVector(n, 0.018), n, dir, { length: 0.15 + rand() * 0.05, width: 0.12, thick: 0.045, lift: 0.04, root: darkRoot, tip: darkTip });
-  }
-  // Silver upper mass: fewer, wider clumps swept up, back and toward the character's left, with
-  // little random twist so neighbouring locks merge into one calm shape instead of crossing spikes.
-  for (let i = 0; i < 560; i++) {
-    fibonacci(560, i, u);
-    if (!isScalp(u, 0.2) || rand() < 0.08) continue;
-    const { p, n } = headSurface(u);
-    const { low, dir } = swept(n, u.y);
-    dir.applyAxisAngle(n, (rand() - 0.5) * 0.22);
-    const front = u.z > 0.25 && u.y > 0.3;
-    const length = front ? 0.72 + rand() * 0.14 : 0.6 + rand() * 0.18 - low * 0.16;
-    const lift = front ? 0.34 + rand() * 0.08 : 0.12 + rand() * 0.1 - low * 0.06;
-    silver.add(p.clone().addScaledVector(n, 0.055), n, dir, { length, width: 0.34 + rand() * 0.08, thick: 0.13 + rand() * 0.02, lift, root: silverRoot, tip: silverTip });
-  }
-  const group = new THREE.Group();
-  group.add(new THREE.Mesh(silver.build(), materials.silver), new THREE.Mesh(dark.build(), materials.dark));
-  return group;
 }
 
 // ---- Helpers ----------------------------------------------------------------------------------
@@ -315,8 +376,7 @@ export function createScout(): ScoutRig {
 
   const skin = keep(new THREE.MeshPhysicalMaterial({ color: PALETTE.skin, roughness: 0.5, clearcoat: 0.28, clearcoatRoughness: 0.45, sheen: 0.35, sheenColor: new THREE.Color(0xffe8da), sheenRoughness: 0.6 }));
   const skinShade = keep(new THREE.MeshPhysicalMaterial({ color: PALETTE.skinShade, roughness: 0.6, clearcoat: 0.15 }));
-  const hairSilver = keep(new THREE.MeshPhysicalMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.46, metalness: 0.04, clearcoat: 0.28, clearcoatRoughness: 0.42, sheen: 0.45, sheenColor: new THREE.Color(0xf4f1ea), sheenRoughness: 0.5 }));
-  const hairDark = keep(new THREE.MeshPhysicalMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.55, clearcoat: 0.2, clearcoatRoughness: 0.46 }));
+  const hairSilver = keep(new THREE.MeshPhysicalMaterial({ color: 0xffffff, vertexColors: true, roughness: 0.42, metalness: 0.04, clearcoat: 0.3, clearcoatRoughness: 0.38, sheen: 0.5, sheenColor: new THREE.Color(0xf4f1ea), sheenRoughness: 0.45 }));
   const eyeMat = keep(new THREE.MeshPhysicalMaterial({ color: 0x0b0b0d, roughness: 0.16, clearcoat: 1, clearcoatRoughness: 0.06 }));
   const blushMap = keep(radialTexture('rgba(242,154,156,0.78)', 'rgba(242,154,156,0)'));
   const blushMat = keep(new THREE.MeshStandardMaterial({ map: blushMap, transparent: true, depthWrite: false, roughness: 0.85, polygonOffset: true, polygonOffsetFactor: -2 }));
@@ -346,25 +406,9 @@ export function createScout(): ScoutRig {
   const headMesh = new THREE.Mesh(keep(headGeometry(128, 96).g), skin);
   head.add(headMesh);
 
-  const cap = headGeometry(176, 132);
-  cap.g.scale(1.028, 1.03, 1.03);
-  const index = cap.g.getIndex()!;
-  const kept: number[] = [];
-  const u = v3();
-  const U = cap.unit;
-  for (let i = 0; i < index.count; i += 3) {
-    const a = index.getX(i) * 3, b = index.getX(i + 1) * 3, c = index.getX(i + 2) * 3;
-    u.set(U[a] + U[b] + U[c], U[a + 1] + U[b + 1] + U[c + 1], U[a + 2] + U[b + 2] + U[c + 2]).normalize();
-    if (isScalp(u)) kept.push(index.getX(i), index.getX(i + 1), index.getX(i + 2));
-  }
-  cap.g.setIndex(kept);
-  keep(cap.g);
-  const capMat = keep(new THREE.MeshPhysicalMaterial({ color: PALETTE.hairDark, roughness: 0.55, clearcoat: 0.3 }));
-  head.add(new THREE.Mesh(cap.g, capMat));
-
-  const hair = buildHair({ silver: hairSilver, dark: hairDark });
-  hair.traverse(o => { if (o instanceof THREE.Mesh) keep(o.geometry); });
-  head.add(hair);
+  const capMat = keep(new THREE.MeshPhysicalMaterial({ color: PALETTE.hairDark, roughness: 0.6, clearcoat: 0.15, clearcoatRoughness: 0.5 }));
+  head.add(new THREE.Mesh(keep(buildDarkCap()), capMat));
+  head.add(new THREE.Mesh(keep(buildSilverShell()), hairSilver), new THREE.Mesh(keep(buildSilverLocks()), hairSilver));
 
   // Eyes
   const eyeGeo = keep(new THREE.CapsuleGeometry(0.056, 0.15, 8, 20));

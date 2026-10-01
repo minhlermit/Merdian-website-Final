@@ -177,7 +177,7 @@ export function createProps(): PropsRig {
 
   // Signal nodes: scattered → collected on the scanner ring; node 0 becomes the focus.
   const NODE_COUNT = 22;
-  const nodeGeo = keep(new THREE.SphereGeometry(0.042, 14, 10));
+  const nodeGeo = keep(new THREE.SphereGeometry(0.034, 14, 10));
   const nodeMat = keep(new THREE.MeshBasicMaterial({ color: 0x8b969f, transparent: true, opacity: 0, toneMapped: false }));
   const nodes = new THREE.InstancedMesh(nodeGeo, nodeMat, NODE_COUNT - 1);
   nodes.frustumCulled = false;
@@ -277,7 +277,7 @@ export function createProps(): PropsRig {
       // Nodes
       const ambient = 0.16 * (1 - smooth(-1, -0.4, p));
       const storyNodes = smooth(-0.8, -0.1, p) * (1 - smooth(1.2, 1.9, p));
-      nodeMat.opacity = Math.max(ambient, storyNodes * 0.7) * live;
+      nodeMat.opacity = Math.max(ambient, storyNodes * 0.5) * live;
       // Ring positions live in the parent (content) space; convert into this group's space.
       const onRing = (i: number) => tmp.copy(collected[i]).multiplyScalar(orbit.scale.x).add(orbit.position).sub(group.position).divideScalar(group.scale.x);
       for (let i = 1; i < NODE_COUNT; i++) {

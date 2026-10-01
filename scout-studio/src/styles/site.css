@@ -78,7 +78,8 @@ main { position: relative; z-index: 1; }
 .chain-badge-logo img[hidden] { display: none; }
 .hero-copy > .chain-badge { margin-bottom: 28px; }
 .hero-title { font-size: var(--fs-hero); font-weight: 560; letter-spacing: -0.045em; line-height: 1; }
-.hero-title span { display: block; }
+.hero-title > span { display: block; }
+.hero-title .nowrap { white-space: nowrap; }
 .hero-title em { font-style: normal; color: var(--amber); }
 .hero-lede { margin-top: 28px; max-width: 36rem; color: var(--text-2); font-size: clamp(17px, 0.35vw + 15.5px, 20px); line-height: 1.55; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 36px; }
@@ -153,7 +154,7 @@ html[data-motion="off"] .capability-panel { animation: none; }
 /* ---- Sample memo ------------------------------------------------------------------------- */
 .memo-section { position: relative; padding-block: var(--section-pad); background: linear-gradient(180deg, rgba(7, 9, 11, 0.55) 0%, rgba(7, 9, 11, 0.9) 26%, rgba(7, 9, 11, 0.92) 100%); border-top: 1px solid var(--line); }
 .memo-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: start; }
-.memo-intro { grid-column: 1 / span 4; position: sticky; top: calc(var(--header-h) + 40px); display: grid; gap: 20px; }
+.memo-intro { grid-column: 1 / span 4; position: sticky; top: calc(var(--header-h) + 40px); display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
 .memo-intro .section-lede { max-width: 38ch; }
 .memo-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 22px; margin-top: 8px; }
 .memo-card { grid-column: 6 / span 7; border: 1px solid var(--line-strong); border-radius: var(--radius-l); background: linear-gradient(180deg, #12181c 0%, #0d1215 100%); box-shadow: 0 40px 80px -40px rgba(0, 0, 0, 0.85); overflow: hidden; }

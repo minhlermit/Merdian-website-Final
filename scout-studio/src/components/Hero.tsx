@@ -9,7 +9,7 @@ export function Hero({ onMemo, onRun, live }: { onMemo: () => void; onRun: () =>
       <div className="hero-copy" ref={sceneBridge.slot('heroCopy')}>
         <ChainBadge className="enter" />
         <h1 id="hero-title" className="hero-title enter" style={{ '--i': 1 } as React.CSSProperties}>
-          <span>Evidence-first research</span>{' '}
+          <span><span className="nowrap">Evidence-first</span> research</span>{' '}
           <span>for Robinhood <em>Chain.</em></span>
         </h1>
         <p className="hero-lede enter" style={{ '--i': 2 } as React.CSSProperties}>
