@@ -77,7 +77,7 @@ npx vercel deploy --prod   # chỉ sau khi duyệt preview
 
 `vercel.json` chuyển mọi đường dẫn SPA (kể cả `/lab`) về `index.html`; file tĩnh trong `public/` (asset, font, ảnh baseline) được phục vụ trực tiếp. `.vercelignore` loại core Python/bridge khỏi bản upload.
 
-**Deploy từ GitHub (không cần CLI).** App nằm trong thư mục con `scout-studio/` của repo `Merdian-website-Final`; thư mục gốc là trang MERIDIAN. Trên Vercel: *Add New → Project → Import* repo này, đặt **Root Directory = `scout-studio`** (Vite được nhận tự động, build `npm run build`, output `dist`). Mỗi lần push lên nhánh sẽ có một preview riêng.
+**Deploy từ GitHub (không cần CLI).** App nằm trong thư mục con `scout-studio/` của repo `Merdian-website-Final`. Trên nhánh này, `vercel.json` ở gốc repo bảo Vercel cài và build `scout-studio/` (output `scout-studio/dist`), nên project Vercel nối với repo không cần đổi Root Directory; đặt Root Directory = `scout-studio` cũng chạy. Nhánh `main` hiện vẫn là trang MERIDIAN, nên production chỉ đổi sang Stock Scout sau khi nhánh này được merge (hoặc khi đổi production branch). Mỗi lần push lên nhánh sẽ có một preview riêng.
 
 **Deploy bằng GitHub Actions.** Workflow `.github/workflows/scout-studio-check.yml` build + smoke test mỗi lần push; job `vercel-preview` tự deploy preview khi repo có secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID`, `VERCEL_PROJECT_ID` (hai ID lấy trong `.vercel/project.json` sau khi `npx vercel link`). Job này chạy CLI từ trong `scout-studio/`, nên để Root Directory của project Vercel ở mặc định; chỉ đặt `scout-studio` khi dùng cách import Git ở trên.
 
