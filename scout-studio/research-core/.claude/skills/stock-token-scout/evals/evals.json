@@ -1,0 +1,41 @@
+{
+ "skill_name": "stock-token-scout",
+ "evals": [
+  {
+   "id": 1,
+   "prompt": "Quét Robinhood Chain giúp tôi, có gì đáng điều tra thì làm luôn",
+   "expected_output": "Chạy scout_cycle.py; mã 0 thì dừng không phân tích; mã 10 thì điều tra hàng đợi theo 11 bước, memo có nhãn mức bằng chứng",
+   "files": []
+  },
+  {
+   "id": 2,
+   "prompt": "Điều tra token 0xaaaa000000000000000000000000000000001e18, tìm creator là ai và claim đốt token lấy AI credit có thật không",
+   "expected_output": "onchain.py, ledger page/evidence/bridge/claim; creator có mức do luật tính; claim burn được đối chiếu on-chain; không suy danh tính từ ví",
+   "files": []
+  },
+  {
+   "id": 3,
+   "prompt": "Dự án này nói được backed by NVDA shares, đúng không?",
+   "expected_output": "Phân biệt ghép cặp với bảo chứng; claim stock_backed ra CONFLICT trừ khi có cơ chế redeem; kiểm tra stock token chính chủ",
+   "files": []
+  },
+  {
+   "id": 4,
+   "prompt": "Chạy skill này đi",
+   "expected_output": "Chạy trọn pipeline (/report) không hỏi lại; cuối cùng giao đúng một file HTML Robinhood_Token_Report_<ngày>.html; tin nhắn cuối tối đa 6 dòng gồm token nổi bật, xếp loại, cảnh báo và giới hạn dữ liệu; không kể lại quy trình, không gửi memo .md/zip",
+   "files": []
+  },
+  {
+   "id": 5,
+   "prompt": "Đánh giá các token Robinhood Chain giúp tôi (môi trường chặn api.dexscreener.com và blockscout)",
+   "expected_output": "Không dừng lại hỏi; nhận mã 2 hoặc cảnh báo proxy thì đặt STS_OFFLINE=1, dùng fetched.py missing, tải DexScreener bằng web fetch và Blockscout bằng MCP (ưu tiên /tokens/<addr> rồi /holders), lưu bằng fetched.py put-*, chạy lại tới khi có hàng đợi; báo cáo HTML có mục 'Độ tin cậy dữ liệu' ghi nguồn thiếu",
+   "files": []
+  },
+  {
+   "id": 6,
+   "prompt": "Website token ghi 'does not represent NVIDIA equity'. Ghi claim thế nào?",
+   "expected_output": "Không ghi thành claim stock_backed (đó là miễn trừ, không phải khẳng định bảo chứng); lưu vào sổ bằng chứng và nêu trong memo như điểm cộng về trung thực",
+   "files": []
+  }
+ ]
+}

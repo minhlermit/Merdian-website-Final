@@ -1,0 +1,16 @@
+{
+  "_note": "Danh sach trang stock token chinh chu tren Robinhood Chain (chain ID 4663). Nguon: SQD, 'Tokenized stocks on Robinhood Chain' (07/2026). BAT BUOC doi chieu voi trang Token Contracts trong docs.robinhood.com. Muon them ticker (vi du HIMS), sao chep file nay vao ~/.stock-token-scout/stock_tokens.json roi sua ban do.",
+  "tokens": {
+    "TSLA": "0x322F0929c4625eD5bAd873c95208D54E1c003b2d",
+    "NVDA": "0xd0601CE157Db5bdC3162BbaC2a2C8aF5320D9EEC",
+    "AAPL": "0xaF3D76f1834A1d425780943C99Ea8A608f8a93f9",
+    "MSFT": "0xe93237C50D904957Cf27E7B1133b510C669c2e74",
+    "AMZN": "0x12f190a9F9d7D37a250758b26824B97CE941bF54",
+    "GOOGL": "0x2e0847E8910a9732eB3fb1bb4b70a580ADAD4FE3",
+    "META": "0xc0D6457C16Cc70d6790Dd43521C899C87ce02f35",
+    "COIN": "0x6330D8C3178a418788dF01a47479c0ce7CCF450b",
+    "SPCX": "0x4a0E65A3EcceC6dBe60AE065F2e7bb85Fae35eEa",
+    "SPY": "0x117cc2133c37B721F49dE2A7a74833232B3B4C0C",
+    "QQQ": "0xD5f3879160bc7c32ebb4dC785F8a4F505888de68"
+  }
+}

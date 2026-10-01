@@ -1,0 +1,72 @@
+name: Scout Studio check
+
+# Builds the Vite app, runs the Chromium smoke test against the production build and,
+# when a VERCEL_TOKEN secret is configured, publishes a Vercel preview of the same commit.
+on:
+  push:
+    branches: ['claude/**', main]
+    paths: ['scout-studio/**', '.github/workflows/scout-studio-check.yml']
+  pull_request:
+    paths: ['scout-studio/**', '.github/workflows/scout-studio-check.yml']
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: scout-studio
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: scout-studio/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - name: Install Playwright for the smoke test
+        run: |
+          npm install --no-save playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Smoke test the production build
+        run: |
+          npx vite preview --host 127.0.0.1 --port 4173 --strictPort > preview.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://127.0.0.1:4173/ > /dev/null && break; sleep 1; done
+          BASE=http://127.0.0.1:4173/ node ci/smoke.mjs ci-shots
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scout-studio-screenshots
+          path: scout-studio/ci-shots
+          if-no-files-found: ignore
+
+  vercel-preview:
+    needs: build-and-smoke
+    if: github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID || vars.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID || vars.VERCEL_PROJECT_ID }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Skip when Vercel is not configured
+        if: env.VERCEL_TOKEN == '' || env.VERCEL_ORG_ID == '' || env.VERCEL_PROJECT_ID == ''
+        run: echo "::notice::Vercel preview skipped. Add the VERCEL_TOKEN, VERCEL_ORG_ID and VERCEL_PROJECT_ID repository secrets to enable it."
+      - name: Deploy preview
+        if: env.VERCEL_TOKEN != '' && env.VERCEL_ORG_ID != '' && env.VERCEL_PROJECT_ID != ''
+        run: |
+          npx --yes vercel@latest pull --yes --environment=preview --token="$VERCEL_TOKEN"
+          npx --yes vercel@latest build --token="$VERCEL_TOKEN"
+          url=$(npx --yes vercel@latest deploy --prebuilt --token="$VERCEL_TOKEN")
+          echo "Preview: $url"
+          echo "### Vercel preview" >> "$GITHUB_STEP_SUMMARY"
+          echo "$url" >> "$GITHUB_STEP_SUMMARY"
