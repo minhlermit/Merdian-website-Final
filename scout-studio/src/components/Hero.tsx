@@ -13,7 +13,7 @@ export function Hero({ onMemo, onRun, live }: { onMemo: () => void; onRun: () =>
           <span>for Robinhood <em>Chain.</em></span>
         </h1>
         <p className="hero-lede enter" style={{ '--i': 2 } as React.CSSProperties}>
-          Stock-paired tokens move fast and borrow familiar names. Stock Scout checks each one against on-chain data and public sources, then shows what is proven, what is risky and what is still unverified.
+          Stock-paired tokens borrow familiar names. Stock Scout checks each one against on-chain data and public sources, and shows what is proven, what is risky and what is still unverified.
         </p>
         <div className="hero-actions enter" style={{ '--i': 3 } as React.CSSProperties}>
           <button type="button" className="btn btn-primary btn-lg" onClick={onMemo}>See a sample memo <Icon name="arrow" size={18} /></button>

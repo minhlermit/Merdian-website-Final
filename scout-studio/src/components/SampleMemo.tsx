@@ -20,7 +20,7 @@ export function SampleMemo({ sectionRef, canOpen, onOpen, onConsole }: {
       <div className="memo-intro" data-reveal>
         <p className="label">What you get</p>
         <h2 id="memo-title">A memo that shows its work.</h2>
-        <p className="section-lede">Each candidate ends in a short research memo: what changed, which evidence supports it and which risks are still open. This example is fictional.</p>
+        <p className="section-lede">Each candidate ends in a short memo: what changed, what supports it and what is still open. This example is fictional.</p>
         <div className="memo-actions">
           <button type="button" className="btn btn-primary" onClick={onOpen}>{canOpen ? 'Open the full research file' : 'Replay the demo'} <Icon name="arrowUp" size={15} /></button>
           <button type="button" className="text-link" onClick={onConsole}>Go to the candidate board <Icon name="arrow" size={15} /></button>
@@ -42,7 +42,7 @@ export function SampleMemo({ sectionRef, canOpen, onOpen, onConsole }: {
         <div className="memo-body">
           <section>
             <h4><span className="memo-num">1</span>What changed</h4>
-            <p>24-hour volume rose against the previous snapshot, and pool liquidity climbed to about $318k over the last thirteen snapshots.</p>
+            <p>24-hour volume rose against the previous snapshot, and pool liquidity climbed to about $318k.</p>
           </section>
           <section>
             <h4><span className="memo-num">2</span>What supports it</h4>

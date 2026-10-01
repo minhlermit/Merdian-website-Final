@@ -236,9 +236,9 @@ const transforms = page => page.$$eval('.subject-stage .hotspot', els => els.map
   const s2 = await page.evaluate(() => scrollY);
   check('Touch: vertical swipe still scrolls the page', s2 > s1 + 60, `${s1} → ${s2}`);
   check('Mobile: no horizontal overflow', await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth));
-  const consoleTop = Math.round(await page.evaluate(() => document.getElementById('console').getBoundingClientRect().top + scrollY));
-  const memoTop = Math.round(await page.evaluate(() => document.getElementById('memo').getBoundingClientRect().top + scrollY));
-  console.log(`INFO  mobile 390×844: sample memo starts at ${memoTop}px, console at ${consoleTop}px`);
+  const tops = await page.evaluate(() => Object.fromEntries(['memo', 'why', 'story', 'console'].map(id => [id, Math.round(document.getElementById(id).getBoundingClientRect().top + scrollY)])));
+  const consoleTop = tops.console;
+  console.log(`INFO  mobile 390×844 section tops: ${Object.entries(tops).map(([k, v]) => `${k} ${v}px`).join(' · ')}`);
   check('Mobile: console starts within 5,000 px', consoleTop < 5000, `${consoleTop}px`);
   for (const id of ['memo', 'why', 'story']) {
     await page.evaluate(sel => document.querySelector(sel).scrollIntoView({ block: 'start' }), id === 'story' ? '.story-stage' : `#${id}`);

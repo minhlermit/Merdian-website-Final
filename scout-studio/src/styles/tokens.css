@@ -49,7 +49,7 @@
   :root { --header-h: 62px; }
 }
 @media (max-width: 899px) {
-  :root { --section-pad: clamp(56px, 14vw, 88px); }
+  :root { --section-pad: clamp(48px, 12vw, 88px); }
 }
 @media (min-width: 2200px) {
   :root { --max: 1720px; --fs-body: 19px; }

@@ -324,7 +324,7 @@ html[data-motion="off"] .story-readout { animation: none; }
   .hero-actions .btn-lg { min-height: 48px; padding: 0 18px; font-size: 14px; }
   .hero-trust { margin-top: 18px; font-size: 13px; }
   .subject { min-height: 0; padding-block: 4px 0; }
-  .subject-stage { flex: none; min-height: 0; height: clamp(280px, 40svh, 380px); }
+  .subject-stage { flex: none; min-height: 0; height: clamp(250px, 32svh, 330px); }
   .subject-toolbar { justify-content: flex-start; }
   .capability-panel { position: static; width: auto; margin-top: 12px; }
   .section-lede, .console-intro .section-lede { grid-column: 1 / -1; }
@@ -332,19 +332,21 @@ html[data-motion="off"] .story-readout { animation: none; }
   .plan { min-height: 0; }
   .memo-grid { display: block; }
   .memo-intro { position: static; gap: 16px; margin-bottom: 28px; }
-  .memo-head { padding: 20px; }
-  .memo-body section { padding: 18px 20px; }
-  .memo-evidence li { grid-template-columns: 1fr; gap: 6px; font-size: 15px; }
+  .memo-head { padding: 18px 18px 16px; gap: 14px; }
+  .memo-body section { padding: 16px 18px; }
+  .memo-foot { padding: 12px 18px; }
+  .memo-evidence li { display: block; font-size: 15px; }
+  .memo-level { display: inline-block; margin-right: 8px; }
   .memo-open li { font-size: 15px; }
-  .memo-foot { padding: 14px 20px; }
   .why-list { grid-template-columns: 1fr; gap: 24px; }
-  .why-item { padding-top: 18px; gap: 8px; }
-  .why-chain { grid-template-columns: 1fr; margin-top: 36px; }
+  .why-item { grid-template-columns: auto minmax(0, 1fr); column-gap: 12px; row-gap: 8px; align-items: baseline; padding-top: 16px; }
+  .why-item p { grid-column: 1 / -1; }
+  .why-chain { grid-template-columns: 1fr; margin-top: 28px; padding: 20px; }
   .tech-detail dl > div { grid-template-columns: 1fr; gap: 4px; }
   /* Chapters become a swipeable row under the 3D stage: the story stays five steps long without
      adding five screens of scrolling before the console. */
   .story-grid { display: block; }
-  .story-stage { position: relative; top: auto; height: clamp(260px, 38svh, 340px); margin-inline: calc(-1 * var(--gutter)); z-index: 0; }
+  .story-stage { position: relative; top: auto; height: clamp(240px, 32svh, 300px); margin-inline: calc(-1 * var(--gutter)); z-index: 0; }
   .story-overlay { left: var(--gutter); right: var(--gutter); bottom: 8px; padding: 4px 6px 4px 14px; grid-template-columns: 1fr auto; align-items: center; }
   .story-overlay-top { grid-column: 1; gap: 12px; justify-content: flex-start; }
   .story-readout, .story-note { display: none; }
@@ -360,7 +362,9 @@ html[data-motion="off"] .story-readout { animation: none; }
   }
   .story-chapter p:not(.chapter-meta) { font-size: 15.5px; line-height: 1.55; }
   .story-finale { flex-direction: column; align-items: flex-start; gap: 20px; margin-block: 20px var(--section-pad); }
-  .story-finale h3 { font-size: 30px; margin: 10px 0 10px; }
+  .story-finale h3 { font-size: 30px; margin: 10px 0 0; }
+  /* The status panel beside Run carries this explanation on small screens. */
+  .story-finale p:not(.label) { display: none; }
   .plan-note { grid-template-columns: 1fr; gap: 12px; }
   .faq-grid { display: block; }
   .faq-grid .section-head { margin-bottom: 28px; }
@@ -375,7 +379,7 @@ html[data-motion="off"] .story-readout { animation: none; }
   .chain-badge, .hero-trust { font-size: 17px; }
 }
 @media (max-width: 420px) {
-  .hero-actions .btn-lg { flex: 1 1 100%; }
+  .hero-actions .btn-lg { flex: 1 1 auto; padding: 0 14px; gap: 8px; }
 }
 
 /* ---- Console data status (next to Run) ------------------------------------------------------ */
