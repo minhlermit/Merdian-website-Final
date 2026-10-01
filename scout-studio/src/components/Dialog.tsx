@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { getMotionState } from '../lib/motion';
 
 const FOCUSABLE = 'a[href], button:not([disabled]), input:not([disabled]):not([type="hidden"]), select:not([disabled]), textarea:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])';
@@ -30,7 +30,9 @@ export function Dialog({ label, onClose, className, variant = 'center', children
     window.setTimeout(() => onCloseRef.current(), EXIT_MS);
   }, []);
 
-  useEffect(() => {
+  // Layout effect: focus moves and Escape works from the first painted frame, even when the main
+  // thread is busy (for example while the 3D scene renders).
+  useLayoutEffect(() => {
     const node = ref.current;
     if (!node) return;
     const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;

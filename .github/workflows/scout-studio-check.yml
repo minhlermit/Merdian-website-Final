@@ -1,0 +1,60 @@
+name: scout-studio check
+
+# Builds Stock Scout Studio with the real npm dependencies, refreshes package-lock.json when
+# dependencies changed, and runs a headless-browser smoke test against the production build.
+on:
+  push:
+    branches: ['claude/**']
+    paths: ['scout-studio/**', '.github/workflows/scout-studio-check.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scout-studio-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    defaults:
+      run:
+        working-directory: scout-studio
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Type-check and build
+        run: npm run build
+      - name: Commit refreshed lockfile
+        run: |
+          if ! git diff --quiet -- package-lock.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add package-lock.json
+            git commit -m "Update package-lock.json for three and @types/three"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          else
+            echo "package-lock.json already up to date"
+          fi
+      - name: Install Playwright
+        run: |
+          npm install --no-save --no-audit --no-fund playwright
+          npx playwright install --with-deps chromium
+      - name: Smoke test the production build
+        run: |
+          npx vite preview --host 127.0.0.1 --port 4173 --strictPort > preview.log 2>&1 &
+          for i in $(seq 1 30); do curl -sf http://127.0.0.1:4173/ > /dev/null && break; sleep 1; done
+          BASE=http://127.0.0.1:4173/ node ci/smoke.mjs ci-shots
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scout-studio-screenshots
+          path: scout-studio/ci-shots
+          if-no-files-found: ignore
