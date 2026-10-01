@@ -51,7 +51,8 @@ jobs:
           path: scout-studio/ci-shots
           if-no-files-found: ignore
       - name: Commit review screenshots
-        if: github.event_name == 'workflow_dispatch' && inputs.commit_screenshots
+        # Opt in with the workflow_dispatch input, or with "[screenshots]" in the pushed commit message.
+        if: (github.event_name == 'workflow_dispatch' && inputs.commit_screenshots) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[screenshots]'))
         run: |
           rm -rf previews/v3.1 && mkdir -p previews/v3.1
           for f in ci-shots/desktop-*.png ci-shots/mobile-*.png ci-shots/e2e-hotspot.png ci-shots/lab.png; do
