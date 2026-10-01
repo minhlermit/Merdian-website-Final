@@ -45,6 +45,8 @@ jobs:
           BASE=http://127.0.0.1:4173/ node ci/smoke.mjs ci-shots
       - name: Upload screenshots
         if: always()
+        # Screenshots are evidence, not a gate: an artifact-service outage must not fail a green build.
+        continue-on-error: true
         uses: actions/upload-artifact@v4
         with:
           name: scout-studio-screenshots
