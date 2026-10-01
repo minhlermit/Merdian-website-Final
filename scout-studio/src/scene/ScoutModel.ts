@@ -195,10 +195,10 @@ function buildSilverLocks() {
     const s = silverSurface(u);
     const front = u.z > 0.25 && u.y > 0.3;
     const dir = tangentTowards(s.n, FLOW, v3(0.3, 0, -1)).applyAxisAngle(s.n, (rand() - 0.5) * 0.18);
-    // Front clumps lift into the quiff; the rest curve back onto the volume and only their tips
-    // leave it, which keeps the silhouette clumped instead of bristling.
-    const length = front ? 0.7 + rand() * 0.15 : 0.55 + rand() * 0.2;
-    const lift = front ? 0.18 + rand() * 0.08 : -0.16 + rand() * 0.08;
+    // The volume already carries the quiff, so every clump curves back onto it and only its tip
+    // leaves the surface; the silhouette stays clumped instead of bristling.
+    const length = front ? 0.6 + rand() * 0.12 : 0.55 + rand() * 0.18;
+    const lift = front ? -0.04 + rand() * 0.06 : -0.16 + rand() * 0.08;
     locks.add(s.p.clone().addScaledVector(s.n, -0.03), s.n, dir, { length, width: 0.24 + rand() * 0.06, thick: 0.07, lift, root, tip });
   }
   return locks.build();
@@ -245,9 +245,9 @@ class LockBuilder {
       d.set(0, 0, 0).addScaledVector(a, 2 * (1 - t)).addScaledVector(b, 2 * t).normalize();
       S.crossVectors(d, normal).normalize();
       N.crossVectors(S, d).normalize();
-      // Flat clumps that taper to a soft point, like the avatar's combed locks.
-      const w = o.width * Math.pow(1 - t, 0.8) * (0.85 + 0.3 * Math.sin(Math.PI * Math.min(1, t * 1.6)));
-      const th = o.thick * Math.pow(1 - t, 0.6);
+      // Flat clumps that keep their body and close in a soft point, like the avatar's combed locks.
+      const w = o.width * Math.pow(Math.max(0, 1 - Math.pow(t, 1.6)), 0.7) * (0.88 + 0.2 * Math.sin(Math.PI * Math.min(1, t * 1.6)));
+      const th = o.thick * Math.pow(Math.max(0, 1 - Math.pow(t, 1.6)), 0.6);
       col.copy(o.root).lerp(o.tip, smooth(0, 0.7, t));
       for (let k = 0; k < RAD; k++) {
         const ang = (k / RAD) * Math.PI * 2;

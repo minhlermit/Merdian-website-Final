@@ -152,7 +152,7 @@ html[data-motion="off"] .capability-panel { animation: none; }
 .section-lede .text-link { margin-top: 16px; }
 
 /* ---- Sample memo ------------------------------------------------------------------------- */
-.memo-section { position: relative; padding-block: var(--section-pad); background: linear-gradient(180deg, rgba(7, 9, 11, 0.55) 0%, rgba(7, 9, 11, 0.9) 26%, rgba(7, 9, 11, 0.92) 100%); border-top: 1px solid var(--line); }
+.memo-section { position: relative; padding-block: var(--section-pad); background: linear-gradient(180deg, rgba(7, 9, 11, 0.8) 0%, rgba(7, 9, 11, 0.94) 22%, rgba(7, 9, 11, 0.95) 100%); border-top: 1px solid var(--line); }
 .memo-grid { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--col-gap); align-items: start; }
 .memo-intro { grid-column: 1 / span 4; position: sticky; top: calc(var(--header-h) + 40px); display: flex; flex-direction: column; align-items: flex-start; gap: 20px; }
 .memo-intro .section-lede { max-width: 38ch; }

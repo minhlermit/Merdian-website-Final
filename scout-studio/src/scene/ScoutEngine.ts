@@ -160,7 +160,7 @@ export class ScoutEngine {
     // Softer rim and kicker than v3: edges stay readable without hot specular lines on the jacket.
     this.keyLight = new THREE.DirectionalLight(0xffe4c4, 2.25);
     this.keyLight.position.set(-3.2, 4.2, 5.5);
-    const rim = new THREE.DirectionalLight(0xbccbff, 1.85);
+    const rim = new THREE.DirectionalLight(0xd2dae8, 1.85);
     rim.position.set(4.5, 2.4, -4.5);
     const kicker = new THREE.DirectionalLight(0xdfe6ee, 0.7);
     kicker.position.set(-5, 0.5, -2);
